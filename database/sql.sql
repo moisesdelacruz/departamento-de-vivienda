@@ -1,0 +1,118 @@
+-- Viviendo
+CREATE TABLE IF NOT EXISTS viviendo (
+  viviendo_id BIGSERIAL PRIMARY KEY,
+  ci INTEGER UNIQUE,
+  first_name VARCHAR(45),
+  last_name VARCHAR(45),
+  direction TEXT,
+  birthday DATE,
+  estado_civil VARCHAR(45),
+  work BOOLEAN DEFAULT FALSE,
+  entry DECIMAL(5,2),
+  postulation VARCHAR(45),
+  discapacity BOOLEAN DEFAULT FALSE,
+  discapacity_desc TEXT,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- viviendo add
+INSERT INTO viviendo (ci, first_name, last_name, direction, birthday,
+  estado_civil, work, entry, postulation, discapacity, discapacity_desc)
+  VALUES (%(ci)s, %(first_name)s, %(last_name)s, %(direction)s, %(birthday)s,
+    %(estado_civil)s, %(work)s, %(entry)s, %(postulation)s, %(discapacity)s,
+    %(discapacity_desc)s);
+
+-- viviendo update
+UPDATE viviendo SET ci=%(ci)s,
+  first_name=%(first_name)s,
+  last_name=%(last_name)s,
+  direction=%(direction)s,
+  birthday=%(birthday)s,
+  estado_civil=%(estado_civil)s,
+  work=%(work)s,
+  entry=%(entry)s,
+  postulation=%(postulation)s,
+  discapacity=%(discapacity)s,
+  discapacity_desc=%(discapacity_desc)s
+  WHERE ci=%(ci)s
+
+-- solicitud
+CREATE TABLE IF NOT EXISTS solicitud (
+  solicitud_id BIGSERIAL PRIMARY KEY,
+  viviendo_id BIGINT NOT NULL UNIQUE,
+  housing_conditions VARCHAR(45),
+  housing_direction VARCHAR(45),
+  phone_number INTEGER,
+  residence_constancia BOOLEAN DEFAULT FALSE,
+  copy_ci BOOLEAN DEFAULT FALSE,
+  copy_register_of_the_big_mision_vivienda BOOLEAN DEFAULT FALSE,
+  housing_in_risk BOOLEAN DEFAULT FALSE,
+  firefighters_constancy BOOLEAN DEFAULT FALSE,
+  health_case BOOLEAN DEFAULT FALSE,
+  medical_reports BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- solicitud add
+INSERT INTO solicitud (viviendo_id, housing_conditions, housing_direction,
+  phone_number, residence_constancia, copy_ci,
+  copy_register_of_the_big_mision_vivienda, housing_in_risk,
+  firefighters_constancy, health_case, medical_reports)
+  VALUES (%(viviendo_id)s, %(housing_conditions)s, %(housing_direction)s,
+    %(phone_number)s, %(residence_constancia)s, %(copy_ci)s,
+    %(copy_register_of_the_big_mision_vivienda)s, %(housing_in_risk)s,
+    %(firefighters_constancy)s, %(health_case)s, %(medical_reports)s);
+
+-- solicitud update
+UPDATE solicitud SET housing_conditions=%(housing_conditions)s,
+  housing_direction=%(housing_direction)s,
+  phone_number=%(phone_number)s,
+  residence_constancia=%(residence_constancia)s,
+  copy_ci=%(copy_ci)s,
+  copy_register_of_the_big_mision_vivienda=%(copy_register_of_the_big_mision_vivienda)s,
+  housing_in_risk=%(housing_in_risk)s,
+  firefighters_constancy=%(firefighters_constancy)s,
+  health_case=%(health_case)s,
+  medical_reports=%(medical_reports)s
+  WHERE viviendo_id=%(viviendo_id)s
+
+
+
+-- ----------- --
+-- family
+CREATE TABLE IF NOT EXISTS family (
+  family_id BIGSERIAL PRIMARY KEY,
+  viviendo_id BIGINT NOT NULL UNIQUE,
+  ci INTEGER UNIQUE,
+  first_name VARCHAR(45),
+  last_name VARCHAR(45),
+  birthday DATE,
+  work BOOLEAN DEFAULT FALSE,
+  birth_state VARCHAR(45),
+  entry DECIMAL(5,2),
+  discapacity BOOLEAN DEFAULT FALSE,
+  discapacity_desc TEXT,
+  old_age BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- family add
+INSERT INTO family (viviendo_id, ci, first_name, last_name, birthday, work,
+  birth_state, entry, discapacity, discapacity_desc, old_age)
+  VALUES (%(viviendo_id)s, %(ci)s, %(first_name)s, %(last_name)s,
+  %(birthday)s, %(work)s, %(birth_state)s, %(entry)s, %(discapacity)s,
+  %(discapacity_desc)s, %(old_age)s);
+
+-- family update
+UPDATE solicitud SET viviendo_id
+  ci=%(ci)s,
+  first_name=%(first_name)s,
+  last_name=%(last_name)s,
+  birthday=%(birthday)s,
+  work=%(work)s,
+  birth_state=%(birth_state)s,
+  entry=%(entry)s,
+  discapacity=%(discapacity)s,
+  discapacity_desc=%(discapacity_desc)s,
+  old_age=%(old_age)s,
+  WHERE viviendo_id=%(viviendo_id)s;
