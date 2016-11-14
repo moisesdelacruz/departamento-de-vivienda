@@ -24,11 +24,11 @@ class Toolbar(Frame):
 
         toolbar = Frame(self.parent, bd=1, relief=RAISED)
 
-        iconAdd = self.getImage("images/add-viviendo.png")
-        iconShow = self.getImage("images/show-viviendo.png")
-        iconAddGroup = self.getImage("images/add-group.png")
-        iconShowGroup = self.getImage("images/show-group.png")
-        iconExit = self.getImage("images/exit.png")
+        iconAdd = self.getImage("views/images/add-viviendo.png")
+        iconShow = self.getImage("views/images/show-viviendo.png")
+        iconAddGroup = self.getImage("views/images/add-group.png")
+        iconShowGroup = self.getImage("views/images/show-group.png")
+        iconExit = self.getImage("views/images/exit.png")
 
         addButton = Button(toolbar, image=iconAdd, relief=FLAT,
             command=self.viviendo)
