@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 from Tkinter import *
 from toolbar import Toolbar
 
@@ -8,9 +11,6 @@ class Main(object):
         self.root.title('Home')
         self.root.geometry("800x700+300+300")
         tool = Toolbar(self.root)
-        self.root.mainloop()
-
-
 
 if __name__ == "__main__":
     root = Tk()

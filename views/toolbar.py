@@ -1,8 +1,13 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 import os
 from PIL import Image, ImageTk
 from Tkinter import Tk, Frame, Menu, Label, StringVar, Entry
 from Tkinter import Button, LEFT, TOP, X, FLAT, RAISED
 from forms.viviendo import FormViviendo
+# from Tkinter import *
+from tkMessageBox import *
 
 class Toolbar(Frame):
 
@@ -13,6 +18,12 @@ class Toolbar(Frame):
 
     def viviendo(self):
         form = FormViviendo(self.parent)
+
+    def exit(self):
+        if askyesno(title='Advertencia', message='¿Seguro(a) que desea salir?'):
+            self.quit()
+        else:
+            print 'no salir'
 
     def getImage(self, image, sizeY=30, sizeX=30):
         self.img = Image.open(image)
@@ -39,7 +50,7 @@ class Toolbar(Frame):
         showGroupButton = Button(toolbar, image=iconShowGroup, relief=FLAT,
                 command=self.quit)
         exitButton = Button(toolbar, image=iconExit, relief=FLAT,
-            command=self.quit)
+            command=self.exit)
 
         addButton.image = iconAdd
         addButton.pack(side=LEFT, padx=2, pady=2)
