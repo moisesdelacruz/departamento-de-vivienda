@@ -4,14 +4,12 @@
 from Tkinter import *
 # import ttkcalendar
 
-class FormViviendo(object):
+class FormViviendo(Frame):
 
     def __init__(self, root):
+        Frame.__init__(self, root)
         self.root = root
         self.form()
-
-    def echo(self):
-        print self.calendar.getselection()
 
     def form(self):
         # Title of the Form
