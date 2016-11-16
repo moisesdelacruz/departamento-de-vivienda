@@ -3,21 +3,33 @@
 
 import os
 from PIL import Image, ImageTk
-from Tkinter import Tk, Frame, Menu, Label, StringVar, Entry
-from Tkinter import Button, LEFT, TOP, X, FLAT, RAISED
+from Tkinter import Tk, Frame, Menu, Label, StringVar, BooleanVar, Text, Entry
+from Tkinter import Button, Checkbutton, LEFT, TOP, X, FLAT, RAISED
 from forms.viviendo import FormViviendo
+from forms.solicitud import SolicitudForm
 # from Tkinter import *
 from tkMessageBox import *
+# from Tkinter import *
 
 class Toolbar(Frame):
 
     def __init__(self, parent):
         Frame.__init__(self, parent)
         self.parent = parent
-        self.toolbar()
+        self.tool = self.toolbar()
 
     def viviendo(self):
-        form = FormViviendo(self.parent)
+        self.cleanWindow()
+        self.formViviendo = FormViviendo(self.parent)
+
+    def solicitud(self):
+        self.cleanWindow()
+        formSolicitud = SolicitudForm(self.parent)
+
+    def cleanWindow(self):
+        for child in self.parent.winfo_children():
+            child.destroy()
+        self.__init__(self.parent)
 
     def exit(self):
         if askyesno(title='Advertencia', message='¿Seguro(a) que desea salir?'):
@@ -46,7 +58,7 @@ class Toolbar(Frame):
         showButton = Button(toolbar, image=iconShow, relief=FLAT,
             command=self.quit)
         addGroupButton = Button(toolbar, image=iconAddGroup, relief=FLAT,
-                command=self.quit)
+                command=self.solicitud)
         showGroupButton = Button(toolbar, image=iconShowGroup, relief=FLAT,
                 command=self.quit)
         exitButton = Button(toolbar, image=iconExit, relief=FLAT,
