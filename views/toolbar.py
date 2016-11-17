@@ -1,21 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 import os
+
 from PIL import Image, ImageTk
-from Tkinter import Tk, Frame, Menu, Label, StringVar, BooleanVar, Text, Entry
-from Tkinter import Button, Checkbutton, LEFT, TOP, X, FLAT, RAISED
+import Tkinter as tk
+import tkMessageBox
+# Forms Import
 from forms.viviendo import ViviendoForm
 from forms.solicitud import SolicitudForm
 from forms.grupo_familiar import Grupo_familiarForm
-# from Tkinter import *
-from tkMessageBox import *
-# from Tkinter import *
 
-class Toolbar(Frame):
+class Toolbar(tk.Frame):
 
     def __init__(self, parent):
-        Frame.__init__(self, parent)
+        tk.Frame.__init__(self, parent)
         self.parent = parent
         self.tool = self.toolbar()
 
@@ -37,7 +35,7 @@ class Toolbar(Frame):
         self.__init__(self.parent)
 
     def exit(self):
-        if askyesno(title='Advertencia', message='¿Seguro(a) que desea salir?'):
+        if tkMessageBox.askyesno(title='Advertencia', message='¿Seguro(a) que desea salir?'):
             self.quit()
         else:
             print 'no salir'
@@ -50,7 +48,7 @@ class Toolbar(Frame):
 
     def toolbar(self):
 
-        toolbar = Frame(self.parent, bd=1, relief=RAISED)
+        toolbar = tk.Frame(self.parent, bd=1, relief=tk.RAISED)
 
         iconAdd = self.getImage("views/images/add-viviendo.png")
         iconShow = self.getImage("views/images/show-viviendo.png")
@@ -59,36 +57,36 @@ class Toolbar(Frame):
         iconShowGroup = self.getImage("views/images/show-group.png")
         iconExit = self.getImage("views/images/exit.png")
 
-        addButton = Button(toolbar, image=iconAdd, relief=FLAT,
+        addButton = tk.Button(toolbar, image=iconAdd, relief=tk.FLAT,
             command=self.viviendo)
-        showButton = Button(toolbar, image=iconShow, relief=FLAT,
+        showButton = tk.Button(toolbar, image=iconShow, relief=tk.FLAT,
             command=self.quit)
-        addGroupButton = Button(toolbar, image=iconAddGroup, relief=FLAT,
+        addGroupButton = tk.Button(toolbar, image=iconAddGroup, relief=tk.FLAT,
                 command=self.grupo_familiar)
-        showGroupButton = Button(toolbar, image=iconShowGroup, relief=FLAT,
+        showGroupButton = tk.Button(toolbar, image=iconShowGroup, relief=tk.FLAT,
                 command=self.quit)
-        addHomeButton = Button(toolbar, image=iconAddHome, relief=FLAT,
+        addHomeButton = tk.Button(toolbar, image=iconAddHome, relief=tk.FLAT,
                 command=self.solicitud)
-        exitButton = Button(toolbar, image=iconExit, relief=FLAT,
+        exitButton = tk.Button(toolbar, image=iconExit, relief=tk.FLAT,
             command=self.exit)
 
         addButton.image = iconAdd
-        addButton.pack(side=LEFT, padx=2, pady=2)
+        addButton.pack(side=tk.LEFT, padx=2, pady=2)
 
         showButton.image = iconShow
-        showButton.pack(side=LEFT, padx=2, pady=2)
+        showButton.pack(side=tk.LEFT, padx=2, pady=2)
 
         addGroupButton.image = iconAddGroup
-        addGroupButton.pack(side=LEFT, padx=2, pady=2)
+        addGroupButton.pack(side=tk.LEFT, padx=2, pady=2)
 
         showGroupButton.image = iconShowGroup
-        showGroupButton.pack(side=LEFT, padx=2, pady=2)
+        showGroupButton.pack(side=tk.LEFT, padx=2, pady=2)
 
         addHomeButton.image = iconAddHome
-        addHomeButton.pack(side=LEFT, padx=2, pady=2)
+        addHomeButton.pack(side=tk.LEFT, padx=2, pady=2)
 
         exitButton.image = iconExit
-        exitButton.pack(side=LEFT, padx=2, pady=2)
+        exitButton.pack(side=tk.LEFT, padx=2, pady=2)
 
-        toolbar.pack(side=TOP, fill=X)
+        toolbar.pack(side=tk.TOP, fill=tk.X)
         self.pack()

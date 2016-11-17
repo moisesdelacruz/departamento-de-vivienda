@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from Tkinter import *
-from toolbar import Toolbar
+from views.toolbar import Toolbar
 
 class Main(object):
 
