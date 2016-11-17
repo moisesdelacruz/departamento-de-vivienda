@@ -47,10 +47,10 @@ class ViviendoForm(tk.Frame):
             "direction": self.direction.get(),
             "birthday": self.birthday.get(),
             "estado_civil": self.estado_civil.get(),
-            "work": self.work.get(),
+            "work": bool(self.work.get()),
             "entry": float(self.entry.get()),
             "postulation": self.postulation.get(),
-            "discapacity": self.discapacity.get(),
+            "discapacity": bool(self.discapacity.get()),
             "discapacity_desc": str(self.discapacity_desc.get('0.0',tk.END))
         })
         print data
@@ -134,7 +134,7 @@ class ViviendoForm(tk.Frame):
         tk.Label(self.root,text="Trabaja:", font="Helvetica 12",
             fg="#474747").place(x=430,y=200)
         self.work=tk.BooleanVar(self.root, value=False)
-        tk.Checkbutton(self.root,textvariable=self.work, font="Helvetica 14 normal",
+        tk.Checkbutton(self.root, variable=self.work, font="Helvetica 14 normal",
             bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
             highlightcolor="red").place(x=500,y=200)
 
@@ -151,18 +151,16 @@ class ViviendoForm(tk.Frame):
         # Entrada de texto para postulation
         tk.Label(self.root,text="Postulación:", font="Helvetica 12",
             fg="#474747").place(x=401,y=270)
-        self.postulation=tk.StringVar()
-        tk.Entry(self.root,textvariable=self.postulation, width=27, bd=0,
-            font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
-            disabledbackground="#1E6FBA",disabledforeground="yellow",
-            highlightbackground="black",highlightcolor="red",
-            highlightthickness=1).place(x=500,y=270)
+        self.postulation=tk.BooleanVar(self.root, value=False)
+        tk.Checkbutton(self.root, variable=self.postulation, font="Helvetica 14 normal",
+            bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
+            highlightcolor="red").place(x=500,y=270)
 
         # Entrada de texto para discapacity BOOLEAN
         tk.Label(self.root,text="Discapacidad:", font="Helvetica 12",
             fg="#474747").place(x=390,y=305)
         self.discapacity=tk.BooleanVar(self.root, value=False)
-        tk.Checkbutton(self.root,textvariable=self.discapacity, font="Helvetica 14 normal",
+        tk.Checkbutton(self.root, variable=self.discapacity, font="Helvetica 14 normal",
             bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
             highlightcolor="red").place(x=500,y=305)
 
