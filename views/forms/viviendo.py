@@ -4,7 +4,7 @@
 from Tkinter import *
 # import ttkcalendar
 
-class FormViviendo(Frame):
+class ViviendoForm(Frame):
 
     def __init__(self, root):
         Frame.__init__(self, root)

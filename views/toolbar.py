@@ -5,8 +5,9 @@ import os
 from PIL import Image, ImageTk
 from Tkinter import Tk, Frame, Menu, Label, StringVar, BooleanVar, Text, Entry
 from Tkinter import Button, Checkbutton, LEFT, TOP, X, FLAT, RAISED
-from forms.viviendo import FormViviendo
+from forms.viviendo import ViviendoForm
 from forms.solicitud import SolicitudForm
+from forms.grupo_familiar import Grupo_familiarForm
 # from Tkinter import *
 from tkMessageBox import *
 # from Tkinter import *
@@ -20,11 +21,15 @@ class Toolbar(Frame):
 
     def viviendo(self):
         self.cleanWindow()
-        self.formViviendo = FormViviendo(self.parent)
+        formViviendo = ViviendoForm(self.parent)
 
     def solicitud(self):
         self.cleanWindow()
         formSolicitud = SolicitudForm(self.parent)
+
+    def grupo_familiar(self):
+        self.cleanWindow()
+        formGrupo_familiar = Grupo_familiarForm(self.parent)
 
     def cleanWindow(self):
         for child in self.parent.winfo_children():
@@ -49,6 +54,7 @@ class Toolbar(Frame):
 
         iconAdd = self.getImage("views/images/add-viviendo.png")
         iconShow = self.getImage("views/images/show-viviendo.png")
+        iconAddHome = self.getImage("views/images/home_add.png")
         iconAddGroup = self.getImage("views/images/add-group.png")
         iconShowGroup = self.getImage("views/images/show-group.png")
         iconExit = self.getImage("views/images/exit.png")
@@ -58,9 +64,11 @@ class Toolbar(Frame):
         showButton = Button(toolbar, image=iconShow, relief=FLAT,
             command=self.quit)
         addGroupButton = Button(toolbar, image=iconAddGroup, relief=FLAT,
-                command=self.solicitud)
+                command=self.grupo_familiar)
         showGroupButton = Button(toolbar, image=iconShowGroup, relief=FLAT,
                 command=self.quit)
+        addHomeButton = Button(toolbar, image=iconAddHome, relief=FLAT,
+                command=self.solicitud)
         exitButton = Button(toolbar, image=iconExit, relief=FLAT,
             command=self.exit)
 
@@ -75,6 +83,9 @@ class Toolbar(Frame):
 
         showGroupButton.image = iconShowGroup
         showGroupButton.pack(side=LEFT, padx=2, pady=2)
+
+        addHomeButton.image = iconAddHome
+        addHomeButton.pack(side=LEFT, padx=2, pady=2)
 
         exitButton.image = iconExit
         exitButton.pack(side=LEFT, padx=2, pady=2)
