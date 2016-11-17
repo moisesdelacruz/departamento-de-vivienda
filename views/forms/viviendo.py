@@ -142,11 +142,12 @@ class ViviendoForm(tk.Frame):
         tk.Label(self.root,text="Ingresos:", font="Helvetica 12",
             fg="#474747").place(x=425,y=235)
         self.entry=tk.StringVar()
-        tk.Entry(self.root,textvariable=self.entry, width=27, bd=0,
-            font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
-            disabledbackground="#1E6FBA",disabledforeground="yellow",
-            highlightbackground="black",highlightcolor="red",
-            highlightthickness=1).place(x=500,y=235)
+        tk.Entry(self.root,textvariable=self.entry, validate='key',
+            validatecommand=self.validate_number, width=27, bd=0,
+            font="Helvetica 14 normal",justify="left",bg="#1E6FBA",
+            fg="yellow", disabledbackground="#1E6FBA",
+            disabledforeground="yellow", highlightbackground="black",
+            highlightcolor="red", highlightthickness=1).place(x=500,y=235)
 
         # Entrada de texto para postulation
         tk.Label(self.root,text="Postulación:", font="Helvetica 12",
