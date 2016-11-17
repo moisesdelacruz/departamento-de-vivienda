@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+import os
+from PIL import Image, ImageTk
 import Tkinter as tk
 from views.utils._calendar import CalendarDialog
 
@@ -18,6 +20,11 @@ class ViviendoForm(tk.Frame):
             self.birthday.set(result.strftime("%d/%m/%Y"))
         except AttributeError, e:
             self.birthday.set(self.birthday.get())
+
+    def getImage(self, image, sizeY=30, sizeX=30):
+        self.img = Image.open(image)
+        self.img = self.img.resize((sizeY, sizeX), Image.ANTIALIAS)
+        return ImageTk.PhotoImage(self.img)
 
     def form(self):
         # Title of the Form
@@ -58,8 +65,13 @@ class ViviendoForm(tk.Frame):
             fg="#474747").place(x=10,y=235)
         self.birthday=tk.StringVar()
         # select date
-        tk.Button(self.root, text="Cal", bg="#1E6FBA", fg="yellow",
-            command=self.getDate).place(x=295,y=235)
+        iconCalendar = self.getImage("views/images/calendar.png", 20, 20)
+
+        calendarButton = tk.Button(self.root, image=iconCalendar,
+            command=self.getDate, bg="#1E6FBA", fg="yellow",)
+        calendarButton.place(x=295,y=235)
+        calendarButton.image = iconCalendar
+
         tk.Entry(self.root,textvariable=self.birthday, width=10, bd=0,
             font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
             disabledbackground="#1E6FBA",disabledforeground="yellow",

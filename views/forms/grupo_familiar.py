@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import Tkinter as tk
+import os
+from PIL import Image, ImageTk
+from views.utils._calendar import CalendarDialog
 
 class Grupo_familiarForm(tk.Frame):
 	def __init__(self, root):
@@ -9,6 +12,18 @@ class Grupo_familiarForm(tk.Frame):
 		self.root = root
 		self.form()
 
+	def getImage(self, image, sizeY=30, sizeX=30):
+		self.img = Image.open(image)
+		self.img = self.img.resize((sizeY, sizeX), Image.ANTIALIAS)
+		return ImageTk.PhotoImage(self.img)
+
+	def getDate(self):
+		cd = CalendarDialog(self)
+		result = cd.result
+		try:
+			self.birthday.set(result.strftime("%d/%m/%Y"))
+		except AttributeError, e:
+			self.birthday.set(self.birthday.get())
 
 	def form(self):
 		# Title
@@ -46,8 +61,15 @@ class Grupo_familiarForm(tk.Frame):
 		tk.Label(self.root,text="Fecha de Nacimiento:", font="Helvetica 12",
 			fg="#474747").place(x=20,y=235)
 		birthday=tk.StringVar()
-		# ttkcalendar.Calendar(self.root).pack()
-		tk.Entry(self.root,textvariable=birthday, width=12, bd=0,
+		# select date
+		iconCalendar = self.getImage("views/images/calendar.png", 20, 20)
+
+		calendarButton = tk.Button(self.root, image=iconCalendar,
+			command=self.getDate, bg="#1E6FBA", fg="yellow",)
+		calendarButton.place(x=358,y=235)
+		calendarButton.image = iconCalendar
+
+		tk.Entry(self.root,textvariable=birthday, width=15, bd=0,
 			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
 			disabledbackground="#1E6FBA",disabledforeground="yellow",
 			highlightbackground="black",highlightcolor="red",
