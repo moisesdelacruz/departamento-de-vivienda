@@ -3,8 +3,8 @@ from viviendo import Viviendo
 from solicitud import Solicitud
 from family import Family
 
-connection = psycopg2.connect(database='viviendo_db',user='moises',
-    password='christinagrimmie', host='localhost')
+connection = psycopg2.connect(database='viviendo_db',user='postgres',
+    password='demilovato', host='localhost')
 
 class ViviendoModel(Viviendo):
 
