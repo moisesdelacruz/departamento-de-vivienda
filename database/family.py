@@ -20,7 +20,7 @@ class Family(object):
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         )""")
 
-        conn.commit()
+        self.conn.commit()
 
     def create(self, request, *args, **kwargs):
         self.cursor.execute("""INSERT INTO family (viviendo_id, ci, first_name,
@@ -29,7 +29,7 @@ class Family(object):
             VALUES (%(viviendo_id)s, %(ci)s, %(first_name)s, %(last_name)s,
             %(birthday)s, %(work)s, %(birth_state)s, %(entry)s, %(discapacity)s,
             %(discapacity_desc)s, %(old_age)s)""", request)
-    	conn.commit()
+    	self.conn.commit()
         return True
 
     def list(self, request, *args, **kwargs):
@@ -37,7 +37,7 @@ class Family(object):
     	return self.cursor.fetchall()
 
     def retrive(self, request, *args, **kwargs):
-        self.cursor.execute("SELECT * FROM family WHERE viviendo_id='%s'" %(request))
+        self.cursor.execute("SELECT * FROM family WHERE viviendo_id=%s" %(request))
     	return self.cursor.fetchall()
 
     def update(self, request, *args, **kwargs):
@@ -53,10 +53,10 @@ class Family(object):
             discapacity_desc=%(discapacity_desc)s,
             old_age=%(old_age)s,
           WHERE viviendo_id=%(viviendo_id)s""", request)
-        conn.commit()
+        self.conn.commit()
         return True
 
     def delete(self, request, *args, **kwargs):
-        self.cursor.execute("DELETE FROM family WHERE viviendo_id='%s'" %(request))
-        conn.commit()
+        self.cursor.execute("DELETE FROM family WHERE viviendo_id=%s" %(request))
+        self.conn.commit()
         return True

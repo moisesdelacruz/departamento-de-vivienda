@@ -20,7 +20,7 @@ class Solicitud(object):
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         )""")
 
-        conn.commit()
+        self.conn.commit()
 
     def create(self, request, *args, **kwargs):
         self.cursor.execute("""INSERT INTO solicitud (viviendo_id,
@@ -33,7 +33,7 @@ class Solicitud(object):
             %(copy_register_of_the_big_mision_vivienda)s, %(housing_in_risk)s,
             %(firefighters_constancy)s, %(health_case)s,
             %(medical_reports)s)""", request)
-    	conn.commit()
+    	self.conn.commit()
         return True
 
     def list(self, request, *args, **kwargs):
@@ -41,7 +41,7 @@ class Solicitud(object):
     	return self.cursor.fetchall()
 
     def retrive(self, request, *args, **kwargs):
-        self.cursor.execute("SELECT * FROM solicitud WHERE viviendo_id='%s'" %(request))
+        self.cursor.execute("SELECT * FROM solicitud WHERE viviendo_id=%s" %(request))
     	return self.cursor.fetchall()
 
     def update(self, request, *args, **kwargs):
@@ -56,10 +56,10 @@ class Solicitud(object):
             health_case=%(health_case)s,
             medical_reports=%(medical_reports)s
             WHERE viviendo_id=%(viviendo_id)s""", request)
-        conn.commit()
+        self.conn.commit()
         return True
 
     def delete(self, request, *args, **kwargs):
-        self.cursor.execute("DELETE FROM solicitud WHERE viviendo_id='%s'" %(request))
-        conn.commit()
+        self.cursor.execute("DELETE FROM solicitud WHERE viviendo_id=%s" %(request))
+        self.conn.commit()
         return True

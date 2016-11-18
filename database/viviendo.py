@@ -20,7 +20,7 @@ class Viviendo(object):
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         )""")
 
-        conn.commit()
+        self.conn.commit()
 
     def create(self, request, *args, **kwargs):
         self.cursor.execute("""INSERT INTO viviendo (ci, first_name, last_name,
@@ -29,7 +29,7 @@ class Viviendo(object):
             %(last_name)s, %(direction)s, %(birthday)s, %(estado_civil)s,
             %(work)s, %(entry)s, %(postulation)s, %(discapacity)s,
             %(discapacity_desc)s)""", request)
-    	conn.commit()
+    	self.conn.commit()
         return True
 
     def list(self, request, *args, **kwargs):
@@ -37,7 +37,7 @@ class Viviendo(object):
     	return self.cursor.fetchall()
 
     def retrive(self, request, *args, **kwargs):
-        self.cursor.execute("SELECT * FROM viviendo WHERE ci='%s'" %(request))
+        self.cursor.execute("SELECT * FROM viviendo WHERE ci=%s" %(request))
     	return self.cursor.fetchall()
 
     def update(self, request, *args, **kwargs):
@@ -53,10 +53,10 @@ class Viviendo(object):
           discapacity=%(discapacity)s,
           discapacity_desc=%(discapacity_desc)s
           WHERE ci=%(ci)s""", request)
-        conn.commit()
+        self.conn.commit()
         return True
 
     def delete(self, request, *args, **kwargs):
-        self.cursor.execute("DELETE FROM viviendo WHERE ci='%s'" %(request))
-        conn.commit()
+        self.cursor.execute("DELETE FROM viviendo WHERE ci=%s" %(request))
+        self.conn.commit()
         return True
