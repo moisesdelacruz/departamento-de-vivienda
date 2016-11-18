@@ -5,6 +5,7 @@ import os
 from PIL import Image, ImageTk
 import Tkinter as tk
 from views.utils._calendar import CalendarDialog
+from database.main import ViviendoModel
 
 class ViviendoForm(tk.Frame):
 
@@ -49,11 +50,13 @@ class ViviendoForm(tk.Frame):
             "estado_civil": self.estado_civil.get(),
             "work": bool(self.work.get()),
             "entry": float(self.entry.get()),
-            "postulation": self.postulation.get(),
+            "postulation": bool(self.postulation.get()),
             "discapacity": bool(self.discapacity.get()),
             "discapacity_desc": str(self.discapacity_desc.get('0.0',tk.END))
         })
         print data
+        tb = ViviendoModel()
+        tb.create(data)
 
     def form(self):
         # Title of the Form
