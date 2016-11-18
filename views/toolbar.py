@@ -20,11 +20,11 @@ class Toolbar(tk.Frame):
 
     def viviendo(self):
         self.cleanWindow()
-        formViviendo = ViviendoForm(self.parent)
+        self.formViviendo = ViviendoForm(self.parent)
 
     def search(self):
         self.cleanWindow()
-        formSearch = SearchForm(self.parent)
+        self.formSearch = SearchForm(self.parent, self)
 
     def solicitud(self):
         self.cleanWindow()

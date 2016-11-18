@@ -5,11 +5,13 @@ import os
 import Tkinter as tk
 from PIL import Image, ImageTk
 from database.main import ViviendoModel
+from views.forms.viviendoDetail import ViviendoDetail
 
 class SearchForm(tk.Frame):
-	def __init__(self, root):
+	def __init__(self, root, toolbar):
 		tk.Frame.__init__(self, root)
 		self.root = root
+		self.toolbar = toolbar
 		self.validate_number = (self.root.register(self.validate),
 				'%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
 		self.form()
@@ -30,6 +32,11 @@ class SearchForm(tk.Frame):
 		else:
 			return False
 
+	def cleanWindow(self):
+		for child in self.root.winfo_children():
+			child.destroy()
+		self.toolbar.__init__(self.root)
+
 	def searchdb(self):
 		if hasattr(self, 'message'):
 			self.divItem.destroy()
@@ -39,6 +46,8 @@ class SearchForm(tk.Frame):
 
 		if self.result != []:
 			print self.result
+			self.cleanWindow()
+			self.detail = ViviendoDetail(self.root, self.result)
 		else:
 			self.message = 'no se encontro resultado'
 			self.empty()
