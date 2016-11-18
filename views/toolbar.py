@@ -9,6 +9,7 @@ import tkMessageBox
 from forms.viviendo import ViviendoForm
 from forms.solicitud import SolicitudForm
 from forms.grupo_familiar import Grupo_familiarForm
+from forms.search import SearchForm
 
 class Toolbar(tk.Frame):
 
@@ -20,6 +21,10 @@ class Toolbar(tk.Frame):
     def viviendo(self):
         self.cleanWindow()
         formViviendo = ViviendoForm(self.parent)
+
+    def search(self):
+        self.cleanWindow()
+        formSearch = SearchForm(self.parent)
 
     def solicitud(self):
         self.cleanWindow()
@@ -54,17 +59,14 @@ class Toolbar(tk.Frame):
         iconShow = self.getImage("views/images/show-viviendo.png")
         iconAddHome = self.getImage("views/images/home_add.png")
         iconAddGroup = self.getImage("views/images/add-group.png")
-        iconShowGroup = self.getImage("views/images/show-group.png")
         iconExit = self.getImage("views/images/exit.png")
 
         addButton = tk.Button(toolbar, image=iconAdd, relief=tk.FLAT,
             command=self.viviendo)
         showButton = tk.Button(toolbar, image=iconShow, relief=tk.FLAT,
-            command=self.quit)
+            command=self.search)
         addGroupButton = tk.Button(toolbar, image=iconAddGroup, relief=tk.FLAT,
                 command=self.grupo_familiar)
-        showGroupButton = tk.Button(toolbar, image=iconShowGroup, relief=tk.FLAT,
-                command=self.quit)
         addHomeButton = tk.Button(toolbar, image=iconAddHome, relief=tk.FLAT,
                 command=self.solicitud)
         exitButton = tk.Button(toolbar, image=iconExit, relief=tk.FLAT,
@@ -78,9 +80,6 @@ class Toolbar(tk.Frame):
 
         addGroupButton.image = iconAddGroup
         addGroupButton.pack(side=tk.LEFT, padx=2, pady=2)
-
-        showGroupButton.image = iconShowGroup
-        showGroupButton.pack(side=tk.LEFT, padx=2, pady=2)
 
         addHomeButton.image = iconAddHome
         addHomeButton.pack(side=tk.LEFT, padx=2, pady=2)
