@@ -55,8 +55,8 @@ class ViviendoForm(tk.Frame):
             "discapacity_desc": str(self.discapacity_desc.get('0.0',tk.END))
         })
         print data
-        tb = ViviendoModel()
-        tb.create(data)
+        db = ViviendoModel()
+        db.create(data)
 
     def form(self):
         # Title of the Form
