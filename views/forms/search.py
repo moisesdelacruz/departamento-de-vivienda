@@ -39,7 +39,7 @@ class SearchForm(tk.Frame):
 
 	def searchdb(self):
 		if hasattr(self, 'message'):
-			self.divItem.destroy()
+			self.newRoot.destroy()
 
 		tb = ViviendoModel()
 		self.result = tb.retrive(int(self.search.get()))
@@ -50,7 +50,7 @@ class SearchForm(tk.Frame):
 			self.detail = ViviendoDetail(self.root, self.result)
 		else:
 			self.message = 'no se encontro resultado'
-			self.empty()
+			self.noResult()
 
 	def form(self):
 		# Logo
@@ -74,7 +74,7 @@ class SearchForm(tk.Frame):
 		searchButton.place(x=598,y=320)
 		searchButton.image = iconSearch
 
-	def empty(self):
+	def noResult(self):
 		self.newRoot = tk.Frame(self.root, bd=1, bg="red")
 
 		tk.Label(self.newRoot, text=self.message,
