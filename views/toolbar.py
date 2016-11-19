@@ -8,7 +8,6 @@ import tkMessageBox
 # Forms Import
 from forms.viviendo import ViviendoForm
 from forms.solicitud import SolicitudForm
-from forms.grupo_familiar import Grupo_familiarForm
 from forms.search import SearchForm
 
 class Toolbar(tk.Frame):
@@ -25,14 +24,6 @@ class Toolbar(tk.Frame):
     def search(self):
         self.cleanWindow()
         self.formSearch = SearchForm(self.parent, self)
-
-    def solicitud(self):
-        self.cleanWindow()
-        formSolicitud = SolicitudForm(self.parent)
-
-    def grupo_familiar(self):
-        self.cleanWindow()
-        formGrupo_familiar = Grupo_familiarForm(self.parent)
 
     def cleanWindow(self):
         for child in self.parent.winfo_children():
@@ -57,18 +48,12 @@ class Toolbar(tk.Frame):
 
         iconAdd = self.getImage("views/images/add-viviendo.png")
         iconShow = self.getImage("views/images/show-viviendo.png")
-        iconAddHome = self.getImage("views/images/home_add.png")
-        iconAddGroup = self.getImage("views/images/add-group.png")
         iconExit = self.getImage("views/images/exit.png")
 
         addButton = tk.Button(toolbar, image=iconAdd, relief=tk.FLAT,
             command=self.viviendo)
         showButton = tk.Button(toolbar, image=iconShow, relief=tk.FLAT,
             command=self.search)
-        addGroupButton = tk.Button(toolbar, image=iconAddGroup, relief=tk.FLAT,
-                command=self.grupo_familiar)
-        addHomeButton = tk.Button(toolbar, image=iconAddHome, relief=tk.FLAT,
-                command=self.solicitud)
         exitButton = tk.Button(toolbar, image=iconExit, relief=tk.FLAT,
             command=self.exit)
 
@@ -77,13 +62,7 @@ class Toolbar(tk.Frame):
 
         showButton.image = iconShow
         showButton.pack(side=tk.LEFT, padx=2, pady=2)
-
-        addGroupButton.image = iconAddGroup
-        addGroupButton.pack(side=tk.LEFT, padx=2, pady=2)
-
-        addHomeButton.image = iconAddHome
-        addHomeButton.pack(side=tk.LEFT, padx=2, pady=2)
-
+        
         exitButton.image = iconExit
         exitButton.pack(side=tk.LEFT, padx=2, pady=2)
 
