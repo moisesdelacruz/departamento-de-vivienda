@@ -2,96 +2,121 @@
 # -*- coding: utf-8 -*-
 
 import Tkinter as tk
+from database.main import SolicitudModel
 
 class SolicitudForm(tk.Frame):
-	def __init__(self, root):
+	def __init__(self, root, viviendo_id):
 		tk.Frame.__init__(self, root)
 		self.root = root
+		self.viviendo_id = viviendo_id
 		self.form()
+
+	def save(self):
+		data = ({
+			"viviendo_id": self.viviendo_id,
+			"housing_conditions": self.housing_conditions.get(),
+			"housing_direction": self.housing_direction.get(),
+			"phone_number": int(self.phone_number.get()),
+			"residence_constancia": bool(self.residence_constancia.get()),
+			"copy_ci": bool(self.copy_ci.get()),
+			"copy_register_of_the_big_mision_vivienda": bool(self.copy_register_of_the_big_mision_vivienda.get()),
+			"housing_in_risk": bool(self.housing_in_risk.get()),
+			"firefighters_constancy": bool(self.firefighters_constancy.get()),
+			"health_case": bool(self.health_case.get()),
+			"medical_reports": bool(self.medical_reports.get())
+		})
+		print data
+		db = SolicitudModel()
+		db.create(data)
 
 	def form(self):
 		tk.Label(self.root, text="Solicitud de Vivienda", font="Helvetica 16 bold",
-			fg="red").place(x=310,y=60)
+			fg="red").place(x=160,y=10)
 
 		# Entry housing_conditions
-		tk.Label(self.root,text="Condicion Habitacional:", font="Helvetica 12",
-            fg="#474747").place(x=10,y=130)
-		housing_conditions = tk.StringVar
-		tk.Entry(self.root,textvariable=housing_conditions, width=20, bd=0,
-            font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
-            highlightbackground="black",highlightcolor="red",
-            highlightthickness=1).place(x=185,y=130)
+		tk.Label(self.root,text="Condicion Habitacional:", font="Helvetica 10",
+			fg="#474747").place(x=7,y=90)
+		self.housing_conditions = tk.StringVar()
+		tk.Entry(self.root,textvariable=self.housing_conditions, width=22, bd=0,
+			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
+			highlightbackground="black",highlightcolor="red",
+			highlightthickness=1).place(x=150,y=90)
 
 		# Entry housing_direction
-		tk.Label(self.root,text="Dirección Habitacional:", font="Helvetica 12",
-            fg="#474747").place(x=11,y=165)
-		housing_direction = tk.StringVar
-		tk.Entry(self.root,textvariable=housing_direction, width=20, bd=0,
-            font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
-            highlightbackground="black",highlightcolor="red",
-            highlightthickness=1).place(x=185,y=165)
+		tk.Label(self.root,text="Dirección Habitacional:", font="Helvetica 10",
+			fg="#474747").place(x=10,y=125)
+		self.housing_direction = tk.StringVar()
+		tk.Entry(self.root,textvariable=self.housing_direction, width=22, bd=0,
+			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
+			highlightbackground="black",highlightcolor="red",
+			highlightthickness=1).place(x=150,y=125)
 		
 		# Entry phone_number
-		tk.Label(self.root,text="Numero de Telefono:", font="Helvetica 12",
-            fg="#474747").place(x=30,y=200)
-		phone_number = tk.StringVar
-		tk.Entry(self.root,textvariable=phone_number, width=20, bd=0,
-            font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
-            highlightbackground="black",highlightcolor="red",
-            highlightthickness=1).place(x=185,y=200)
+		tk.Label(self.root,text="Numero de Telefono:", font="Helvetica 10",
+			fg="#474747").place(x=23,y=160)
+		self.phone_number = tk.StringVar()
+		tk.Entry(self.root,textvariable=self.phone_number, width=22, bd=0,
+			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
+			highlightbackground="black",highlightcolor="red",
+			highlightthickness=1).place(x=150,y=160)
 
 		# Entry residence_constancia
-		tk.Label(self.root,text="Constancia de Residencia:", font="Helvetica 12",
-            fg="#474747").place(x=10,y=235)
-		residence_constancia = tk.BooleanVar(self.root, value=False)
-		tk.Checkbutton(self.root, textvariable=residence_constancia, font="Helvetica 14 normal",
-            bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
-            highlightcolor="red").place(x=205,y=235)
+		tk.Label(self.root,text="Constancia Residencia:", font="Helvetica 10",
+			fg="#474747").place(x=7,y=195)
+		self.residence_constancia = tk.BooleanVar(self.root, value=False)
+		tk.Checkbutton(self.root, variable=self.residence_constancia, font="Helvetica 14 normal",
+			bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
+			highlightcolor="red").place(x=150,y=195)
 
 		# Entry copy_ci
-		tk.Label(self.root,text="Copia de Cedula:", font="Helvetica 12",
-			fg="#474747").place(x=70,y=270)
-		copy_ci = tk.BooleanVar(self.root, value=False)
-		tk.Checkbutton(self.root,textvariable=copy_ci, font="Helvetica 14 normal",
-            bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
-            highlightcolor="red").place(x=205,y=270)
+		tk.Label(self.root,text="Copia de Cedula:", font="Helvetica 10",
+			fg="#474747").place(x=45,y=235)
+		self.copy_ci = tk.BooleanVar(self.root, value=False)
+		tk.Checkbutton(self.root,variable=self.copy_ci, font="Helvetica 14 normal",
+			bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
+			highlightcolor="red").place(x=150,y=235)
 
+		# Entry medical_reports
+		tk.Label(self.root,text="Informes Medicos:", font="Helvetica 10 normal",
+			fg="#474747").place(x=40,y=275)
+		self.medical_reports = tk.BooleanVar(self.root, value=False)
+		tk.Checkbutton(self.root,variable=self.medical_reports, font="Helvetica 14 normal",
+			bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
+			highlightcolor="red").place(x=150,y=275)
+
+		# Right
 		# Entry housing_in_risk
-		tk.Label(self.root,text="Vivienda en Riesgo?:", font="Helvetica 12",
-            fg="#474747").place(x=595,y=130)
-		housing_in_risk = tk.BooleanVar(self.root, value=False)
-		tk.Checkbutton(self.root,textvariable=housing_in_risk, font="Helvetica 14 normal",
-            bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
-            highlightcolor="red").place(x=750,y=130)
+		tk.Label(self.root,text="Vivienda en Riesgo?:", font="Helvetica 10",
+			fg="#474747").place(x=243,y=195)
+		self.housing_in_risk = tk.BooleanVar(self.root, value=False)
+		tk.Checkbutton(self.root,variable=self.housing_in_risk, font="Helvetica 14 normal",
+			bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
+			highlightcolor="red").place(x=370,y=195)
 
-        # Entry firefighters_constancy
-		tk.Label(self.root,text="Constancia de los Bomberos:", font="Helvetica 12",
-            fg="#474747").place(x=538,y=165)
-		firefighters_constancy = tk.BooleanVar(self.root, value=False)
-		tk.Checkbutton(self.root,textvariable=firefighters_constancy, font="Helvetica 14 normal",
-            bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
-            highlightcolor="red").place(x=750,y=165)
+		# Entry firefighters_constancy
+		tk.Label(self.root,text="Constancia de los Bomberos:", font="Helvetica 10",
+			fg="#474747").place(x=193,y=235)
+		self.firefighters_constancy = tk.BooleanVar(self.root, value=False)
+		tk.Checkbutton(self.root,variable=self.firefighters_constancy, font="Helvetica 14 normal",
+			bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
+			highlightcolor="red").place(x=370,y=235)
 
-        # Entry health_case
-		tk.Label(self.root,text="Caso de Salud:", font="Helvetica 12",
-            fg="#474747").place(x=632,y=200)
-		health_case = tk.BooleanVar(self.root, value=False)
-		tk.Checkbutton(self.root,textvariable=health_case, font="Helvetica 14 normal",
-            bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
-            highlightcolor="red").place(x=750,y=200)
-
-        # Entry medical_reports
-		tk.Label(self.root,text="Informes Medicos:", font="Helvetica 12",
-            fg="#474747").place(x=612,y=235)
-		medical_reports = tk.BooleanVar(self.root, value=False)
-		tk.Checkbutton(self.root,textvariable=medical_reports, font="Helvetica 14 normal",
-            bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
-            highlightcolor="red").place(x=750,y=235)
+		# Entry health_case
+		tk.Label(self.root,text="Caso de Salud:", font="Helvetica 10",
+			fg="#474747").place(x=275,y=270)
+		self.health_case = tk.BooleanVar(self.root, value=False)
+		tk.Checkbutton(self.root, variable=self.health_case, font="Helvetica 14 normal",
+			bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
+			highlightcolor="red").place(x=370,y=270)
 
 		# Entry copy_register_of_the_big_mision_vivienda
-		tk.Label(self.root,text="Copia del Registro de la Gran Misíon Vivienda Venezuela:", font="Helvetica 12",
-            fg="#474747").place(x=340,y=270)
-		copy_register_of_the_big_mision_vivienda = tk.BooleanVar(self.root, value=False)
-		tk.Checkbutton(self.root,textvariable=copy_register_of_the_big_mision_vivienda, font="Helvetica 14 normal",
-            bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
-            highlightcolor="red").place(x=750,y=270)
+		tk.Label(self.root,text="Copia del Registro de la Gran Misíon Vivienda Venezuela:",
+			font="Helvetica 9", fg="#474747").place(x=48,y=310)
+		self.copy_register_of_the_big_mision_vivienda = tk.BooleanVar(self.root, value=False)
+		tk.Checkbutton(self.root,variable=self.copy_register_of_the_big_mision_vivienda,
+			font="Helvetica 14 normal", bd=0, bg="#1E6FBA", fg="black",
+			highlightbackground="black", highlightcolor="red").place(x=370,y=305)
+
+		# Button
+		tk.Button(self.root, text="Guardar", font="Helvetica 14 normal", bd=0,
+			command=self.save, bg="#1E6FBA", fg="white").place(x=300,y=400)
