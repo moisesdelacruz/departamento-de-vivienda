@@ -39,7 +39,7 @@ UPDATE viviendo SET ci=%(ci)s,
 -- solicitud
 CREATE TABLE IF NOT EXISTS solicitud (
   solicitud_id BIGSERIAL PRIMARY KEY,
-  viviendo_id BIGINT NOT NULL UNIQUE,
+  viviendo_id BIGINT NOT NULL,
   housing_conditions VARCHAR(45),
   housing_direction VARCHAR(45),
   phone_number INTEGER,
@@ -50,7 +50,10 @@ CREATE TABLE IF NOT EXISTS solicitud (
   firefighters_constancy BOOLEAN DEFAULT FALSE,
   health_case BOOLEAN DEFAULT FALSE,
   medical_reports BOOLEAN DEFAULT FALSE,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  UNIQUE("solicitud_id"),
+        FOREIGN KEY ("viviendo_id") REFERENCES "viviendo"("viviendo_id")
 );
 
 -- solicitud add
@@ -82,7 +85,7 @@ UPDATE solicitud SET housing_conditions=%(housing_conditions)s,
 -- family
 CREATE TABLE IF NOT EXISTS family (
   family_id BIGSERIAL PRIMARY KEY,
-  viviendo_id BIGINT NOT NULL UNIQUE,
+  viviendo_id BIGINT NOT NULL,
   ci INTEGER UNIQUE,
   first_name VARCHAR(45),
   last_name VARCHAR(45),

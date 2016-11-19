@@ -17,7 +17,10 @@ class Solicitud(object):
             firefighters_constancy BOOLEAN DEFAULT FALSE,
             health_case BOOLEAN DEFAULT FALSE,
             medical_reports BOOLEAN DEFAULT FALSE,
-            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+            UNIQUE("viviendo_id"),
+            FOREIGN KEY ("viviendo_id") REFERENCES "viviendo"("viviendo_id")
         )""")
 
         self.conn.commit()

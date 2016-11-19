@@ -24,8 +24,8 @@ class Family(object):
 
     def create(self, request, *args, **kwargs):
         self.cursor.execute("""INSERT INTO family (viviendo_id, ci, first_name,
-            last_name, birthday, work,
-            birth_state, entry, discapacity, discapacity_desc, old_age)
+            last_name, birthday, work, birth_state, entry, discapacity,
+            discapacity_desc, old_age)
             VALUES (%(viviendo_id)s, %(ci)s, %(first_name)s, %(last_name)s,
             %(birthday)s, %(work)s, %(birth_state)s, %(entry)s, %(discapacity)s,
             %(discapacity_desc)s, %(old_age)s)""", request)
