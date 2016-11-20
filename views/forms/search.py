@@ -4,7 +4,7 @@
 import os
 import Tkinter as tk
 from database.main import ViviendoModel
-from views.utils.methods import Methods
+from utils.methods import Methods
 from views.forms.viviendoDetail import ViviendoDetail
 
 class SearchForm(tk.Frame, Methods):

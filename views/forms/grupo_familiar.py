@@ -3,8 +3,8 @@
 
 import os
 import Tkinter as tk
-from views.utils._calendar import CalendarDialog
-from views.utils.methods import Methods
+from utils._calendar import CalendarDialog
+from utils.methods import Methods
 from database.main import FamilyModel
 
 class Grupo_familiarForm(tk.Frame, Methods):

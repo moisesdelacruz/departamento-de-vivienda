@@ -3,7 +3,7 @@
 
 import Tkinter as tk
 from database.main import SolicitudModel
-from views.utils.methods import Methods
+from utils.methods import Methods
 
 class SolicitudForm(tk.Frame, Methods):
 	def __init__(self, root, viviendo_id):

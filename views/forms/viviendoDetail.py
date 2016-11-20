@@ -3,9 +3,9 @@
 
 import os
 import Tkinter as tk
+from utils.methods import Methods
 from views.forms.grupo_familiar import Grupo_familiarForm
 from views.forms.solicitud import SolicitudForm
-from views.utils.methods import Methods
 
 class ViviendoDetail(tk.Frame, Methods):
 	def __init__(self, root, viviendo):
@@ -21,7 +21,7 @@ class ViviendoDetail(tk.Frame, Methods):
 		self.right = tk.Frame(self.root, width=700, relief=tk.RAISED)
 		self.right.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 		self.right.pack_propagate(0)
-		
+
 		# render
 		self.view()
 

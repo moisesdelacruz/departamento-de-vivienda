@@ -4,7 +4,7 @@ import os
 
 import Tkinter as tk
 import tkMessageBox
-from views.utils.methods import Methods
+from utils.methods import Methods
 # Forms Import
 from forms.viviendo import ViviendoForm
 from forms.solicitud import SolicitudForm
