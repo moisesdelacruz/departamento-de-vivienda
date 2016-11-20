@@ -36,7 +36,6 @@ class Grupo_familiarForm(tk.Frame, Methods):
 			"discapacity_desc": str(self.discapacity_desc.get('0.0',tk.END)),
 			"old_age": bool(self.old_age.get())
 		})
-		print data
 		db = FamilyModel()
 		db.create(data)
 

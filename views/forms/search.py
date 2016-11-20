@@ -23,7 +23,6 @@ class SearchForm(tk.Frame, Methods):
 		self.result = tb.retrive(int(self.search.get()))
 
 		if self.result:
-			print self.result
 			self.clean(self.root)
 			self.detail = ViviendoDetail(self.root, self.result)
 		else:

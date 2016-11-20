@@ -12,11 +12,11 @@ class Solicitud(object):
             phone_number INTEGER,
             residence_constancia BOOLEAN DEFAULT FALSE,
             copy_ci BOOLEAN DEFAULT FALSE,
-            copy_register_of_the_big_mision_vivienda BOOLEAN DEFAULT FALSE,
+            medical_reports BOOLEAN DEFAULT FALSE,
             housing_in_risk BOOLEAN DEFAULT FALSE,
             firefighters_constancy BOOLEAN DEFAULT FALSE,
             health_case BOOLEAN DEFAULT FALSE,
-            medical_reports BOOLEAN DEFAULT FALSE,
+            copy_register_of_the_big_mision_vivienda BOOLEAN DEFAULT FALSE,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
             UNIQUE("viviendo_id"),
@@ -29,13 +29,14 @@ class Solicitud(object):
         self.cursor.execute("""INSERT INTO solicitud (viviendo_id,
             housing_conditions, housing_direction,
             phone_number, residence_constancia, copy_ci,
-            copy_register_of_the_big_mision_vivienda, housing_in_risk,
-            firefighters_constancy, health_case, medical_reports)
+            medical_reports, housing_in_risk,
+            firefighters_constancy, health_case,
+            copy_register_of_the_big_mision_vivienda)
             VALUES (%(viviendo_id)s, %(housing_conditions)s, %(housing_direction)s,
             %(phone_number)s, %(residence_constancia)s, %(copy_ci)s,
-            %(copy_register_of_the_big_mision_vivienda)s, %(housing_in_risk)s,
+            %(medical_reports)s, %(housing_in_risk)s,
             %(firefighters_constancy)s, %(health_case)s,
-            %(medical_reports)s)""", request)
+            %(copy_register_of_the_big_mision_vivienda)s)""", request)
     	self.conn.commit()
         return True
 
@@ -53,11 +54,11 @@ class Solicitud(object):
             phone_number=%(phone_number)s,
             residence_constancia=%(residence_constancia)s,
             copy_ci=%(copy_ci)s,
-            copy_register_of_the_big_mision_vivienda=%(copy_register_of_the_big_mision_vivienda)s,
+            medical_reports=%(medical_reports)s,
             housing_in_risk=%(housing_in_risk)s,
             firefighters_constancy=%(firefighters_constancy)s,
             health_case=%(health_case)s,
-            medical_reports=%(medical_reports)s
+            copy_register_of_the_big_mision_vivienda=%(copy_register_of_the_big_mision_vivienda)s
             WHERE viviendo_id=%(viviendo_id)s""", request)
         self.conn.commit()
         return True
@@ -68,20 +69,22 @@ class Solicitud(object):
           phone_number=%(phone_number)s,
           residence_constancia=%(residence_constancia)s,
           copy_ci=%(copy_ci)s,
-          copy_register_of_the_big_mision_vivienda=%(copy_register_of_the_big_mision_vivienda)s,
+          medical_reports=%(medical_reports)s,
           housing_in_risk=%(housing_in_risk)s,
           firefighters_constancy=%(firefighters_constancy)s,
           health_case=%(health_case)s,
-          medical_reports=%(medical_reports)s WHERE viviendo_id=%(viviendo_id)s;
+          copy_register_of_the_big_mision_vivienda=%(copy_register_of_the_big_mision_vivienda)s WHERE viviendo_id=%(viviendo_id)s;
         INSERT INTO solicitud (viviendo_id,
                       housing_conditions, housing_direction,
                       phone_number, residence_constancia, copy_ci,
-                      copy_register_of_the_big_mision_vivienda, housing_in_risk,
-                      firefighters_constancy, health_case, medical_reports)
+                      medical_reports, housing_in_risk,
+                      firefighters_constancy, health_case,
+                      copy_register_of_the_big_mision_vivienda)
                SELECT %(viviendo_id)s, %(housing_conditions)s, %(housing_direction)s,
                 %(phone_number)s, %(residence_constancia)s, %(copy_ci)s,
-                %(copy_register_of_the_big_mision_vivienda)s, %(housing_in_risk)s,
-                %(firefighters_constancy)s, %(health_case)s, %(medical_reports)s
+                %(medical_reports)s, %(housing_in_risk)s,
+                %(firefighters_constancy)s, %(health_case)s,
+                %(copy_register_of_the_big_mision_vivienda)s
                WHERE NOT EXISTS (SELECT 1 FROM solicitud WHERE viviendo_id=1);""", request)
         self.conn.commit()
         return True
