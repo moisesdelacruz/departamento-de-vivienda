@@ -85,7 +85,7 @@ class Solicitud(object):
                 %(medical_reports)s, %(housing_in_risk)s,
                 %(firefighters_constancy)s, %(health_case)s,
                 %(copy_register_of_the_big_mision_vivienda)s
-               WHERE NOT EXISTS (SELECT 1 FROM solicitud WHERE viviendo_id=1);""", request)
+               WHERE NOT EXISTS (SELECT 1 FROM solicitud WHERE viviendo_id=%(viviendo_id)s);""", request)
         self.conn.commit()
         return True
 
