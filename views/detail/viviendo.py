@@ -6,6 +6,7 @@ import Tkinter as tk
 from utils.methods import Methods
 from views.forms.grupo_familiar import Grupo_familiarForm
 from views.forms.solicitud import SolicitudForm
+from views.detail.status import StatusDetail
 
 class ViviendoDetail(tk.Frame, Methods):
 	def __init__(self, root, viviendo):
@@ -27,6 +28,7 @@ class ViviendoDetail(tk.Frame, Methods):
 
 		# render
 		self.view()
+		self.status()
 
 	def view(self):
 		tk.Label(self.root, text=self.viviendo['full_name'],
@@ -117,6 +119,11 @@ class ViviendoDetail(tk.Frame, Methods):
 		self.clean(self.right)
 		solicitud = SolicitudForm(self.right, self.viviendo['id'])
 		solicitud.pack()
+
+	def status(self):
+		self.clean(self.right)
+		status = StatusDetail(self.right, self.viviendo['id'])
+		status.pack()
 
 
 

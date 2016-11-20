@@ -9,6 +9,7 @@ from utils.methods import Methods
 from forms.viviendo import ViviendoForm
 from forms.solicitud import SolicitudForm
 from forms.search import SearchForm
+from views.detail.status import StatusDetail
 
 class Toolbar(tk.Frame, Methods):
 
@@ -30,6 +31,11 @@ class Toolbar(tk.Frame, Methods):
     def search(self):
         self.clean(self.body)
         self.formSearch = SearchForm(self.body)
+
+    def status(self):
+        self.clean(self.body)
+        status = StatusDetail(self.body)
+        status.pack()
 
     def exit(self):
         if tkMessageBox.askyesno(title='Advertencia',
