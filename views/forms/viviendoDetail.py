@@ -3,45 +3,32 @@
 
 import os
 import Tkinter as tk
-from PIL import Image, ImageTk
 from views.forms.grupo_familiar import Grupo_familiarForm
 from views.forms.solicitud import SolicitudForm
+from views.utils.methods import Methods
 
-class ViviendoDetail(tk.Frame):
+class ViviendoDetail(tk.Frame, Methods):
 	def __init__(self, root, viviendo):
 		tk.Frame.__init__(self, root)
 		self.root = root
 		self.viviendo_id = viviendo[0][0]
 		self.viviendo = ' '.join([viviendo[0][2], viviendo[0][3]])
+		# Left div
+		self.left = tk.Frame(self.root, bd=1, width=270, relief=tk.RAISED)
+		self.left.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
+		self.left.pack_propagate(0)
+		# Right div
+		self.right = tk.Frame(self.root, width=700, relief=tk.RAISED)
+		self.right.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
+		self.right.pack_propagate(0)
+		
+		# render
 		self.view()
-
-
-	def getImage(self, image, sizeY=30, sizeX=30):
-		self.img = Image.open(image)
-		self.img = self.img.resize((sizeY, sizeX), Image.ANTIALIAS)
-		return ImageTk.PhotoImage(self.img)
-
-
-	def clean(self):
-		for child in self.right.winfo_children():
-			child.destroy()
-
 
 	def view(self):
 		tk.Label(self.root, text=self.viviendo,
 			font="Helvetica 16 bold", bg="blue",
 			fg="grey").pack(side=tk.TOP, fill=tk.X)
-
-		# Left
-		self.left = tk.Frame(self.root, bd=1, width=270, height=150,
-			relief=tk.RAISED)
-		self.left.pack(side=tk.LEFT, expand=True, fill=tk.Y)
-		self.left.pack_propagate(0)
-
-		# Right
-		self.right = tk.Frame(self.root, width=550, relief=tk.RAISED)
-		self.right.pack(side=tk.LEFT, expand=True, fill=tk.Y)
-		self.right.pack_propagate(0)
 
 		self.viviendoFrame()
 		self.familyFrame()
@@ -119,12 +106,12 @@ class ViviendoDetail(tk.Frame):
 
 
 	def family(self):
-		self.clean()
+		self.clean(self.right)
 		group_family = Grupo_familiarForm(self.right, self.viviendo_id)
 		group_family.pack()
 
 	def solicitud(self):
-		self.clean()
+		self.clean(self.right)
 		solicitud = SolicitudForm(self.right, self.viviendo_id)
 		solicitud.pack()
 

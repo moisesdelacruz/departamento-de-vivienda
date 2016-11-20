@@ -2,45 +2,39 @@
 # -*- coding: utf-8 -*-
 import os
 
-from PIL import Image, ImageTk
 import Tkinter as tk
 import tkMessageBox
+from views.utils.methods import Methods
 # Forms Import
 from forms.viviendo import ViviendoForm
 from forms.solicitud import SolicitudForm
 from forms.search import SearchForm
 
-class Toolbar(tk.Frame):
+class Toolbar(tk.Frame, Methods):
 
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
         self.parent = parent
+        # BOTTOM div
+        self.body = tk.Frame(self.parent, relief=tk.RAISED)
+        self.body.pack(side=tk.BOTTOM, expand=True, fill=tk.BOTH)
+        # TOP Toolbar
         self.tool = self.toolbar()
+        # Close window
+        self.parent.protocol('WM_DELETE_WINDOW', self.exit)
 
     def viviendo(self):
-        self.cleanWindow()
-        self.formViviendo = ViviendoForm(self.parent)
+        self.clean(self.body)
+        self.formViviendo = ViviendoForm(self.body)
 
     def search(self):
-        self.cleanWindow()
-        self.formSearch = SearchForm(self.parent, self)
-
-    def cleanWindow(self):
-        for child in self.parent.winfo_children():
-            child.destroy()
-        self.__init__(self.parent)
+        self.clean(self.body)
+        self.formSearch = SearchForm(self.body)
 
     def exit(self):
-        if tkMessageBox.askyesno(title='Advertencia', message='¿Seguro(a) que desea salir?'):
+        if tkMessageBox.askyesno(title='Advertencia',
+            message='¿Seguro(a) que desea salir?'):
             self.quit()
-        else:
-            print 'no salir'
-
-    def getImage(self, image, sizeY=30, sizeX=30):
-        self.img = Image.open(image)
-        self.img = self.img.resize((sizeY, sizeX), Image.ANTIALIAS)
-        return ImageTk.PhotoImage(self.img)
-
 
     def toolbar(self):
 

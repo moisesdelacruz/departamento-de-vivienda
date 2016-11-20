@@ -1,23 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import Tkinter as tk
 import os
-from PIL import Image, ImageTk
+import Tkinter as tk
 from views.utils._calendar import CalendarDialog
+from views.utils.methods import Methods
 from database.main import FamilyModel
 
-class Grupo_familiarForm(tk.Frame):
+class Grupo_familiarForm(tk.Frame, Methods):
 	def __init__(self, root, viviendo_id):
 		tk.Frame.__init__(self, root)
 		self.root = root
 		self.viviendo_id = viviendo_id
 		self.form()
-
-	def getImage(self, image, sizeY=30, sizeX=30):
-		img = Image.open(image)
-		img = img.resize((sizeY, sizeX), Image.ANTIALIAS)
-		return ImageTk.PhotoImage(img)
 
 	def getDate(self):
 		cd = CalendarDialog(self)

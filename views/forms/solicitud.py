@@ -3,12 +3,15 @@
 
 import Tkinter as tk
 from database.main import SolicitudModel
+from views.utils.methods import Methods
 
-class SolicitudForm(tk.Frame):
+class SolicitudForm(tk.Frame, Methods):
 	def __init__(self, root, viviendo_id):
 		tk.Frame.__init__(self, root)
 		self.root = root
 		self.viviendo_id = viviendo_id
+		self.validate_number = (self.root.register(self.validate),
+				'%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
 		self.form()
 
 	def save(self):
@@ -55,7 +58,8 @@ class SolicitudForm(tk.Frame):
 		tk.Label(self.root,text="Numero de Telefono:", font="Helvetica 10",
 			fg="#474747").place(x=23,y=160)
 		self.phone_number = tk.StringVar()
-		tk.Entry(self.root,textvariable=self.phone_number, width=22, bd=0,
+		tk.Entry(self.root,textvariable=self.phone_number, validate='key',
+			validatecommand=self.validate_number, width=22, bd=0,
 			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
 			highlightbackground="black",highlightcolor="red",
 			highlightthickness=1).place(x=150,y=160)

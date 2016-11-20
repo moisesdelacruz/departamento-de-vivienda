@@ -3,50 +3,28 @@
 
 import os
 import Tkinter as tk
-from PIL import Image, ImageTk
 from database.main import ViviendoModel
+from views.utils.methods import Methods
 from views.forms.viviendoDetail import ViviendoDetail
 
-class SearchForm(tk.Frame):
-	def __init__(self, root, toolbar):
+class SearchForm(tk.Frame, Methods):
+	def __init__(self, root):
 		tk.Frame.__init__(self, root)
 		self.root = root
-		self.toolbar = toolbar
 		self.validate_number = (self.root.register(self.validate),
 				'%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
 		self.form()
 
-	def getImage(self, image, sizeY=30, sizeX=30):
-		self.img = Image.open(image)
-		self.img = self.img.resize((sizeY, sizeX), Image.ANTIALIAS)
-		return ImageTk.PhotoImage(self.img)
-
-	def validate(self, action, index, value_if_allowed,
-					   prior_value, text, validation_type, trigger_type, widget_name):
-		if text in '0123456789.-+':
-			try:
-				float(value_if_allowed)
-				return True
-			except ValueError:
-				return False
-		else:
-			return False
-
-	def cleanWindow(self):
-		for child in self.root.winfo_children():
-			child.destroy()
-		self.toolbar.__init__(self.root)
-
 	def searchdb(self):
 		if hasattr(self, 'message'):
-			self.newRoot.destroy()
+			self.empty.destroy()
 
 		tb = ViviendoModel()
 		self.result = tb.retrive(int(self.search.get()))
 
 		if self.result != []:
 			print self.result
-			self.cleanWindow()
+			self.clean(self.root)
 			self.detail = ViviendoDetail(self.root, self.result)
 		else:
 			self.message = 'no se encontro resultado'
@@ -75,8 +53,8 @@ class SearchForm(tk.Frame):
 		searchButton.image = iconSearch
 
 	def noResult(self):
-		self.newRoot = tk.Frame(self.root, bd=1, bg="red")
+		self.empty = tk.Frame(self.root, bd=1, bg="red")
 
-		tk.Label(self.newRoot, text=self.message,
+		tk.Label(self.empty, text=self.message,
 			fg="red", font="Helvetica 14 normal").pack()
-		self.newRoot.pack(side=tk.TOP)
+		self.empty.pack(side=tk.TOP)

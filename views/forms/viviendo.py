@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import os
-from PIL import Image, ImageTk
 import Tkinter as tk
 from views.utils._calendar import CalendarDialog
+from views.utils.methods import Methods
 from database.main import ViviendoModel
 
-class ViviendoForm(tk.Frame):
+class ViviendoForm(tk.Frame, Methods):
 
     def __init__(self, root):
         tk.Frame.__init__(self, root)
@@ -23,22 +23,6 @@ class ViviendoForm(tk.Frame):
             self.birthday.set(result.strftime("%d/%m/%Y"))
         except AttributeError, e:
             self.birthday.set(self.birthday.get())
-
-    def getImage(self, image, sizeY=30, sizeX=30):
-        self.img = Image.open(image)
-        self.img = self.img.resize((sizeY, sizeX), Image.ANTIALIAS)
-        return ImageTk.PhotoImage(self.img)
-
-    def validate(self, action, index, value_if_allowed,
-                       prior_value, text, validation_type, trigger_type, widget_name):
-        if text in '0123456789.-+':
-            try:
-                float(value_if_allowed)
-                return True
-            except ValueError:
-                return False
-        else:
-            return False
 
     def save(self):
         data = ({
