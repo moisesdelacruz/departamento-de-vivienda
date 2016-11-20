@@ -80,6 +80,71 @@ UPDATE solicitud SET housing_conditions=%(housing_conditions)s,
   WHERE viviendo_id=%(viviendo_id)s
 
 
+-- Create or update
+CREATE FUNCTION createOrUpdate(key INT) RETURNS VOID AS
+$$
+BEGIN
+    LOOP
+        -- first try to update the key
+        -- note that "a" must be unique
+        UPDATE solicitud SET housing_conditions='casa casa',
+          housing_direction='machincuepa',
+          phone_number=0416,
+          residence_constancia=TRUE,
+          copy_ci=TRUE,
+          copy_register_of_the_big_mision_vivienda=TRUE,
+          housing_in_risk=TRUE,
+          firefighters_constancy=TRUE,
+          health_case=TRUE,
+          medical_reports=TRUE WHERE viviendo_id = key;
+        IF found THEN
+            RETURN;
+        END IF;
+        -- not there, so try to insert the key
+        -- if someone else inserts the same key concurrently,
+        -- we could get a unique-key failure
+        BEGIN
+            INSERT INTO solicitud(viviendo_id,
+              housing_conditions, housing_direction,
+              phone_number, residence_constancia, copy_ci,
+              copy_register_of_the_big_mision_vivienda, housing_in_risk,
+              firefighters_constancy, health_case, medical_reports) VALUES (1,
+              'housing_conditions', 'housing_direction',
+              0416, TRUE, FALSE,
+              FALSE, FALSE,
+              FALSE, FALSE, FALSE);
+            RETURN;
+        EXCEPTION WHEN unique_violation THEN
+            -- do nothing, and loop to try the UPDATE again
+        END;
+    END LOOP;
+END;
+$$
+LANGUAGE plpgsql;
+
+SELECT createOrUpdate(1);
+
+-- Create if no existe form two
+UPDATE solicitud SET housing_conditions=%(housing_conditions)s,
+  housing_direction=%(housing_direction)s,
+  phone_number=%(phone_number)s,
+  residence_constancia=%(residence_constancia)s,
+  copy_ci=%(copy_ci)s,
+  copy_register_of_the_big_mision_vivienda=%(copy_register_of_the_big_mision_vivienda)s,
+  housing_in_risk=%(housing_in_risk)s,
+  firefighters_constancy=%(firefighters_constancy)s,
+  health_case=%(health_case)s,
+  medical_reports=%(medical_reports)s WHERE viviendo_id=%(viviendo_id)s;
+INSERT INTO solicitud (viviendo_id,
+              housing_conditions, housing_direction,
+              phone_number, residence_constancia, copy_ci,
+              copy_register_of_the_big_mision_vivienda, housing_in_risk,
+              firefighters_constancy, health_case, medical_reports)
+       SELECT %(viviendo_id)s, %(housing_conditions)s, %(housing_direction)s,
+        %(phone_number)s, %(residence_constancia)s, %(copy_ci)s,
+        %(copy_register_of_the_big_mision_vivienda)s, %(housing_in_risk)s,
+        %(firefighters_constancy)s, %(health_case)s, %(medical_reports)s
+       WHERE NOT EXISTS (SELECT 1 FROM solicitud WHERE viviendo_id=1);
 
 -- ----------- --
 -- family

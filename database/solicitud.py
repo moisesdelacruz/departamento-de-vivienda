@@ -62,6 +62,30 @@ class Solicitud(object):
         self.conn.commit()
         return True
 
+    def createOrUpdate(self, request, *args, **kwargs):
+        self.cursor.execute("""UPDATE solicitud SET housing_conditions=%(housing_conditions)s,
+          housing_direction=%(housing_direction)s,
+          phone_number=%(phone_number)s,
+          residence_constancia=%(residence_constancia)s,
+          copy_ci=%(copy_ci)s,
+          copy_register_of_the_big_mision_vivienda=%(copy_register_of_the_big_mision_vivienda)s,
+          housing_in_risk=%(housing_in_risk)s,
+          firefighters_constancy=%(firefighters_constancy)s,
+          health_case=%(health_case)s,
+          medical_reports=%(medical_reports)s WHERE viviendo_id=%(viviendo_id)s;
+        INSERT INTO solicitud (viviendo_id,
+                      housing_conditions, housing_direction,
+                      phone_number, residence_constancia, copy_ci,
+                      copy_register_of_the_big_mision_vivienda, housing_in_risk,
+                      firefighters_constancy, health_case, medical_reports)
+               SELECT %(viviendo_id)s, %(housing_conditions)s, %(housing_direction)s,
+                %(phone_number)s, %(residence_constancia)s, %(copy_ci)s,
+                %(copy_register_of_the_big_mision_vivienda)s, %(housing_in_risk)s,
+                %(firefighters_constancy)s, %(health_case)s, %(medical_reports)s
+               WHERE NOT EXISTS (SELECT 1 FROM solicitud WHERE viviendo_id=1);""", request)
+        self.conn.commit()
+        return True
+
     def delete(self, request, *args, **kwargs):
         self.cursor.execute("DELETE FROM solicitud WHERE viviendo_id=%s" %(request))
         self.conn.commit()

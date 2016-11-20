@@ -11,8 +11,11 @@ class ViviendoDetail(tk.Frame, Methods):
 	def __init__(self, root, viviendo):
 		tk.Frame.__init__(self, root)
 		self.root = root
-		self.viviendo_id = viviendo[0][0]
-		self.viviendo = ' '.join([viviendo[0][2], viviendo[0][3]])
+		self.viviendo = {
+			"id": viviendo[0][0],
+			"ci": viviendo[0][1],
+			"full_name": ' '.join([viviendo[0][2], viviendo[0][3]])
+		}
 		# Left div
 		self.left = tk.Frame(self.root, bd=1, width=270, relief=tk.RAISED)
 		self.left.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
@@ -26,7 +29,7 @@ class ViviendoDetail(tk.Frame, Methods):
 		self.view()
 
 	def view(self):
-		tk.Label(self.root, text=self.viviendo,
+		tk.Label(self.root, text=self.viviendo['full_name'],
 			font="Helvetica 16 bold", bg="blue",
 			fg="grey").pack(side=tk.TOP, fill=tk.X)
 
@@ -54,7 +57,7 @@ class ViviendoDetail(tk.Frame, Methods):
 		btn.pack(anchor=tk.NE)
 
 		# CI
-		ci=tk.Label(viviendo, text="CI: 26300434",
+		ci=tk.Label(viviendo, text=self.viviendo['ci'],
 			font="Helvetica 10 normal", fg="grey")
 		ci.pack(anchor=tk.SE, side=tk.BOTTOM)
 
@@ -107,12 +110,12 @@ class ViviendoDetail(tk.Frame, Methods):
 
 	def family(self):
 		self.clean(self.right)
-		group_family = Grupo_familiarForm(self.right, self.viviendo_id)
+		group_family = Grupo_familiarForm(self.right, self.viviendo['id'])
 		group_family.pack()
 
 	def solicitud(self):
 		self.clean(self.right)
-		solicitud = SolicitudForm(self.right, self.viviendo_id)
+		solicitud = SolicitudForm(self.right, self.viviendo['id'])
 		solicitud.pack()
 
 

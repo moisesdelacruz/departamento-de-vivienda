@@ -30,7 +30,7 @@ class SolicitudForm(tk.Frame, Methods):
 		})
 		print data
 		db = SolicitudModel()
-		db.create(data)
+		db.createOrUpdate(data)
 
 	def form(self):
 		tk.Label(self.root, text="Solicitud de Vivienda", font="Helvetica 16 bold",

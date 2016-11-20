@@ -22,7 +22,7 @@ class SearchForm(tk.Frame, Methods):
 		tb = ViviendoModel()
 		self.result = tb.retrive(int(self.search.get()))
 
-		if self.result != []:
+		if self.result:
 			print self.result
 			self.clean(self.root)
 			self.detail = ViviendoDetail(self.root, self.result)
