@@ -6,6 +6,7 @@ import Tkinter as tk
 from utils._calendar import CalendarDialog
 from utils.methods import Methods
 from database.main import FamilyModel
+from views.detail.grupo_familiar import Grupo_familiarDetail 
 
 class Grupo_familiarForm(tk.Frame, Methods):
 	def __init__(self, root, viviendo_id):
@@ -38,6 +39,8 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		})
 		db = FamilyModel()
 		db.create(data)
+		self.clean(self.root)
+		view = Grupo_familiarDetail(self.root, self.viviendo_id)
 
 	def form(self):
 		# Title

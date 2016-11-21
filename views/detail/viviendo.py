@@ -3,10 +3,12 @@
 
 import os
 import Tkinter as tk
+from database.main import FamilyModel
 from utils.methods import Methods
 from views.forms.grupo_familiar import Grupo_familiarForm
 from views.forms.solicitud import SolicitudForm
 from views.detail.status import StatusDetail
+from views.detail.grupo_familiar import Grupo_familiarDetail
 
 class ViviendoDetail(tk.Frame, Methods):
 	def __init__(self, root, viviendo):
@@ -17,6 +19,15 @@ class ViviendoDetail(tk.Frame, Methods):
 			"ci": viviendo[0][1],
 			"full_name": ' '.join([viviendo[0][2], viviendo[0][3]])
 		}
+		# Data Base
+		self.db = FamilyModel()
+		# query to database
+		self.group_family = self.db.list(viviendo_id=self.viviendo['id'])
+
+		# Top div
+		self.top = tk.Frame(self.root, bd=1, relief=tk.RAISED)
+		self.top.pack(side=tk.TOP, fill=tk.X)
+		# self.top.pack_propagate(0)
 		# Left div
 		self.left = tk.Frame(self.root, bd=1, width=270, relief=tk.RAISED)
 		self.left.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
@@ -27,17 +38,17 @@ class ViviendoDetail(tk.Frame, Methods):
 		self.right.pack_propagate(0)
 
 		# render
-		self.view()
-		self.status()
+		self.render()
 
-	def view(self):
-		tk.Label(self.root, text=self.viviendo['full_name'],
+	def render(self):
+		tk.Label(self.top, text=self.viviendo['full_name'],
 			font="Helvetica 16 bold", bg="blue",
 			fg="grey").pack(side=tk.TOP, fill=tk.X)
 
 		self.viviendoFrame()
 		self.familyFrame()
 		self.solicitudFrame()
+		self.status()
 
 
 	def viviendoFrame(self):
@@ -65,6 +76,8 @@ class ViviendoDetail(tk.Frame, Methods):
 
 
 	def familyFrame(self):
+		self.length = ' '.join([str(len(self.group_family)), 'en el grupo'])
+
 		family = tk.Frame(self.left, bd=1, width=270, height=150, relief=tk.RAISED)
 		family.pack(anchor=tk.NW, expand=True, fill=tk.Y)
 		family.pack_propagate(0)
@@ -76,13 +89,16 @@ class ViviendoDetail(tk.Frame, Methods):
 		icon.pack(side=tk.LEFT)
 		icon.image = iconViviendo
 
-		# Action
+		# Actions
 		btn=tk.Button(family, text="Agregar", command=self.family,
 			font="Helvetica 14 normal", fg="grey", bd=0)
 		btn.pack(anchor=tk.NE)
+		btn2=tk.Button(family, text="Lista", command=self.grupo_familiar,
+			font="Helvetica 14 normal", fg="grey", bd=0)
+		btn2.pack(anchor=tk.E)
 
 		# CI
-		ci=tk.Label(family, text="6 en el grupo",
+		ci=tk.Label(family, text=self.length,
 			font="Helvetica 10 normal", fg="grey")
 		ci.pack(anchor=tk.SE, side=tk.BOTTOM)
 
@@ -99,10 +115,13 @@ class ViviendoDetail(tk.Frame, Methods):
 		icon.pack(side=tk.LEFT)
 		icon.image = iconViviendo
 
-		# Action
+		# Actions
 		btn=tk.Button(solicitud, text="Actualizar", command=self.solicitud,
 			font="Helvetica 14 normal", fg="grey", bd=0)
 		btn.pack(anchor=tk.NE)
+		btn2=tk.Button(solicitud, text="Estatus", command=self.status,
+			font="Helvetica 14 normal", fg="grey", bd=0)
+		btn2.pack(anchor=tk.E)
 
 		# CI
 		ci=tk.Label(solicitud, text="estatus: espera",
@@ -112,19 +131,23 @@ class ViviendoDetail(tk.Frame, Methods):
 
 	def family(self):
 		self.clean(self.right)
-		group_family = Grupo_familiarForm(self.right, self.viviendo['id'])
-		group_family.pack()
+		view = Grupo_familiarForm(self.right, self.viviendo['id'])
+		view.pack()
+
+	def grupo_familiar(self):
+		self.clean(self.right)
+		view = Grupo_familiarDetail(self.right, self.viviendo['id'])
+		view.pack()
 
 	def solicitud(self):
 		self.clean(self.right)
-		solicitud = SolicitudForm(self.right, self.viviendo['id'])
-		solicitud.pack()
+		view = SolicitudForm(self.right, self.viviendo['id'])
+		view.pack()
 
 	def status(self):
 		self.clean(self.right)
-		status = StatusDetail(self.right, self.viviendo['id'])
-		status.pack()
-
+		view = StatusDetail(self.right, self.viviendo['id'])
+		view.pack()
 
 
 # anchor support: must be n, ne, e, se, s, sw, w, nw, or center
