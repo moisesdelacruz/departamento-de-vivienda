@@ -162,6 +162,9 @@ CREATE TABLE IF NOT EXISTS family (
   discapacity_desc TEXT,
   old_age BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  
+  UNIQUE("family_id"),
+                FOREIGN KEY ("viviendo_id") REFERENCES "viviendo"("viviendo_id")
 );
 
 -- family add

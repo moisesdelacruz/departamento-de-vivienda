@@ -6,7 +6,7 @@ class Family(object):
         self.cursor = self.conn.cursor()
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS family (
             family_id BIGSERIAL PRIMARY KEY,
-            viviendo_id BIGINT NOT NULL UNIQUE,
+            viviendo_id BIGINT NOT NULL REFERENCES viviendo(viviendo_id),
             ci INTEGER UNIQUE,
             first_name VARCHAR(45),
             last_name VARCHAR(45),
@@ -32,8 +32,11 @@ class Family(object):
     	self.conn.commit()
         return True
 
-    def list(self, request, *args, **kwargs):
-        self.cursor.execute("SELECT * FROM family")
+    def list(self, *args, **kwargs):
+        if kwargs.get('viviendo_id'):
+            self.cursor.execute("SELECT * FROM family WHERE viviendo_id=%s" %(kwargs.get('viviendo_id')))
+        else:
+            self.cursor.execute("SELECT * FROM family")
     	return self.cursor.fetchall()
 
     def retrive(self, request, *args, **kwargs):
@@ -57,6 +60,6 @@ class Family(object):
         return True
 
     def delete(self, request, *args, **kwargs):
-        self.cursor.execute("DELETE FROM family WHERE viviendo_id=%s" %(request))
+        self.cursor.execute("DELETE FROM family WHERE family_id=%s" %(request))
         self.conn.commit()
         return True
