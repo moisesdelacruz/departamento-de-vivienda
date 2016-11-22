@@ -145,7 +145,7 @@ class ViviendoDetail(tk.Frame, Methods):
 		view.pack()
 
 	def status(self):
-		self.clean(self.right)
+		# self.clean(self.right)
 		view = StatusDetail(self.right, self.viviendo['id'])
 		view.pack()
 

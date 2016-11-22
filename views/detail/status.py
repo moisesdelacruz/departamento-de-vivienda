@@ -11,6 +11,7 @@ class StatusDetail(tk.Frame, Methods):
 		self.root = root
 		self.db = SolicitudModel()
 		self.viviendo_id = viviendo_id
+		# query to data base
 		self.query = self.db.retrive(self.viviendo_id)
 		if self.query:
 			self.show()

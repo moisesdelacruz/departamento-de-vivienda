@@ -4,6 +4,7 @@
 import Tkinter as tk
 from database.main import SolicitudModel
 from utils.methods import Methods
+from views.detail.status import StatusDetail
 
 class SolicitudForm(tk.Frame, Methods):
 	def __init__(self, root, viviendo_id):
@@ -30,6 +31,10 @@ class SolicitudForm(tk.Frame, Methods):
 			"medical_reports": bool(self.medical_reports.get())
 		})
 		self.db.createOrUpdate(data)
+		# clean content
+		self.clean(self.root)
+		# render view status
+		show = StatusDetail(self.root, self.viviendo_id)
 
 	def form(self):
 		# get data from database
