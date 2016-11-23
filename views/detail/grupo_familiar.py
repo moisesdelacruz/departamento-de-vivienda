@@ -15,13 +15,20 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 		self.db = FamilyModel()
 		self.models = self.db.list(viviendo_id=self.viviendo_id)
 
-		# Title
-		tk.Label(self.root, text="Grupo Familiar", fg="orange",
-			font="Helvetica 16 bold").place(x=200,y=30)
-
 		# content list
-		self.div = tk.Frame(self.root, bd=0, relief=tk.RAISED)
-		self.div.pack(side=tk.TOP, pady=70, expand=True, fill=tk.BOTH)
+		# Content Horizontal
+		parent = tk.Frame(self.root, height=700, background="grey", relief=tk.RAISED)
+		parent.pack(expand=True, fill=tk.X)
+		parent.pack_propagate(0)
+
+		# Content Vertical
+		self.div = tk.Frame(parent, width=650, relief=tk.RAISED)
+		self.div.pack(expand=True, pady=10, fill=tk.Y)
+		self.div.pack_propagate(0)
+
+		# Title
+		tk.Label(self.div, text="Grupo Familiar", fg="orange",
+			font="Helvetica 16 bold").pack(pady=20)
 
 		self.list()
 
@@ -48,7 +55,7 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 
 	def delete(self, model):
 		if tkMessageBox.askyesno(title='Advertencia',
-            message='¿Seguro(a) que desea Eliminar?'):
+			message='¿Seguro(a) que desea Eliminar?'):
 			self.db.delete(model)
 			self.div.destroy()
 			self.__init__(self.root, self.viviendo_id)
