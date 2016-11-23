@@ -30,25 +30,33 @@ class SearchForm(tk.Frame, Methods):
 			self.noResult()
 
 	def form(self):
+		# Content
+		div = tk.Frame(self.root, width=650, height=300,
+			background="grey", relief=tk.RAISED)
+		div.pack(side=tk.TOP, expand=True, fill=tk.X)
+		div.pack_propagate(0)
+
 		# Logo
 		logoImage = self.getImage("views/images/Gran-Mision-Vivienda-Venezuela.jpg", 520, 240)
-		logo = tk.Label(self.root, image=logoImage)
-		logo.place(x=160,y=110)
+		logo = tk.Label(div, image=logoImage)
+		logo.pack()
 		logo.image = logoImage
 
 		# form
 		# Entry Cedula de Identidad
-		self.search=tk.StringVar()
-		tk.Entry(self.root,textvariable=self.search,
+		form = tk.Frame(div, background="violet", relief=tk.RAISED)
+		form.pack()
+		self.search=tk.IntVar()
+		tk.Entry(form,textvariable=self.search,
 			validate='key', validatecommand=self.validate_number,
-			width=33, bd=0, font="Helvetica 18 normal",justify="left",
+			width=34, bd=0, font="Helvetica 18 normal",justify="left",
 			bg="white",fg="black", highlightbackground="black",
-			highlightcolor="red", highlightthickness=1).place(x=161,y=320)
+			highlightcolor="red", highlightthickness=1).pack(side=tk.LEFT)
 		iconSearch = self.getImage("views/images/search-icon.png")
-		searchButton = tk.Button(self.root, command=self.searchdb,
-			image=iconSearch, width=82, bd=0,
+		searchButton = tk.Button(form, command=self.searchdb,
+			image=iconSearch, width=77, bd=0,
 			bg="#4285f4", activebackground="#1E6FBA")
-		searchButton.place(x=598,y=320)
+		searchButton.pack(side=tk.RIGHT)
 		searchButton.image = iconSearch
 
 	def noResult(self):
