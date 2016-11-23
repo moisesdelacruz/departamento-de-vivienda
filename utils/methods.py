@@ -1,6 +1,9 @@
 import os
-from PIL import Image, ImageTk
 import Tkinter as tk
+import tkSimpleDialog
+
+from PIL import Image, ImageTk
+from utils.asktext import TextDialog
 
 class Methods(object):
 
@@ -23,3 +26,10 @@ class Methods(object):
 				return False
 		else:
 			return False
+
+	def entry(self):
+		self.value = tkSimpleDialog.askfloat('Ingresos', 'Ingresos Mensuales')
+
+	def textDialog(self):
+		dialog = TextDialog(self.root, 'Descapacidad', 'Describa descapacidad')
+		self.discapacity_desc = dialog.result
