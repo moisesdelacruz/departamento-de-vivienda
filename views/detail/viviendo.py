@@ -7,6 +7,7 @@ from database.main import FamilyModel
 from utils.methods import Methods
 from views.forms.grupo_familiar import Grupo_familiarForm
 from views.forms.solicitud import SolicitudForm
+from views.forms.viviendo import ViviendoForm
 from views.detail.status import StatusDetail
 from views.detail.grupo_familiar import Grupo_familiarDetail
 
@@ -19,6 +20,11 @@ class ViviendoDetail(tk.Frame, Methods):
 			"ci": viviendo[0][1],
 			"full_name": ' '.join([viviendo[0][2], viviendo[0][3]])
 		}
+
+		# Title of window
+		parent = self.root._nametowidget(self.root.winfo_parent())
+		parent.title(self.viviendo['full_name'])
+
 		# Data Base
 		self.db = FamilyModel()
 		# query to database
@@ -33,10 +39,10 @@ class ViviendoDetail(tk.Frame, Methods):
 		self.left.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 		self.left.pack_propagate(0)
 		# Right div
-		self.right = tk.Frame(self.root, width=700, relief=tk.RAISED)
+		self.right = tk.Frame(self.root, width=2000, relief=tk.RAISED)
 		self.right.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 		self.right.pack_propagate(0)
-
+		
 		# render
 		self.render()
 
@@ -65,7 +71,7 @@ class ViviendoDetail(tk.Frame, Methods):
 		icon.image = iconViviendo_male
 
 		# Action
-		btn=tk.Button(viviendo, text="Actualizar",
+		btn=tk.Button(viviendo, text="Actualizar", command=self.viviendoForm,
 			font="Helvetica 14 normal", fg="grey", bd=0)
 		btn.pack(anchor=tk.NE)
 
@@ -86,7 +92,7 @@ class ViviendoDetail(tk.Frame, Methods):
 
 		# icon
 		icon=tk.Label(family, image=iconViviendo)
-		icon.pack(side=tk.LEFT)
+		icon.pack(side=tk.LEFT, padx=5)
 		icon.image = iconViviendo
 
 		# Actions
@@ -116,7 +122,7 @@ class ViviendoDetail(tk.Frame, Methods):
 		icon.image = iconViviendo
 
 		# Actions
-		btn=tk.Button(solicitud, text="Actualizar", command=self.solicitud,
+		btn=tk.Button(solicitud, text="Actualizar", command=self.solicitudForm,
 			font="Helvetica 14 normal", fg="grey", bd=0)
 		btn.pack(anchor=tk.NE)
 		btn2=tk.Button(solicitud, text="Estatus", command=self.status,
@@ -139,14 +145,19 @@ class ViviendoDetail(tk.Frame, Methods):
 		view = Grupo_familiarDetail(self.right, self.viviendo['id'])
 		view.pack()
 
-	def solicitud(self):
+	def solicitudForm(self):
 		self.clean(self.right)
 		view = SolicitudForm(self.right, self.viviendo['id'])
 		view.pack()
 
 	def status(self):
-		# self.clean(self.right)
+		self.clean(self.right)
 		view = StatusDetail(self.right, self.viviendo['id'])
+		view.pack()
+
+	def viviendoForm(self):
+		self.clean(self.right)
+		view = ViviendoForm(self.right)
 		view.pack()
 
 
