@@ -3,6 +3,7 @@
 
 import os
 import Tkinter as tk
+import ttk
 from utils._calendar import CalendarDialog
 from utils.methods import Methods
 from database.main import FamilyModel
@@ -13,6 +14,8 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		tk.Frame.__init__(self, root)
 		self.root = root
 		self.viviendo_id = viviendo_id
+		self.validate_number = (self.root.register(self.validate),
+                '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
 		self.form()
 
 	def getDate(self):
@@ -32,9 +35,9 @@ class Grupo_familiarForm(tk.Frame, Methods):
 			"birthday": self.birthday.get(),
 			"work": bool(self.work.get()),
 			"birth_state": self.birth_state.get(),
-			"entry": float(self.entry.get()),
+			"entry": float(self.value),
 			"discapacity": bool(self.discapacity.get()),
-			"discapacity_desc": str(self.discapacity_desc.get('0.0',tk.END)),
+			"discapacity_desc": str(self.discapacity_desc),
 			"old_age": bool(self.old_age.get())
 		})
 		db = FamilyModel()
@@ -43,109 +46,113 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		view = Grupo_familiarDetail(self.root, self.viviendo_id)
 
 	def form(self):
+		# Content Horizontal
+		div = tk.Frame(self.root, height=500, background="grey", relief=tk.RAISED)
+		div.pack(expand=True, fill=tk.X)
+		div.pack_propagate(0)
+		# Content Vertical
+		form = tk.Frame(div, width=650, relief=tk.RAISED)
+		form.pack(expand=True, fill=tk.Y)
+		form.pack_propagate(0)
+
 		# Title
-		tk.Label(self.root, text="Registrar Grupo Familiar",
-			font="Helvetica 16 bold", fg="green").place(x=100,y=10)
+		tk.Label(form, text="Registrar Grupo Familiar",
+			font="Helvetica 16 bold", fg="green").pack(pady=20)
 
 		# Entry of the cedula
-		tk.Label(self.root,text="CI:", font="Helvetica 12",
-			fg="#474747").place(x=60,y=90)
-		self.ci=tk.StringVar(self.root, value='0')
-		tk.Entry(self.root,textvariable=self.ci, width=20, bd=0,
+		tk.Label(form,text="CI:", font="Helvetica 10",
+			fg="#474747").place(x=176,y=78)
+		self.ci=tk.IntVar()
+		tk.Entry(form,textvariable=self.ci, width=22, bd=0,
+			validate='key', validatecommand=self.validate_number,
 			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1).place(x=90,y=90)
+			highlightthickness=1).pack(pady=8)
 
 		# Entry of first_name
-		tk.Label(self.root,text="Nombre:", font="Helvetica 12",
-			fg="#474747").place(x=16,y=125)
+		tk.Label(form,text="Nombre:", font="Helvetica 10",
+			fg="#474747").place(x=143,y=120)
 		self.first_name=tk.StringVar()
-		tk.Entry(self.root,textvariable=self.first_name, width=20, bd=0,
+		tk.Entry(form,textvariable=self.first_name, width=22, bd=0,
 			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1).place(x=90,y=125)
+			highlightthickness=1).pack(pady=8)
 
 		# Entry of last_name
-		tk.Label(self.root,text="Apellido:", font="Helvetica 12",
-			fg="#474747").place(x=15,y=160)
+		tk.Label(form,text="Apellido:", font="Helvetica 10",
+			fg="#474747").place(x=142,y=162)
 		self.last_name=tk.StringVar()
-		tk.Entry(self.root,textvariable=self.last_name, width=20, bd=0,
+		tk.Entry(form,textvariable=self.last_name, width=22, bd=0,
 			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1).place(x=90,y=160)
+			highlightthickness=1).pack(pady=8)
 
 		# Entry of birthday
-		tk.Label(self.root,text="Fecha de Nacimiento:", font="Helvetica 10",
-			fg="#474747").place(x=10,y=205)
+		tk.Label(form, text="Fecha de Nacimiento:", font="Helvetica 10",
+			fg="#474747").place(x=65,y=204)
 		self.birthday=tk.StringVar()
 		# select date
+		date = tk.Frame(form, background="blue", relief=tk.RAISED)
+		date.pack(pady=8)
+
 		iconCalendar = self.getImage("views/images/calendar.png", 20, 20)
 
-		calendarButton = tk.Button(self.root, image=iconCalendar,
+		calendarButton = tk.Button(date, image=iconCalendar,
 			command=self.getDate, bg="#1E6FBA", fg="yellow",)
-		calendarButton.place(x=264,y=205)
+		calendarButton.pack(side=tk.RIGHT)
 		calendarButton.image = iconCalendar
 
-		tk.Entry(self.root,textvariable=self.birthday, width=10, bd=0,
+		tk.Entry(date,textvariable=self.birthday, width=20, bd=0,
 			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
 			disabledbackground="#1E6FBA",disabledforeground="yellow",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1).place(x=145,y=205)
+			highlightthickness=1).pack(side=tk.RIGHT)
 
 		# Entry birth_state
-		tk.Label(self.root,text="Estado de Nacimiento:", font="Helvetica 10",
-			fg="#474747").place(x=8,y=240)
+		tk.Label(form,text="Estado de Nacimiento:", font="Helvetica 10",
+			fg="#474747").place(x=63,y=248)
 		self.birth_state=tk.StringVar()
-		tk.Entry(self.root,textvariable=self.birth_state, width=13, bd=0,
+		tk.Entry(form,textvariable=self.birth_state, width=22, bd=0,
 			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1).place(x=145,y=240)
+			highlightthickness=1).pack(pady=8)
 
-		# Right Fields
+		# Booleans Fields
+		# Content BOOLEANS
+		booleans = tk.Frame(form,  relief=tk.RAISED)
+		booleans.pack(pady=2)
+
 		# Entry of tercera edad
-		tk.Label(self.root,text="Tercera Edad?:", font="Helvetica 10 normal",
-			fg="#474747").place(x=305,y=205)
-		self.old_age=tk.BooleanVar(self.root, value=False)
-		tk.Checkbutton(self.root, variable=self.old_age, font="Helvetica 14 normal",
-			bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
-			highlightcolor="red").place(x=400,y=205)
+		self.old_age=tk.BooleanVar(booleans, value=False)
+		ttk.Checkbutton(booleans, text='Tercera edad', variable=self.old_age,
+			onvalue=True, offvalue=False).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Entry of discapacity
-		tk.Label(self.root,text="Discapacidad?:", font="Helvetica 10 normal",
-			fg="#474747").place(x=305,y=240)
-		self.discapacity=tk.BooleanVar(self.root, value=False)
-		tk.Checkbutton(self.root, variable=self.discapacity, font="Helvetica 14 normal",
-			bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
-			highlightcolor="red").place(x=400,y=240)
+		self.discapacity_desc=''
+		self.discapacity=tk.BooleanVar(booleans, value=False)
+		ttk.Checkbutton(booleans, text='Discapacidad', variable=self.discapacity,
+			onvalue=True, offvalue=False,
+			command=self.textDialog).pack(side=tk.LEFT, padx=5, pady=8)
 
-		# LEFT Field
-		# Entry of discapacity description
-		tk.Label(self.root,text="Describa Discapacidad:", font="Helvetica 10 normal",
-			fg="#474747").place(x=4,y=280)
-		self.discapacity_desc=tk.Text(self.root, width=43, height=4, bd=0,
-			font="Helvetica 12 normal",bg="#1E6FBA",fg="yellow",
-			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1)
-		self.discapacity_desc.place(x=145,y=280)
+		# Boolean of work
+		self.value=tk.StringVar()
+		self.work=tk.BooleanVar(booleans, value=False)
+		ttk.Checkbutton(booleans, text='Trabaja', variable=self.work,
+			onvalue=True, offvalue=False,
+			command=self.entry).pack(side=tk.LEFT, padx=5, pady=8)
 
-		# Right Fields
-		# Entry of work
-		tk.Label(self.root,text="Trabaja?:", font="Helvetica 12",
-			fg="#474747").place(x=324,y=90)
-		self.work=tk.BooleanVar(self.root, value=False)
-		tk.Checkbutton(self.root, variable=self.work, font="Helvetica 14 normal",
-			bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
-			highlightcolor="red").place(x=400,y=90)
+		# Buttons of actions
+		buttons = tk.Frame(form,  relief=tk.RAISED)
+		buttons.pack(pady=8)
+		# buttons.pack_propagate(0)
+		# Guardar
+		tk.Button(buttons, command=self.save, text="Guardar",
+			font="Helvetica 12 bold", bd=0, activebackground="red",
+			activeforeground="blue", bg="green", fg="white", width=10,
+			height=2).pack(side=tk.LEFT, padx=8)
 
-		# Entry of Entry > Ingresos
-		tk.Label(self.root,text="Ingresos:", font="Helvetica 12",
-			fg="#474747").place(x=327,y=125)
-		self.entry=tk.StringVar()
-		tk.Entry(self.root,textvariable=self.entry, width=12, bd=0,
-			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
-			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1).place(x=400,y=125)
-
-		# Button
-		tk.Button(self.root, text="Guardar", font="Helvetica 14 normal", bd=0,
-			command=self.save, bg="#1E6FBA", fg="white").place(x=450,y=400)
+		# Cancelar
+		tk.Button(buttons, command=self.save, text="Cancelar",
+			font="Helvetica 12 bold", bd=0, activebackground="red",
+			activeforeground="blue", bg="grey", fg="white", width=10,
+			height=2).pack(side=tk.LEFT, padx=8)
