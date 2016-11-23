@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import Tkinter as tk
+import ttk
 from database.main import SolicitudModel
 from utils.methods import Methods
 from views.detail.status import StatusDetail
@@ -37,107 +38,118 @@ class SolicitudForm(tk.Frame, Methods):
 		show = StatusDetail(self.root, self.viviendo_id)
 
 	def form(self):
+		# Content Horizontal
+		div = tk.Frame(self.root, height=500, background="grey", relief=tk.RAISED)
+		div.pack(expand=True, fill=tk.X)
+		div.pack_propagate(0)
+		# Content Vertical
+		form = tk.Frame(div, width=650, relief=tk.RAISED)
+		form.pack(expand=True, fill=tk.Y)
+		form.pack_propagate(0)
+
 		# get data from database
 		data = self.db.retrive(self.viviendo_id)
 
-		tk.Label(self.root, text="Solicitud de Vivienda", font="Helvetica 16 bold",
-			fg="red").place(x=160,y=10)
+		tk.Label(form, text="Solicitud de Vivienda", font="Helvetica 16 bold",
+			fg="red").pack(pady=20)
 
 		# Entry housing_conditions
-		tk.Label(self.root,text="Condicion Habitacional:", font="Helvetica 10",
-			fg="#474747").place(x=7,y=90)
-		self.housing_conditions = tk.StringVar(self.root,
+		tk.Label(form,text="Condicion Habitacional:", font="Helvetica 10",
+			fg="#474747").place(x=59,y=77)
+		self.housing_conditions = tk.StringVar(form,
 			value=data[0][2]) if data else tk.StringVar()
-		tk.Entry(self.root,textvariable=self.housing_conditions, width=22, bd=0,
+		tk.Entry(form,textvariable=self.housing_conditions, width=22, bd=0,
 			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1).place(x=150,y=90)
+			highlightthickness=1).pack(pady=8)
 
 		# Entry housing_direction
-		tk.Label(self.root,text="Dirección Habitacional:", font="Helvetica 10",
-			fg="#474747").place(x=10,y=125)
-		self.housing_direction = tk.StringVar(self.root,
+		tk.Label(form,text="Dirección Habitacional:", font="Helvetica 10",
+			fg="#474747").place(x=60,y=120)
+		self.housing_direction = tk.StringVar(form,
 			value=data[0][3]) if data else tk.StringVar()
-		tk.Entry(self.root,textvariable=self.housing_direction, width=22, bd=0,
+		tk.Entry(form,textvariable=self.housing_direction, width=22, bd=0,
 			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1).place(x=150,y=125)
+			highlightthickness=1).pack(pady=8)
 		
 		# Entry phone_number
-		tk.Label(self.root,text="Numero de Telefono:", font="Helvetica 10",
-			fg="#474747").place(x=23,y=160)
-		self.phone_number = tk.StringVar(self.root,
+		tk.Label(form,text="Numero de Telefono:", font="Helvetica 10",
+			fg="#474747").place(x=72,y=162)
+		self.phone_number = tk.StringVar(form,
 			value=data[0][4]) if data else tk.StringVar()
-		tk.Entry(self.root,textvariable=self.phone_number, validate='key',
+		tk.Entry(form,textvariable=self.phone_number, validate='key',
 			validatecommand=self.validate_number, width=22, bd=0,
 			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1).place(x=150,y=160)
+			highlightthickness=1).pack(pady=8)
+
+		# Fields Booleans 1
+		booleans = tk.Frame(form,  relief=tk.RAISED)
+		booleans.pack(pady=2)
 
 		# Entry residence_constancia
-		tk.Label(self.root,text="Constancia Residencia:", font="Helvetica 10",
-			fg="#474747").place(x=7,y=195)
-		self.residence_constancia = tk.BooleanVar(self.root,
-			value=data[0][5]) if data else tk.BooleanVar(self.root, value=False)
-		tk.Checkbutton(self.root, variable=self.residence_constancia, font="Helvetica 14 normal",
-			bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
-			highlightcolor="red").place(x=150,y=195)
+		self.residence_constancia = tk.BooleanVar(booleans,
+			value=data[0][5]) if data else tk.BooleanVar(booleans, value=False)
+		ttk.Checkbutton(booleans, text='Constancia de residencia', variable=self.residence_constancia,
+			onvalue=True, offvalue=False).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Entry copy_ci
-		tk.Label(self.root,text="Copia de Cedula:", font="Helvetica 10",
-			fg="#474747").place(x=45,y=235)
-		self.copy_ci = tk.BooleanVar(self.root,
-			value=data[0][6]) if data else tk.BooleanVar(self.root, value=False)
-		tk.Checkbutton(self.root,variable=self.copy_ci, font="Helvetica 14 normal",
-			bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
-			highlightcolor="red").place(x=150,y=235)
+		self.copy_ci = tk.BooleanVar(booleans,
+			value=data[0][6]) if data else tk.BooleanVar(booleans, value=False)
+		ttk.Checkbutton(booleans, text='Copia de cedula', variable=self.copy_ci,
+			onvalue=True, offvalue=False).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Entry medical_reports
-		tk.Label(self.root,text="Informes Medicos:", font="Helvetica 10 normal",
-			fg="#474747").place(x=40,y=275)
-		self.medical_reports = tk.BooleanVar(self.root,
-			value=data[0][7]) if data else tk.BooleanVar(self.root, value=False)
-		tk.Checkbutton(self.root,variable=self.medical_reports, font="Helvetica 14 normal",
-			bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
-			highlightcolor="red").place(x=150,y=275)
+		self.medical_reports = tk.BooleanVar(booleans,
+			value=data[0][7]) if data else tk.BooleanVar(booleans, value=False)
+		ttk.Checkbutton(booleans, text='Informes medicos', variable=self.medical_reports,
+			onvalue=True, offvalue=False).pack(side=tk.LEFT, padx=5, pady=8)
+
+		# Fields Booleans 2
+		booleans2 = tk.Frame(form,  relief=tk.RAISED)
+		booleans2.pack(pady=2)
 
 		# Right
 		# Entry housing_in_risk
-		tk.Label(self.root,text="Vivienda en Riesgo?:", font="Helvetica 10",
-			fg="#474747").place(x=243,y=195)
-		self.housing_in_risk = tk.BooleanVar(self.root,
-			value=data[0][8]) if data else tk.BooleanVar(self.root, value=False)
-		tk.Checkbutton(self.root,variable=self.housing_in_risk, font="Helvetica 14 normal",
-			bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
-			highlightcolor="red").place(x=370,y=195)
+		self.housing_in_risk = tk.BooleanVar(booleans2,
+			value=data[0][8]) if data else tk.BooleanVar(booleans2, value=False)
+		ttk.Checkbutton(booleans2, text='Riesgos en el hogar', variable=self.housing_in_risk,
+			onvalue=True, offvalue=False).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Entry firefighters_constancy
-		tk.Label(self.root,text="Constancia de los Bomberos:", font="Helvetica 10",
-			fg="#474747").place(x=193,y=235)
-		self.firefighters_constancy = tk.BooleanVar(self.root,
-			value=data[0][9]) if data else tk.BooleanVar(self.root, value=False)
-		tk.Checkbutton(self.root,variable=self.firefighters_constancy, font="Helvetica 14 normal",
-			bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
-			highlightcolor="red").place(x=370,y=235)
+		self.firefighters_constancy = tk.BooleanVar(booleans2,
+			value=data[0][9]) if data else tk.BooleanVar(booleans2, value=False)
+		ttk.Checkbutton(booleans2, text='Constancia de los Bomberos',
+			variable=self.firefighters_constancy,
+			onvalue=True, offvalue=False).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Entry health_case
-		tk.Label(self.root,text="Caso de Salud:", font="Helvetica 10",
-			fg="#474747").place(x=275,y=270)
-		self.health_case = tk.BooleanVar(self.root,
-			value=data[0][10]) if data else tk.BooleanVar(self.root, value=False)
-		tk.Checkbutton(self.root, variable=self.health_case, font="Helvetica 14 normal",
-			bd=0, bg="#1E6FBA", fg="black", highlightbackground="black",
-			highlightcolor="red").place(x=370,y=270)
+		self.health_case = tk.BooleanVar(booleans2,
+			value=data[0][10]) if data else tk.BooleanVar(booleans2, value=False)
+		ttk.Checkbutton(booleans2, text='Caso de Salud',
+			variable=self.health_case,
+			onvalue=True, offvalue=False).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Entry copy_register_of_the_big_mision_vivienda
-		tk.Label(self.root,text="Copia del Registro de la Gran Misíon Vivienda Venezuela:",
-			font="Helvetica 9", fg="#474747").place(x=48,y=310)
-		self.copy_register_of_the_big_mision_vivienda = tk.BooleanVar(self.root,
-			value=data[0][11]) if data else tk.BooleanVar(self.root, value=False)
-		tk.Checkbutton(self.root,variable=self.copy_register_of_the_big_mision_vivienda,
-			font="Helvetica 14 normal", bd=0, bg="#1E6FBA", fg="black",
-			highlightbackground="black", highlightcolor="red").place(x=370,y=305)
+		self.copy_register_of_the_big_mision_vivienda = tk.BooleanVar(booleans,
+			value=data[0][11]) if data else tk.BooleanVar(booleans, value=False)
+		ttk.Checkbutton(form, text='Copia Registro de la Gran Misíon Vivienda',
+			variable=self.copy_register_of_the_big_mision_vivienda,
+			onvalue=True, offvalue=False).pack(pady=8)
 
-		# Button
-		tk.Button(self.root, text="Guardar", font="Helvetica 14 normal", bd=0,
-			command=self.save, bg="#1E6FBA", fg="white").place(x=300,y=400)
+		# Buttons of actions
+		buttons = tk.Frame(form,  relief=tk.RAISED)
+		buttons.pack(pady=8)
+		# buttons.pack_propagate(0)
+		# Guardar
+		tk.Button(buttons, command=self.save, text="Guardar",
+			font="Helvetica 12 bold", bd=0, activebackground="red",
+			activeforeground="blue", bg="green", fg="white", width=10,
+			height=2).pack(side=tk.LEFT, padx=8)
+
+		# Cancelar
+		tk.Button(buttons, command=self.save, text="Cancelar",
+			font="Helvetica 12 bold", bd=0, activebackground="red",
+			activeforeground="blue", bg="grey", fg="white", width=10,
+			height=2).pack(side=tk.LEFT, padx=8)
