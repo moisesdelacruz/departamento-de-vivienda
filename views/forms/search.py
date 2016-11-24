@@ -5,14 +5,13 @@ import os
 import Tkinter as tk
 from database.main import ViviendoModel
 from utils.methods import Methods
+from utils import validate
 from views.detail.viviendo import ViviendoDetail
 
 class SearchForm(tk.Frame, Methods):
 	def __init__(self, root):
 		tk.Frame.__init__(self, root)
 		self.root = root
-		self.validate_number = (self.root.register(self.validate),
-				'%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
 		self.form()
 
 	def searchdb(self):
@@ -46,12 +45,11 @@ class SearchForm(tk.Frame, Methods):
 		# Entry Cedula de Identidad
 		form = tk.Frame(div, background="violet", relief=tk.RAISED)
 		form.pack()
-		self.search=tk.IntVar()
-		tk.Entry(form,textvariable=self.search,
-			validate='key', validatecommand=self.validate_number,
+		self.search=validate.IntegerEntry(form,
 			width=34, bd=0, font="Helvetica 18 normal",justify="left",
 			bg="white",fg="black", highlightbackground="black",
-			highlightcolor="red", highlightthickness=1).pack(side=tk.LEFT)
+			highlightcolor="red", highlightthickness=1)
+		self.search.pack(side=tk.LEFT)
 		iconSearch = self.getImage("views/images/search-icon.png")
 		searchButton = tk.Button(form, command=self.searchdb,
 			image=iconSearch, width=77, bd=0,
