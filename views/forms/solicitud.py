@@ -5,6 +5,7 @@ import Tkinter as tk
 import ttk
 from database.main import SolicitudModel
 from utils.methods import Methods
+from utils import validate
 from views.detail.status import StatusDetail
 
 class SolicitudForm(tk.Frame, Methods):
@@ -13,8 +14,6 @@ class SolicitudForm(tk.Frame, Methods):
 		self.root = root
 		self.viviendo_id = viviendo_id
 		self.db = SolicitudModel()
-		self.validate_number = (self.root.register(self.validate),
-				'%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
 		self.form()
 
 	def save(self):
@@ -56,33 +55,38 @@ class SolicitudForm(tk.Frame, Methods):
 		# Entry housing_conditions
 		tk.Label(form,text="Condicion Habitacional:", font="Helvetica 10",
 			fg="#474747").place(x=59,y=77)
-		self.housing_conditions = tk.StringVar(form,
+		housing_conditions = tk.StringVar(form,
 			value=data[0][2]) if data else tk.StringVar()
-		tk.Entry(form,textvariable=self.housing_conditions, width=22, bd=0,
+		self.housing_conditions=validate.MaxLengthEntry(form,
+			value=housing_conditions.get(), maxlength=45, width=22, bd=0,
 			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1).pack(pady=8)
+			highlightthickness=1)
+		self.housing_conditions.pack(pady=8)
 
 		# Entry housing_direction
 		tk.Label(form,text="Dirección Habitacional:", font="Helvetica 10",
 			fg="#474747").place(x=60,y=120)
-		self.housing_direction = tk.StringVar(form,
+		housing_direction = tk.StringVar(form,
 			value=data[0][3]) if data else tk.StringVar()
-		tk.Entry(form,textvariable=self.housing_direction, width=22, bd=0,
+		self.housing_direction=validate.MaxLengthEntry(form,
+			value=housing_direction.get(), maxlength=45, width=22, bd=0,
 			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1).pack(pady=8)
+			highlightthickness=1)
+		self.housing_direction.pack(pady=8)
 		
 		# Entry phone_number
 		tk.Label(form,text="Numero de Telefono:", font="Helvetica 10",
 			fg="#474747").place(x=72,y=162)
-		self.phone_number = tk.StringVar(form,
-			value=data[0][4]) if data else tk.StringVar()
-		tk.Entry(form,textvariable=self.phone_number, validate='key',
-			validatecommand=self.validate_number, width=22, bd=0,
-			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
+		phone_number = tk.IntVar(form,
+			value=data[0][4]) if data else tk.IntVar()
+		self.phone_number=validate.IntegerEntry(form, value=phone_number.get(),
+			width=22, bd=0, font="Helvetica 14 normal",
+			justify="left",bg="#1E6FBA",fg="yellow",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1).pack(pady=8)
+			highlightthickness=1)
+		self.phone_number.pack(pady=8)
 
 		# Fields Booleans 1
 		booleans = tk.Frame(form,  relief=tk.RAISED)
