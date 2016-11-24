@@ -38,7 +38,6 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 
 	def item(self, model):
 		model_id = int(model[0])
-		print model_id
 
 		root = tk.Frame(self.div, bd=1, height=30, relief=tk.RAISED)
 		root.pack(side=tk.TOP, padx=2, pady=1, fill=tk.X)
