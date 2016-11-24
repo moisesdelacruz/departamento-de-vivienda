@@ -4,6 +4,7 @@ import tkSimpleDialog
 
 from PIL import Image, ImageTk
 from utils.asktext import TextDialog
+from utils.askfloat import FloatDialog
 
 class Methods(object):
 
@@ -16,19 +17,9 @@ class Methods(object):
 		for child in div.winfo_children():
 			child.destroy()
 
-	def validate(self, action, index, value_if_allowed,
-			prior_value, text, validation_type, trigger_type, widget_name):
-		if text in '0123456789.-+':
-			try:
-				float(value_if_allowed)
-				return True
-			except ValueError:
-				return False
-		else:
-			return False
-
 	def entry(self):
-		self.value = tkSimpleDialog.askfloat('Ingresos', 'Ingresos Mensuales')
+		var = FloatDialog(self.root, 'Ingresos', 'Ingresos Mensuales')
+		self.value = var.result
 
 	def textDialog(self):
 		dialog = TextDialog(self.root, 'Descapacidad', 'Describa descapacidad')
