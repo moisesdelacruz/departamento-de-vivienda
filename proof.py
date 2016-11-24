@@ -251,7 +251,7 @@ class MaxLengthEntry(ValidatingEntry):
 		if len(value) > maxlength-1:
 				value = value[:maxlength-1]
 		self.maxlength = maxlength
-		ValidatingEntry.__init__(self, master, value=value)
+		ValidatingEntry.__init__(self, master, value=value, **kw)
 
 	def validate(self, value):
 		if self.maxlength is None or len(value) <= self.maxlength:
@@ -270,7 +270,7 @@ class ChopLengthEntry(ValidatingEntry):
 	'''ChopLengthEntry accepts all entries, but chops them when the results are called for'''
 	def __init__(self, master, value="", maxlength=None, **kw):
 		self.maxlength = maxlength
-		ValidatingEntry.__init__(self, master, value=value)
+		ValidatingEntry.__init__(self, master, value=value, **kw)
 
 	def getresults(self, value):
 		if self.maxlength:
@@ -314,7 +314,7 @@ if __name__ == '__main__':
 				lab.append(Label(text = 'please enter a '+labelString[i]))
 				lab[-1].pack(side='top')
 				if labelString[i] in limitString:
-						entry.append(eval(labelString[i] + 'Entry')(root, value=initial[i], maxlength=10))
+						entry.append(eval(labelString[i] + 'Entry')(root, value=initial[i], maxlength=10, bg="red"))
 				else:
 						entry.append(eval(labelString[i] + 'Entry')(root, value=initial[i]))
 				entry[-1].pack()
