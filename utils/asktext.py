@@ -4,14 +4,15 @@ from lib import tkSimpleDialog
 
 class TextDialog(tkSimpleDialog.Dialog):
 	"""Dialog box that displays a text fields and return it"""
-	def body(self, master, message):
+	def body(self, master, message, value):
 		tk.Label(master, text=message,
 			font="Helvetica 12 normal").pack(side=tk.TOP, pady=10)
 
 		self.value = tk.Text(master, width=30, height=6, bd=1,
-			font="Helvetica 12 normal",bg="white",fg="black",
+			font="Helvetica 12 normal",bg="#1E6FBA",fg="yellow",
 			highlightbackground="black",highlightcolor="red",
 			highlightthickness=1)
+		self.value.insert(tk.INSERT, value)
 		self.value.pack(side=tk.TOP)
 
 	def apply(self):

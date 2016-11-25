@@ -17,10 +17,10 @@ class Methods(object):
 		for child in div.winfo_children():
 			child.destroy()
 
-	def entry(self):
-		var = FloatDialog(self.root, 'Ingresos', 'Ingresos Mensuales')
+	def entry(self, value):
+		var = FloatDialog(self.root, 'Ingresos', 'Ingresos Mensuales', value)
 		self.value = var.result
 
-	def textDialog(self):
-		dialog = TextDialog(self.root, 'Descapacidad', 'Describa descapacidad')
+	def textDialog(self, value):
+		dialog = TextDialog(self.root, 'Descapacidad', 'Describa descapacidad', value)
 		self.discapacity_desc = dialog.result
