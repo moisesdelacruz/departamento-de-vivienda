@@ -9,7 +9,7 @@ class Solicitud(object):
             viviendo_id BIGINT NOT NULL,
             housing_conditions VARCHAR(45),
             housing_direction VARCHAR(45),
-            phone_number INTEGER,
+            phone_number NUMERIC(15),
             residence_constancia BOOLEAN DEFAULT FALSE,
             copy_ci BOOLEAN DEFAULT FALSE,
             medical_reports BOOLEAN DEFAULT FALSE,
