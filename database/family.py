@@ -13,7 +13,7 @@ class Family(object):
             birthday DATE,
             work BOOLEAN DEFAULT FALSE,
             birth_state VARCHAR(45),
-            entry DECIMAL(5,2),
+            entry DECIMAL(10,4),
             discapacity BOOLEAN DEFAULT FALSE,
             discapacity_desc TEXT,
             old_age BOOLEAN DEFAULT FALSE,
