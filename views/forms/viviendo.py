@@ -12,16 +12,19 @@ from database.main import ViviendoModel
 
 class ViviendoForm(tk.Frame, Methods):
 
-	def __init__(self, root):
+	def __init__(self, root, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
+		self.viviendo = {}
+		if kwargs.get('viviendo'):
+			self.viviendo = kwargs.get('viviendo')
 		self.form()
 
 	def getDate(self):
 		cd = CalendarDialog(self)
 		result = cd.result
 		try:
-			self.birthday.set(result.strftime("%d/%m/%Y"))
+			self.birthday.set(result.strftime("%Y-%m-%d"))
 		except AttributeError, e:
 			self.birthday.set(self.birthday.get())
 
@@ -35,12 +38,18 @@ class ViviendoForm(tk.Frame, Methods):
 			"estado_civil": self.estado_civil.get(),
 			"work": bool(self.work.get()),
 			"entry": float(self.value),
-			"postulation": bool(self.postulation.get()),
+			"postulation": self.postulation.get(),
 			"discapacity": bool(self.discapacity.get()),
 			"discapacity_desc": str(self.discapacity_desc)
 		})
 		db = ViviendoModel()
-		db.create(data)
+		if self.viviendo:
+			data['id'] = self.viviendo.get('id')
+			print data.get('postulation')
+			print self.viviendo.get('postulation')
+			db.update(data)
+		else:
+			db.create(data)
 
 	def form(self):
 		div = tk.Frame(self.root, height=500, background="grey", relief=tk.RAISED)
@@ -60,6 +69,7 @@ class ViviendoForm(tk.Frame, Methods):
 			fg="#474747").place(x=176,y=78)
 
 		self.ci=validate.IntegerEntry(form,
+			value=self.viviendo.get('ci') if self.viviendo else 0,
 			width=22, bd=0, font="Helvetica 14 normal",justify="left",
 			bg="#1E6FBA",fg="yellow", highlightbackground="black",
 			highlightcolor="red", highlightthickness=1)
@@ -68,7 +78,9 @@ class ViviendoForm(tk.Frame, Methods):
 		# Entrada de texto para Nombre
 		tk.Label(form, text="Nombre:", font="Helvetica 10",
 			fg="#474747").place(x=143,y=120)
-		self.first_name=validate.MaxLengthEntry(form, maxlength=40, width=22, bd=0,
+		self.first_name=validate.MaxLengthEntry(form,
+			value=self.viviendo.get('first_name') if self.viviendo else '',
+			maxlength=40, width=22, bd=0,
 			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
 			disabledbackground="#1E6FBA",disabledforeground="yellow",
 			highlightbackground="black",highlightcolor="red",
@@ -78,7 +90,9 @@ class ViviendoForm(tk.Frame, Methods):
 		# Entrada de texto para Apellido
 		tk.Label(form, text="Apellido:", font="Helvetica 10",
 			fg="#474747").place(x=142,y=162)
-		self.last_name=validate.MaxLengthEntry(form, maxlength=40, width=22, bd=0,
+		self.last_name=validate.MaxLengthEntry(form,
+			value=self.viviendo.get('last_name') if self.viviendo else '',
+			maxlength=40, width=22, bd=0,
 			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
 			disabledbackground="#1E6FBA",disabledforeground="yellow",
 			highlightbackground="black",highlightcolor="red",
@@ -88,7 +102,8 @@ class ViviendoForm(tk.Frame, Methods):
 		# Entry birthday
 		tk.Label(form, text="Fecha de Nacimiento:", font="Helvetica 10",
 			fg="#474747").place(x=65,y=204)
-		self.birthday=tk.StringVar(form, value='DD/MM/YY')
+		self.birthday=tk.StringVar(form,
+			value=self.viviendo.get('birthday') if self.viviendo else 'YY-mm-dd')
 		# select date
 		date = tk.Frame(form, background="blue", relief=tk.RAISED)
 		date.pack(pady=8)
@@ -109,43 +124,57 @@ class ViviendoForm(tk.Frame, Methods):
 		# Entrada de texto para estado_civil
 		tk.Label(form, text="Estado Civil:", font="Helvetica 10",
 			fg="#474747").place(x=120,y=246)
-		self.estado_civil=validate.MaxLengthEntry(form, maxlength=40, width=22, bd=0,
+		self.estado_civil=validate.MaxLengthEntry(form,
+			value=self.viviendo.get('estado_civil') if self.viviendo else '',
+			maxlength=40, width=22, bd=0,
 			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
 			disabledbackground="#1E6FBA",disabledforeground="yellow",
 			highlightbackground="black",highlightcolor="red",
 			highlightthickness=1)
 		self.estado_civil.pack(pady=8)
 
+		# Entrada de texto para postulation
+		tk.Label(form, text="Postulacion:", font="Helvetica 10",
+			fg="#474747").place(x=120,y=288)
+		self.postulation=validate.MaxLengthEntry(form,
+			value=self.viviendo.get('postulation') if self.viviendo else '',
+			maxlength=40, width=22, bd=0,
+			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
+			disabledbackground="#1E6FBA",disabledforeground="yellow",
+			highlightbackground="black",highlightcolor="red",
+			highlightthickness=1)
+		self.postulation.pack(pady=8)
+
 		# Entrada de texto para Direccion
 		tk.Label(form, text="Dirección:", font="Helvetica 10",
-			fg="#474747").place(x=135,y=288)
+			fg="#474747").place(x=135,y=330)
 		self.direction=tk.Text(form, width=27, height=3, bd=1,
 			font="Helvetica 12 normal",bg="#1E6FBA",fg="yellow",
 			highlightbackground="black",highlightcolor="red",
 			highlightthickness=1)
+		self.direction.insert(tk.INSERT,
+			self.viviendo.get('direction') if self.viviendo else '')
 		self.direction.pack(pady=8)
 
 		# Content BOOLEANS
 		booleans = tk.Frame(form,  relief=tk.RAISED)
 		booleans.pack(pady=2)
 		# Entrada de texto para work BOOLEAN
-		self.work=tk.BooleanVar(booleans, value=False)
-		self.value = 0
+		self.work=tk.BooleanVar(booleans, 
+			value=self.viviendo.get('work') if self.viviendo else False)
+		self.value = self.viviendo.get('entry') if self.viviendo else 0
 		ttk.Checkbutton(booleans, text='Trabaja', variable=self.work,
 			onvalue=True, offvalue=False,
-			command=self.entry).pack(side=tk.LEFT, padx=5, pady=8)
-
-		# Entrada de texto para postulation
-		self.postulation=tk.BooleanVar(booleans, value=False)
-		ttk.Checkbutton(booleans, text='Postulación', variable=self.postulation,
-			onvalue=True, offvalue=False).pack(side=tk.LEFT, padx=5, pady=8)
+			command=lambda : self.entry(self.value)).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Entrada de texto para discapacity BOOLEAN
-		self.discapacity=tk.BooleanVar(booleans, value=False)
-		self.discapacity_desc = ''
+		self.discapacity=tk.BooleanVar(booleans, 
+			value=self.viviendo.get('discapacity') if self.viviendo else False)
+		self.discapacity_desc = self.viviendo.get('discapacity') if self.viviendo else ''
 		ttk.Checkbutton(booleans, text='Discapacidad', variable=self.discapacity,
 			onvalue=True, offvalue=False,
-			command=self.textDialog).pack(side=tk.LEFT, padx=5, pady=8)
+			command=lambda : self.textDialog(self.discapacity_desc)
+			).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Buttons of actions
 		buttons = tk.Frame(form,  relief=tk.RAISED)

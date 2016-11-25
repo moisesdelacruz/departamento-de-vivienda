@@ -18,7 +18,17 @@ class ViviendoDetail(tk.Frame, Methods):
 		self.viviendo = {
 			"id": viviendo[0][0],
 			"ci": viviendo[0][1],
-			"full_name": ' '.join([viviendo[0][2], viviendo[0][3]])
+			"full_name": ' '.join([viviendo[0][2], viviendo[0][3]]),
+			"first_name": viviendo[0][2],
+			"last_name": viviendo[0][3],
+			"direction": viviendo[0][4],
+			"birthday": viviendo[0][5],
+			"estado_civil": viviendo[0][6],
+			"work": viviendo[0][7],
+			"entry": viviendo[0][8],
+			"postulation": viviendo[0][9],
+			"discapacity": viviendo[0][10],
+			"discapacity_desc": viviendo[0][11]
 		}
 
 		# Title of window
@@ -157,7 +167,7 @@ class ViviendoDetail(tk.Frame, Methods):
 
 	def viviendoForm(self):
 		self.clean(self.right)
-		view = ViviendoForm(self.right)
+		view = ViviendoForm(self.right, viviendo=self.viviendo)
 		view.pack()
 
 
