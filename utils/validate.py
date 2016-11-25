@@ -58,10 +58,11 @@ The validate method simply tries to convert the value to an object of the right 
 class IntegerEntry(ValidatingEntry):
 	def validate(self, value):
 		try:
-			if value:
-				v = int(value)
-				self.results.set(value)
-			return value
+			if len(value) <= 15:
+				if value:
+					v = int(value)
+					self.results.set(value)
+				return value
 		except ValueError:
 			return None
 
