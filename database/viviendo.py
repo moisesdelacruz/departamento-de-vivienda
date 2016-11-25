@@ -52,7 +52,7 @@ class Viviendo(object):
           postulation=%(postulation)s,
           discapacity=%(discapacity)s,
           discapacity_desc=%(discapacity_desc)s
-          WHERE ci=%(ci)s""", request)
+          WHERE viviendo_id=%(id)s""", request)
         self.conn.commit()
         return True
 
