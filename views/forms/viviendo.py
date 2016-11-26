@@ -9,24 +9,20 @@ from utils._calendar import CalendarDialog
 from utils.methods import Methods
 from utils import validate
 from database.main import ViviendoModel
+# from views.detail.viviendo import ViviendoDetail
 
 class ViviendoForm(tk.Frame, Methods):
 
 	def __init__(self, root, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
+		self.db = ViviendoModel()
 		self.viviendo = {}
+		if kwargs.get('viviendoDetail'):
+			self.viviendoDetail = kwargs.get('viviendoDetail')
 		if kwargs.get('viviendo'):
 			self.viviendo = kwargs.get('viviendo')
 		self.form()
-
-	def getDate(self):
-		cd = CalendarDialog(self)
-		result = cd.result
-		try:
-			self.birthday.set(result.strftime("%Y-%m-%d"))
-		except AttributeError, e:
-			self.birthday.set(self.birthday.get())
 
 	def save(self):
 		data = ({
@@ -42,14 +38,15 @@ class ViviendoForm(tk.Frame, Methods):
 			"discapacity": bool(self.discapacity.get()),
 			"discapacity_desc": str(self.discapacity_desc)
 		})
-		db = ViviendoModel()
+
 		if self.viviendo:
 			data['id'] = self.viviendo.get('id')
-			print data.get('postulation')
-			print self.viviendo.get('postulation')
-			db.update(data)
+			self.db.update(data)
+			parent = self.root._nametowidget(self.root.winfo_parent())
+			self.clean(parent)
+			render = self.viviendoDetail.__init__(parent, viviendo_id=self.viviendo.get('id'))
 		else:
-			db.create(data)
+			self.db.create(data)
 
 	def form(self):
 		div = tk.Frame(self.root, height=500, background="grey", relief=tk.RAISED)

@@ -17,14 +17,6 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		self.viviendo_id = viviendo_id
 		self.form()
 
-	def getDate(self):
-		cd = CalendarDialog(self)
-		result = cd.result
-		try:
-			self.birthday.set(result.strftime("%d/%m/%Y"))
-		except AttributeError, e:
-			self.birthday.set(self.birthday.get())
-
 	def save(self):
 		data = ({
 			"viviendo_id": int(self.viviendo_id),

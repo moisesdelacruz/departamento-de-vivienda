@@ -19,11 +19,11 @@ class SearchForm(tk.Frame, Methods):
 			self.empty.destroy()
 
 		tb = ViviendoModel()
-		self.result = tb.retrive(int(self.search.get()))
+		self.result = tb.retrive(int(self.search.get()), field='ci')
 
 		if self.result:
 			self.clean(self.root)
-			self.detail = ViviendoDetail(self.root, self.result)
+			self.detail = ViviendoDetail(self.root, viviendo=self.result)
 		else:
 			self.message = 'no se encontro resultado'
 			self.noResult()

@@ -4,6 +4,7 @@
 import os
 import Tkinter as tk
 from database.main import FamilyModel
+from database.main import ViviendoModel
 from utils.methods import Methods
 from views.forms.grupo_familiar import Grupo_familiarForm
 from views.forms.solicitud import SolicitudForm
@@ -12,9 +13,16 @@ from views.detail.status import StatusDetail
 from views.detail.grupo_familiar import Grupo_familiarDetail
 
 class ViviendoDetail(tk.Frame, Methods):
-	def __init__(self, root, viviendo):
+	def __init__(self, root, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
+		self.db = ViviendoModel()
+		# Get from data base if not exist
+		if kwargs.get('viviendo'):
+			viviendo = kwargs.get('viviendo')
+		elif kwargs.get('viviendo_id'):
+			viviendo = self.db.retrive(kwargs.get('viviendo_id'), field='viviendo_id')
+
 		self.viviendo = {
 			"id": viviendo[0][0],
 			"ci": viviendo[0][1],
@@ -30,7 +38,6 @@ class ViviendoDetail(tk.Frame, Methods):
 			"discapacity": viviendo[0][10],
 			"discapacity_desc": viviendo[0][11]
 		}
-
 		# Title of window
 		parent = self.root._nametowidget(self.root.winfo_parent())
 		parent.title(self.viviendo['full_name'])
@@ -167,7 +174,7 @@ class ViviendoDetail(tk.Frame, Methods):
 
 	def viviendoForm(self):
 		self.clean(self.right)
-		view = ViviendoForm(self.right, viviendo=self.viviendo)
+		view = ViviendoForm(self.right, viviendo=self.viviendo, viviendoDetail=self)
 		view.pack()
 
 
