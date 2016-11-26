@@ -24,6 +24,8 @@ class ViviendoDetail(tk.Frame, Methods):
 			viviendo = self.db.retrive(kwargs.get('viviendo_id'), field='viviendo_id')
 		elif kwargs.get('ci'):
 			viviendo = self.db.retrive(kwargs.get('ci'), field='ci')
+		else:
+			raise ValueError('You must specify a "viviendo_id" or "ci" attribute or viviendo object.')
 
 		self.viviendo = {
 			"id": viviendo[0][0],
@@ -189,7 +191,8 @@ class ViviendoDetail(tk.Frame, Methods):
 
 	def viviendoForm(self):
 		self.clean(self.right)
-		view = forms.viviendo.ViviendoForm(self.right, viviendo=self.viviendo, viviendoDetail=self)
+		view = forms.viviendo.ViviendoForm(self.right,
+			viviendo=self.viviendo, viviendoDetail=self)
 		view.pack()
 
 

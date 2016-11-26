@@ -54,7 +54,7 @@ class ViviendoForm(tk.Frame, Methods):
 			view.pack()
 
 	def form(self):
-		div = tk.Frame(self.root, height=500, background="grey", relief=tk.RAISED)
+		div = tk.Frame(self.root, height=550, background="grey", relief=tk.RAISED)
 		div.pack(expand=True, fill=tk.X)
 		div.pack_propagate(0)
 
