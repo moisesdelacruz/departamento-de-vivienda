@@ -42,6 +42,13 @@ class ViviendoDetail(tk.Frame, Methods):
 			"discapacity_desc": viviendo[0][12]
 		}
 		print self.viviendo
+		# Detect Sex for styles change of the view
+		if self.viviendo.get('sex') == "Hombre":
+			self.suffixSex = 'male'
+		elif self.viviendo.get('sex') == "Mujer":
+			self.suffixSex = 'female'
+		else:
+			self.suffixSex = 'male'
 		# Title of window
 		parent = self.root._nametowidget(self.root.winfo_parent())
 		parent.title(self.viviendo['full_name'])
@@ -68,8 +75,12 @@ class ViviendoDetail(tk.Frame, Methods):
 		self.render()
 
 	def render(self):
+		color_male = "blue"
+		color_female = "pink"
+		color = eval('color_'+self.suffixSex)
+
 		tk.Label(self.top, text=self.viviendo['full_name'],
-			font="Helvetica 16 bold", bg="blue",
+			font="Helvetica 16 bold", bg=color,
 			fg="grey").pack(side=tk.TOP, fill=tk.X)
 
 		self.viviendoFrame()
@@ -85,10 +96,7 @@ class ViviendoDetail(tk.Frame, Methods):
 		# images
 		iconViviendo_male = self.getImage("views/images/viviendo-male.png", 100, 100)
 		iconViviendo_female = self.getImage("views/images/viviendo-female.png", 100, 100)
-		if self.viviendo.get('sex') == "Hombre":
-			image = iconViviendo_male
-		else:
-			image = iconViviendo_female
+		image = eval('iconViviendo_'+self.suffixSex)
 		# icon
 		icon=tk.Label(viviendo, image=image)
 		icon.pack(side=tk.LEFT)
