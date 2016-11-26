@@ -17,12 +17,12 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 
 		# content list
 		# Content Horizontal
-		parent = tk.Frame(self.root, height=700, background="grey", relief=tk.RAISED)
-		parent.pack(expand=True, fill=tk.X)
-		parent.pack_propagate(0)
+		self.parent = tk.Frame(self.root, height=700, background="grey", relief=tk.RAISED)
+		self.parent.pack(expand=True, fill=tk.X)
+		self.parent.pack_propagate(0)
 
 		# Content Vertical
-		self.div = tk.Frame(parent, width=650, relief=tk.RAISED)
+		self.div = tk.Frame(self.parent, width=650, relief=tk.RAISED)
 		self.div.pack(expand=True, pady=10, fill=tk.Y)
 		self.div.pack_propagate(0)
 
@@ -56,5 +56,5 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 		if tkMessageBox.askyesno(title='Advertencia',
 			message='¿Seguro(a) que desea Eliminar?'):
 			self.db.delete(model)
-			self.div.destroy()
+			self.parent.destroy()
 			self.__init__(self.root, self.viviendo_id)
