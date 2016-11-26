@@ -8,7 +8,7 @@ import ttk
 from utils.methods import Methods
 from utils import validate
 from database.main import ViviendoModel
-# from views.detail.viviendo import ViviendoDetail
+from views.detail.viviendo import ViviendoDetail
 
 class ViviendoForm(tk.Frame, Methods):
 
@@ -48,6 +48,10 @@ class ViviendoForm(tk.Frame, Methods):
 			render = self.viviendoDetail.__init__(parent, viviendo_id=self.viviendo.get('id'))
 		else:
 			self.db.create(data)
+			# View Vivivendo Detail
+			self.clean(self.root)
+			view = ViviendoDetail(self.root, ci=data.get('ci'))
+			view.pack()
 
 	def form(self):
 		div = tk.Frame(self.root, height=500, background="grey", relief=tk.RAISED)

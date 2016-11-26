@@ -8,7 +8,7 @@ from database.main import ViviendoModel
 from utils.methods import Methods
 from views.forms.grupo_familiar import Grupo_familiarForm
 from views.forms.solicitud import SolicitudForm
-from views.forms.viviendo import ViviendoForm
+from views import forms
 from views.detail.status import StatusDetail
 from views.detail.grupo_familiar import Grupo_familiarDetail
 
@@ -22,6 +22,8 @@ class ViviendoDetail(tk.Frame, Methods):
 			viviendo = kwargs.get('viviendo')
 		elif kwargs.get('viviendo_id'):
 			viviendo = self.db.retrive(kwargs.get('viviendo_id'), field='viviendo_id')
+		elif kwargs.get('ci'):
+			viviendo = self.db.retrive(kwargs.get('ci'), field='ci')
 
 		self.viviendo = {
 			"id": viviendo[0][0],
@@ -179,7 +181,7 @@ class ViviendoDetail(tk.Frame, Methods):
 
 	def viviendoForm(self):
 		self.clean(self.right)
-		view = ViviendoForm(self.right, viviendo=self.viviendo, viviendoDetail=self)
+		view = forms.viviendo.ViviendoForm(self.right, viviendo=self.viviendo, viviendoDetail=self)
 		view.pack()
 
 
