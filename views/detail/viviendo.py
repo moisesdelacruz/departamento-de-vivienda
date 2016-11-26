@@ -31,13 +31,15 @@ class ViviendoDetail(tk.Frame, Methods):
 			"last_name": viviendo[0][3],
 			"direction": viviendo[0][4],
 			"birthday": viviendo[0][5],
-			"estado_civil": viviendo[0][6],
-			"work": viviendo[0][7],
-			"entry": viviendo[0][8],
-			"postulation": viviendo[0][9],
-			"discapacity": viviendo[0][10],
-			"discapacity_desc": viviendo[0][11]
+			"sex": viviendo[0][6],
+			"estado_civil": viviendo[0][7],
+			"work": viviendo[0][8],
+			"entry": viviendo[0][9],
+			"postulation": viviendo[0][10],
+			"discapacity": viviendo[0][11],
+			"discapacity_desc": viviendo[0][12]
 		}
+		print self.viviendo
 		# Title of window
 		parent = self.root._nametowidget(self.root.winfo_parent())
 		parent.title(self.viviendo['full_name'])
@@ -81,11 +83,14 @@ class ViviendoDetail(tk.Frame, Methods):
 		# images
 		iconViviendo_male = self.getImage("views/images/viviendo-male.png", 100, 100)
 		iconViviendo_female = self.getImage("views/images/viviendo-female.png", 100, 100)
-
+		if self.viviendo.get('sex') == "Hombre":
+			image = iconViviendo_male
+		else:
+			image = iconViviendo_female
 		# icon
-		icon=tk.Label(viviendo, image=iconViviendo_male)
+		icon=tk.Label(viviendo, image=image)
 		icon.pack(side=tk.LEFT)
-		icon.image = iconViviendo_male
+		icon.image = image
 
 		# Action
 		btn=tk.Button(viviendo, text="Actualizar", command=self.viviendoForm,

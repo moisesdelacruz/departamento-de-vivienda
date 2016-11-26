@@ -11,6 +11,7 @@ class Viviendo(object):
 			last_name VARCHAR(45),
 			direction TEXT,
 			birthday DATE,
+			sex VARCHAR(45),
 			estado_civil VARCHAR(45),
 			work BOOLEAN DEFAULT FALSE,
 			entry DECIMAL(10,4),
@@ -24,9 +25,9 @@ class Viviendo(object):
 
 	def create(self, request, *args, **kwargs):
 		self.cursor.execute("""INSERT INTO viviendo (ci, first_name, last_name,
-			direction, birthday, estado_civil, work, entry, postulation,
+			direction, birthday, sex, estado_civil, work, entry, postulation,
 			discapacity, discapacity_desc) VALUES (%(ci)s, %(first_name)s,
-			%(last_name)s, %(direction)s, %(birthday)s, %(estado_civil)s,
+			%(last_name)s, %(direction)s, %(birthday)s, %(sex)s, %(estado_civil)s,
 			%(work)s, %(entry)s, %(postulation)s, %(discapacity)s,
 			%(discapacity_desc)s)""", request)
 		self.conn.commit()
@@ -49,6 +50,7 @@ class Viviendo(object):
 			last_name=%(last_name)s,
 			direction=%(direction)s,
 			birthday=%(birthday)s,
+			sex=%(sex)s,
 			estado_civil=%(estado_civil)s,
 			work=%(work)s,
 			entry=%(entry)s,

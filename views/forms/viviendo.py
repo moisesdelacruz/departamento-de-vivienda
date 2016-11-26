@@ -30,6 +30,7 @@ class ViviendoForm(tk.Frame, Methods):
 			"last_name": self.last_name.get(),
 			"direction": str(self.direction.get('0.0',tk.END)),
 			"birthday": self.birthday.get(),
+			"sex": self.sex.get(),
 			"estado_civil": self.estado_civil.get(),
 			"work": bool(self.work.get()),
 			"entry": float(self.value),
@@ -41,6 +42,7 @@ class ViviendoForm(tk.Frame, Methods):
 		if self.viviendo:
 			data['id'] = self.viviendo.get('id')
 			self.db.update(data)
+			# Content main.
 			parent = self.root._nametowidget(self.root.winfo_parent())
 			self.clean(parent)
 			render = self.viviendoDetail.__init__(parent, viviendo_id=self.viviendo.get('id'))
@@ -117,9 +119,21 @@ class ViviendoForm(tk.Frame, Methods):
 			highlightbackground="black",highlightcolor="red",
 			highlightthickness=1).pack(side=tk.RIGHT)
 
+		# Sex
+		tk.Label(form, text="Sexo:", font="Helvetica 10",
+			fg="#474747").place(x=157,y=246)
+		self.sex=validate.MaxLengthEntry(form,
+			value=self.viviendo.get('sex') if self.viviendo else '',
+			maxlength=40, width=22, bd=0,
+			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
+			disabledbackground="#1E6FBA",disabledforeground="yellow",
+			highlightbackground="black",highlightcolor="red",
+			highlightthickness=1)
+		self.sex.pack(pady=8)
+
 		# Entrada de texto para estado_civil
 		tk.Label(form, text="Estado Civil:", font="Helvetica 10",
-			fg="#474747").place(x=120,y=246)
+			fg="#474747").place(x=120,y=288)
 		self.estado_civil=validate.MaxLengthEntry(form,
 			value=self.viviendo.get('estado_civil') if self.viviendo else '',
 			maxlength=40, width=22, bd=0,
@@ -131,7 +145,7 @@ class ViviendoForm(tk.Frame, Methods):
 
 		# Entrada de texto para postulation
 		tk.Label(form, text="Postulacion:", font="Helvetica 10",
-			fg="#474747").place(x=120,y=288)
+			fg="#474747").place(x=120,y=330)
 		self.postulation=validate.MaxLengthEntry(form,
 			value=self.viviendo.get('postulation') if self.viviendo else '',
 			maxlength=40, width=22, bd=0,
@@ -143,7 +157,7 @@ class ViviendoForm(tk.Frame, Methods):
 
 		# Entrada de texto para Direccion
 		tk.Label(form, text="Dirección:", font="Helvetica 10",
-			fg="#474747").place(x=135,y=330)
+			fg="#474747").place(x=135,y=372)
 		self.direction=tk.Text(form, width=27, height=3, bd=1,
 			font="Helvetica 12 normal",bg="#1E6FBA",fg="yellow",
 			highlightbackground="black",highlightcolor="red",

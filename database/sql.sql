@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS viviendo (
   last_name VARCHAR(45),
   direction TEXT,
   birthday DATE,
+  sex VARCHAR(45),
   estado_civil VARCHAR(45),
   work BOOLEAN DEFAULT FALSE,
   entry DECIMAL(5,2),
