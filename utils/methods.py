@@ -5,6 +5,7 @@ import tkSimpleDialog
 from PIL import Image, ImageTk
 from utils.asktext import TextDialog
 from utils.askfloat import FloatDialog
+from utils._calendar import CalendarDialog
 
 class Methods(object):
 
