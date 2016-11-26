@@ -5,7 +5,6 @@ import os
 import Tkinter as tk
 import ttk
 
-from utils._calendar import CalendarDialog
 from utils.methods import Methods
 from utils import validate
 from database.main import ViviendoModel
