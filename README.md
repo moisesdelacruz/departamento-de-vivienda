@@ -16,3 +16,6 @@ click aquí: https://gitlab.com/moisesdelacruz/departamento_de_vivienda/reposito
   python main.py
 ```
 
+### Configurar base de datos > postgresql
+- crear base de datos: viviendo_db
+- ir a database/main.py y configurar el usuario de postgresql
