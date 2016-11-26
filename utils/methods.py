@@ -13,6 +13,15 @@ class Methods(object):
 		self.img = self.img.resize((sizeY, sizeX), Image.ANTIALIAS)
 		return ImageTk.PhotoImage(self.img)
 
+	def getDate(self):
+		cd = CalendarDialog(self)
+		result = cd.result
+		try:
+			self.birthday.set(result.strftime("%Y-%m-%d"))
+		except AttributeError, e:
+			self.birthday.set(self.birthday.get())
+
+
 	def clean(self, div):
 		for child in div.winfo_children():
 			child.destroy()
