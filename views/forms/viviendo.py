@@ -73,8 +73,8 @@ class ViviendoForm(tk.Frame, Methods):
 		self.ci=validate.IntegerEntry(form,
 			value=self.viviendo.get('ci') if self.viviendo else 0,
 			width=22, bd=0, font="Helvetica 14 normal",justify="left",
-			bg="#1E6FBA",fg="yellow", highlightbackground="black",
-			highlightcolor="red", highlightthickness=1)
+			bg="white",fg="#6b6a6a", highlightbackground="black",
+			highlightcolor="red", highlightthickness=0)
 		self.ci.pack(pady=8)
 
 		# Entrada de texto para Nombre
@@ -83,10 +83,9 @@ class ViviendoForm(tk.Frame, Methods):
 		self.first_name=validate.MaxLengthEntry(form,
 			value=self.viviendo.get('first_name') if self.viviendo else '',
 			maxlength=40, width=22, bd=0,
-			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
-			disabledbackground="#1E6FBA",disabledforeground="yellow",
+			font="Helvetica 14 normal",justify="left",bg="white",fg="#6b6a6a",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1)
+			highlightthickness=0)
 		self.first_name.pack(pady=8)
 
 		# Entrada de texto para Apellido
@@ -95,10 +94,9 @@ class ViviendoForm(tk.Frame, Methods):
 		self.last_name=validate.MaxLengthEntry(form,
 			value=self.viviendo.get('last_name') if self.viviendo else '',
 			maxlength=40, width=22, bd=0,
-			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
-			disabledbackground="#1E6FBA",disabledforeground="yellow",
+			font="Helvetica 14 normal",justify="left",bg="white",fg="#6b6a6a",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1)
+			highlightthickness=0)
 		self.last_name.pack(pady=8)
 
 		# Entry birthday
@@ -107,45 +105,47 @@ class ViviendoForm(tk.Frame, Methods):
 		self.birthday=tk.StringVar(form,
 			value=self.viviendo.get('birthday') if self.viviendo else 'YY-mm-dd')
 		# select date
-		date = tk.Frame(form, background="blue", relief=tk.RAISED)
+		date = tk.Frame(form, background="grey", relief=tk.RAISED)
 		date.pack(pady=8)
 
 		iconCalendar = self.getImage("views/images/calendar.png", 20, 20)
 
 		calendarButton = tk.Button(date, image=iconCalendar,
-			command=self.getDate, bg="#1E6FBA", fg="yellow",)
+			command=self.getDate, bg="grey", bd=0)
 		calendarButton.pack(side=tk.RIGHT)
 		calendarButton.image = iconCalendar
 
 		tk.Entry(date,textvariable=self.birthday, width=20, bd=0,
-			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
-			disabledbackground="#1E6FBA",disabledforeground="yellow",
+			font="Helvetica 14 normal",justify="left",bg="white",fg="#6b6a6a",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1).pack(side=tk.RIGHT)
+			highlightthickness=0).pack(side=tk.RIGHT)
 
 		# Sex
 		tk.Label(form, text="Sexo:", font="Helvetica 10",
 			fg="#474747").place(x=157,y=246)
-		self.sex=validate.MaxLengthEntry(form,
-			value=self.viviendo.get('sex') if self.viviendo else '',
-			maxlength=40, width=22, bd=0,
-			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
-			disabledbackground="#1E6FBA",disabledforeground="yellow",
-			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1)
-		self.sex.pack(pady=8)
+		self.sex = tk.StringVar(form,
+			value=self.viviendo.get('sex') if self.viviendo else '')
+		fieldSex = ttk.Combobox(form, state='readonly', textvariable=self.sex,
+			font="Helvetica 13", justify="left",background="#1E6FBA", width=25)
+		fieldSex['values'] = self.select_sex()
+		for (x, item) in enumerate(fieldSex['values']):
+			if item == self.sex.get():
+				fieldSex.current(int(x))
+		fieldSex.pack(pady=8)
 
 		# Entrada de texto para estado_civil
 		tk.Label(form, text="Estado Civil:", font="Helvetica 10",
 			fg="#474747").place(x=120,y=288)
-		self.estado_civil=validate.MaxLengthEntry(form,
-			value=self.viviendo.get('estado_civil') if self.viviendo else '',
-			maxlength=40, width=22, bd=0,
-			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
-			disabledbackground="#1E6FBA",disabledforeground="yellow",
-			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1)
-		self.estado_civil.pack(pady=8)
+		self.estado_civil=tk.StringVar(form,
+			value=self.viviendo.get('estado_civil') if self.viviendo else '')
+		fieldState_civil = ttk.Combobox(form, state='readonly',
+			textvariable=self.estado_civil, font="Helvetica 13",
+			justify="left",background="#1E6FBA", width=25)
+		fieldState_civil['values'] = self.select_civil_status()
+		for (x, item) in enumerate(fieldState_civil['values']):
+			if item == self.sex.get():
+				fieldSex.current(int(x))
+		fieldState_civil.pack(pady=8)
 
 		# Entrada de texto para postulation
 		tk.Label(form, text="Postulacion:", font="Helvetica 10",
@@ -153,19 +153,18 @@ class ViviendoForm(tk.Frame, Methods):
 		self.postulation=validate.MaxLengthEntry(form,
 			value=self.viviendo.get('postulation') if self.viviendo else '',
 			maxlength=40, width=22, bd=0,
-			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
-			disabledbackground="#1E6FBA",disabledforeground="yellow",
+			font="Helvetica 14 normal",justify="left",bg="white",fg="#6b6a6a",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1)
+			highlightthickness=0)
 		self.postulation.pack(pady=8)
 
 		# Entrada de texto para Direccion
 		tk.Label(form, text="Dirección:", font="Helvetica 10",
 			fg="#474747").place(x=135,y=372)
-		self.direction=tk.Text(form, width=27, height=3, bd=1,
-			font="Helvetica 12 normal",bg="#1E6FBA",fg="yellow",
+		self.direction=tk.Text(form, width=27, height=3, bd=0,
+			font="Helvetica 12 normal",bg="white",fg="#6b6a6a",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1)
+			highlightthickness=0)
 		self.direction.insert(tk.INSERT,
 			self.viviendo.get('direction') if self.viviendo else '')
 		self.direction.pack(pady=8)

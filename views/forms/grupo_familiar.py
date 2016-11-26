@@ -55,9 +55,9 @@ class Grupo_familiarForm(tk.Frame, Methods):
 			fg="#474747").place(x=176,y=78)
 		self.ci=validate.IntegerEntry(form,
 			width=22, bd=0, font="Helvetica 14 normal",
-			justify="left",bg="#1E6FBA",fg="yellow",
+			justify="left",bg="white",fg="#6b6a6a",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1)
+			highlightthickness=0)
 		self.ci.pack(pady=8)
 
 		# Entry of first_name
@@ -65,9 +65,9 @@ class Grupo_familiarForm(tk.Frame, Methods):
 			fg="#474747").place(x=143,y=120)
 		self.first_name=validate.MaxLengthEntry(form,
 			maxlength=30,width=22, bd=0,
-			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",
-			fg="yellow", highlightbackground="black",
-			highlightcolor="red", highlightthickness=1)
+			font="Helvetica 14 normal",justify="left",bg="white",
+			fg="#6b6a6a", highlightbackground="black",
+			highlightcolor="red", highlightthickness=0)
 		self.first_name.pack(pady=8)
 
 		# Entry of last_name
@@ -75,9 +75,9 @@ class Grupo_familiarForm(tk.Frame, Methods):
 			fg="#474747").place(x=142,y=162)
 		self.last_name=validate.MaxLengthEntry(form,
 			maxlength=30, width=22, bd=0, font="Helvetica 14 normal",
-			justify="left",bg="#1E6FBA",fg="yellow",
+			justify="left",bg="white",fg="#6b6a6a",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1)
+			highlightthickness=0)
 		self.last_name.pack(pady=8)
 
 		# Entry of birthday
@@ -85,30 +85,30 @@ class Grupo_familiarForm(tk.Frame, Methods):
 			fg="#474747").place(x=65,y=204)
 		self.birthday=tk.StringVar()
 		# select date
-		date = tk.Frame(form, background="blue", relief=tk.RAISED)
+		date = tk.Frame(form, relief=tk.RAISED)
 		date.pack(pady=8)
 
 		iconCalendar = self.getImage("views/images/calendar.png", 20, 20)
 
 		calendarButton = tk.Button(date, image=iconCalendar,
-			command=self.getDate, bg="#1E6FBA", fg="yellow",)
+			command=self.getDate, bg="white", fg="#6b6a6a",)
 		calendarButton.pack(side=tk.RIGHT)
 		calendarButton.image = iconCalendar
 
 		tk.Entry(date,textvariable=self.birthday, width=20, bd=0,
-			font="Helvetica 14 normal",justify="left",bg="#1E6FBA",fg="yellow",
+			font="Helvetica 14 normal",justify="left",bg="white",fg="#6b6a6a",
 			disabledbackground="#1E6FBA",disabledforeground="yellow",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1).pack(side=tk.RIGHT)
+			highlightthickness=0).pack(side=tk.RIGHT)
 
 		# Entry birth_state
 		tk.Label(form,text="Estado de Nacimiento:", font="Helvetica 10",
 			fg="#474747").place(x=63,y=248)
 		self.birth_state=validate.MaxLengthEntry(form, 
 			maxlength=30, width=22, bd=0, font="Helvetica 14 normal",
-			justify="left",bg="#1E6FBA",fg="yellow", 
+			justify="left",bg="white",fg="#6b6a6a", 
 			highlightbackground="black",highlightcolor="red", 
-			highlightthickness=1)
+			highlightthickness=0)
 		self.birth_state.pack(pady=8)
 
 		# Booleans Fields

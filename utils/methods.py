@@ -34,3 +34,9 @@ class Methods(object):
 	def textDialog(self, value):
 		dialog = TextDialog(self.root, 'Descapacidad', 'Describa descapacidad', value)
 		self.discapacity_desc = dialog.result
+
+	def select_civil_status(self):
+		return ('Soltero(a)', 'Casado(a)', 'Divorciado(a)', 'Concubino(a)')
+
+	def select_sex(self):
+		return ('Hombre', 'Mujer')
