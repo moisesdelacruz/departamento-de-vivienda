@@ -17,9 +17,9 @@ CREATE TABLE IF NOT EXISTS viviendo (
 );
 
 -- viviendo add
-INSERT INTO viviendo (ci, first_name, last_name, direction, birthday,
+INSERT INTO viviendo (ci, first_name, last_name, direction, birthday, sex,
   estado_civil, work, entry, postulation, discapacity, discapacity_desc)
-  VALUES (%(ci)s, %(first_name)s, %(last_name)s, %(direction)s, %(birthday)s,
+  VALUES (%(ci)s, %(first_name)s, %(last_name)s, %(direction)s, %(birthday)s, %(sex)s,
     %(estado_civil)s, %(work)s, %(entry)s, %(postulation)s, %(discapacity)s,
     %(discapacity_desc)s);
 
@@ -29,6 +29,7 @@ UPDATE viviendo SET ci=%(ci)s,
   last_name=%(last_name)s,
   direction=%(direction)s,
   birthday=%(birthday)s,
+  sex=%(sex)s,
   estado_civil=%(estado_civil)s,
   work=%(work)s,
   entry=%(entry)s,
