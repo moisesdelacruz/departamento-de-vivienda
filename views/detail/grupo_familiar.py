@@ -23,7 +23,7 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 
 		# Content Vertical
 		self.div = tk.Frame(self.parent, width=650, relief=tk.RAISED)
-		self.div.pack(expand=True, pady=10, fill=tk.Y)
+		self.div.pack(expand=True, fill=tk.Y)
 		self.div.pack_propagate(0)
 
 		# Title

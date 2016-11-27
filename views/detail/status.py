@@ -19,7 +19,7 @@ class StatusDetail(tk.Frame, Methods):
 
 		# Content Vertical
 		div = tk.Frame(parent, width=650, relief=tk.RAISED)
-		div.pack(expand=True, pady=10, fill=tk.Y)
+		div.pack(expand=True, fill=tk.Y)
 		div.pack_propagate(0)
 
 		# TOP content
