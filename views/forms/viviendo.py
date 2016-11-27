@@ -5,8 +5,9 @@ import os
 import Tkinter as tk
 import ttk
 
+from datetime import datetime
 from utils.methods import Methods
-from utils import validate
+from utils import validate, entrydate
 from database.main import ViviendoModel
 from views.detail.viviendo import ViviendoDetail
 
@@ -102,23 +103,13 @@ class ViviendoForm(tk.Frame, Methods):
 		# Entry birthday
 		tk.Label(form, text="Fecha de Nacimiento:", font="Helvetica 10",
 			fg="#474747").place(x=65,y=204)
-		self.birthday=tk.StringVar(form,
-			value=self.viviendo.get('birthday') if self.viviendo else 'YY-mm-dd')
-		# select date
 		date = tk.Frame(form, background="grey", relief=tk.RAISED)
 		date.pack(pady=8)
 
-		iconCalendar = self.getImage("views/images/calendar.png", 20, 20)
+		actually = self.viviendo.get('birthday') if self.viviendo else None
 
-		calendarButton = tk.Button(date, image=iconCalendar,
-			command=self.getDate, bg="grey", bd=0)
-		calendarButton.pack(side=tk.RIGHT)
-		calendarButton.image = iconCalendar
-
-		tk.Entry(date,textvariable=self.birthday, width=20, bd=0,
-			font="Helvetica 14 normal",justify="left",bg="white",fg="#6b6a6a",
-			highlightbackground="black",highlightcolor="red",
-			highlightthickness=0).pack(side=tk.RIGHT)
+		self.birthday=entrydate.DateEntry(date, actually=actually, bd=0, font="Helvetica 14 normal")
+		self.birthday.pack(side=tk.LEFT)
 
 		# Sex
 		tk.Label(form, text="Sexo:", font="Helvetica 10",

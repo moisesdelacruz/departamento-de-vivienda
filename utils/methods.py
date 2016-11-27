@@ -5,7 +5,6 @@ import tkSimpleDialog
 from PIL import Image, ImageTk
 from utils.asktext import TextDialog
 from utils.askfloat import FloatDialog
-from utils._calendar import CalendarDialog
 
 class Methods(object):
 
@@ -13,15 +12,6 @@ class Methods(object):
 		self.img = Image.open(image)
 		self.img = self.img.resize((sizeY, sizeX), Image.ANTIALIAS)
 		return ImageTk.PhotoImage(self.img)
-
-	def getDate(self):
-		cd = CalendarDialog(self)
-		result = cd.result
-		try:
-			self.birthday.set(result.strftime("%Y-%m-%d"))
-		except AttributeError, e:
-			self.birthday.set(self.birthday.get())
-
 
 	def clean(self, div):
 		for child in div.winfo_children():

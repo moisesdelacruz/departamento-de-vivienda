@@ -45,6 +45,9 @@ class ValidatingEntry(Entry):
 		result = self.results.get()
 		return self.getresults(result)
 
+	def set(self, value):
+		self.__variable.set(value)
+
 	def getresults(self, value):
 		# override: return value, or chopped value in the case of ChopLengthEntry
 		return self.results.get()
@@ -58,7 +61,7 @@ The validate method simply tries to convert the value to an object of the right 
 class IntegerEntry(ValidatingEntry):
 	def validate(self, value):
 		try:
-			if len(value) <= 15:
+			if len(value) <= 9:
 				if value:
 					v = int(value)
 					self.results.set(value)

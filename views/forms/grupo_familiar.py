@@ -5,8 +5,9 @@ import os
 import Tkinter as tk
 import ttk
 
+from datetime import datetime
 from utils.methods import Methods
-from utils import validate
+from utils import validate, entrydate
 from database.main import FamilyModel
 from views.detail.grupo_familiar import Grupo_familiarDetail 
 
@@ -80,26 +81,14 @@ class Grupo_familiarForm(tk.Frame, Methods):
 			highlightthickness=0)
 		self.last_name.pack(pady=8)
 
-		# Entry of birthday
+		# Entry birthday
 		tk.Label(form, text="Fecha de Nacimiento:", font="Helvetica 10",
 			fg="#474747").place(x=65,y=204)
-		self.birthday=tk.StringVar()
-		# select date
-		date = tk.Frame(form, relief=tk.RAISED)
+		date = tk.Frame(form, background="grey", relief=tk.RAISED)
 		date.pack(pady=8)
 
-		iconCalendar = self.getImage("views/images/calendar.png", 20, 20)
-
-		calendarButton = tk.Button(date, image=iconCalendar,
-			command=self.getDate, bg="white", fg="#6b6a6a",)
-		calendarButton.pack(side=tk.RIGHT)
-		calendarButton.image = iconCalendar
-
-		tk.Entry(date,textvariable=self.birthday, width=20, bd=0,
-			font="Helvetica 14 normal",justify="left",bg="white",fg="#6b6a6a",
-			disabledbackground="#1E6FBA",disabledforeground="yellow",
-			highlightbackground="black",highlightcolor="red",
-			highlightthickness=0).pack(side=tk.RIGHT)
+		self.birthday=entrydate.DateEntry(date, bd=0, font="Helvetica 14 normal")
+		self.birthday.pack(side=tk.LEFT)
 
 		# Entry birth_state
 		tk.Label(form,text="Estado de Nacimiento:", font="Helvetica 10",

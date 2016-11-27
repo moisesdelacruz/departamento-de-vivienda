@@ -8,10 +8,10 @@ class TextDialog(tkSimpleDialog.Dialog):
 		tk.Label(master, text=message,
 			font="Helvetica 12 normal").pack(side=tk.TOP, pady=10)
 
-		self.value = tk.Text(master, width=30, height=6, bd=1,
-			font="Helvetica 12 normal",bg="#1E6FBA",fg="yellow",
+		self.value = tk.Text(master, width=30, height=6, bd=0,
+			font="Helvetica 12 normal",bg="white",fg="#6b6a6a",
 			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1)
+			highlightthickness=0)
 		self.value.insert(tk.INSERT, value)
 		self.value.pack(side=tk.TOP)
 

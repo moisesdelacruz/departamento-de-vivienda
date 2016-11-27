@@ -11,9 +11,8 @@ class FloatDialog(tkSimpleDialog.Dialog):
 
 		self.value=validate.FloatEntry(master, value=value,
 			width=12, bd=0, font="Helvetica 14 normal",
-			justify="left",bg="#1E6FBA",fg="yellow",
-			highlightbackground="black",highlightcolor="red",
-			highlightthickness=1)
+			justify="left",bg="white",fg="#6b6a6a",
+			highlightthickness=0)
 		self.value.pack(pady=8)
 
 	def apply(self):
