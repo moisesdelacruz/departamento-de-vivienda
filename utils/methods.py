@@ -19,11 +19,11 @@ class Methods(object):
 
 	def entry(self, value):
 		var = FloatDialog(self.root, 'Ingresos', 'Ingresos Mensuales', value)
-		self.value = var.result
+		self.value = var.result if var.result != None else value
 
 	def textDialog(self, value):
 		dialog = TextDialog(self.root, 'Descapacidad', 'Describa descapacidad', value)
-		self.discapacity_desc = dialog.result
+		self.discapacity_desc = dialog.result if dialog.result else value
 
 	def select_civil_status(self):
 		return ('Soltero(a)', 'Casado(a)', 'Divorciado(a)', 'Concubino(a)')

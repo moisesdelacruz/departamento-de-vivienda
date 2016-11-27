@@ -9,11 +9,16 @@ class FloatDialog(tkSimpleDialog.Dialog):
 		tk.Label(master, text=message,
 			font="Helvetica 12 normal").pack(side=tk.TOP, pady=10)
 
-		self.value=validate.FloatEntry(master, value=value,
+		self.value=validate.FloatEntry(master,
 			width=12, bd=0, font="Helvetica 14 normal",
 			justify="left",bg="white",fg="#6b6a6a",
 			highlightthickness=0)
+		if value: self.value.set(value)
 		self.value.pack(pady=8)
 
 	def apply(self):
-		self.result = float(self.value.get())
+		try:
+			v = float(self.value.get())
+			self.result = v
+		except ValueError:
+			self.result = float(0)

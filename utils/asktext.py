@@ -12,7 +12,7 @@ class TextDialog(tkSimpleDialog.Dialog):
 			font="Helvetica 12 normal",bg="white",fg="#6b6a6a",
 			highlightbackground="black",highlightcolor="red",
 			highlightthickness=0)
-		self.value.insert(tk.INSERT, value)
+		if value: self.value.insert(tk.INSERT, value)
 		self.value.pack(side=tk.TOP)
 
 	def apply(self):
