@@ -20,7 +20,7 @@ class SolicitudForm(tk.Frame, Methods):
 		data = ({
 			"viviendo_id": self.viviendo_id,
 			"housing_conditions": self.housing_conditions.get(),
-			"housing_direction": self.housing_direction.get(),
+			"housing_direction": str(self.housing_direction.get('0.0',tk.END)),
 			"phone_number": int(self.phone_number.get()),
 			"residence_constancia": bool(self.residence_constancia.get()),
 			"copy_ci": bool(self.copy_ci.get()),
@@ -67,18 +67,17 @@ class SolicitudForm(tk.Frame, Methods):
 		# Entry housing_direction
 		tk.Label(form,text="Dirección Habitacional:", font="Helvetica 10",
 			fg="#474747").place(x=60,y=120)
-		housing_direction = tk.StringVar(form,
-			value=data[0][3]) if data else tk.StringVar()
-		self.housing_direction=validate.MaxLengthEntry(form,
-			value=housing_direction.get(), maxlength=45, width=22, bd=0,
-			font="Helvetica 14 normal",justify="left",bg="white",fg="#6b6a6a",
+		self.housing_direction=tk.Text(form, width=27, height=3, bd=0,
+			font="Helvetica 12 normal",bg="white",fg="#6b6a6a",
 			highlightbackground="black",highlightcolor="red",
 			highlightthickness=0)
+		self.housing_direction.insert(tk.INSERT,
+			data[0][3] if data else '')
 		self.housing_direction.pack(pady=8)
 		
 		# Entry phone_number
 		tk.Label(form,text="Numero de Telefono:", font="Helvetica 10",
-			fg="#474747").place(x=72,y=162)
+			fg="#474747").place(x=72,y=190)
 		phone_number = tk.IntVar(form,
 			value=data[0][4]) if data else tk.IntVar()
 		self.phone_number=validate.IntegerEntry(form, value=phone_number.get(),

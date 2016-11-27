@@ -83,7 +83,7 @@ class ViviendoDetail(tk.Frame, Methods):
 
 		tk.Label(self.top, text=self.viviendo['full_name'],
 			font="Helvetica 16 bold", bg=color,
-			fg="grey").pack(side=tk.TOP, fill=tk.X)
+			fg="white").pack(side=tk.TOP, fill=tk.X)
 
 		self.viviendoFrame()
 		self.familyFrame()

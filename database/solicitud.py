@@ -8,7 +8,7 @@ class Solicitud(object):
             solicitud_id BIGSERIAL PRIMARY KEY,
             viviendo_id BIGINT NOT NULL,
             housing_conditions VARCHAR(45),
-            housing_direction VARCHAR(45),
+            housing_direction TEXT,
             phone_number NUMERIC(15),
             residence_constancia BOOLEAN DEFAULT FALSE,
             copy_ci BOOLEAN DEFAULT FALSE,
