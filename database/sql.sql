@@ -189,3 +189,27 @@ UPDATE solicitud SET viviendo_id
   discapacity_desc=%(discapacity_desc)s,
   old_age=%(old_age)s,
   WHERE viviendo_id=%(viviendo_id)s;
+
+
+-- User Table
+CREATE TABLE IF NOT EXISTS account (
+  user_id BIGSERIAL PRIMARY KEY,
+  username VARCHAR(45) NOT NULL UNIQUE,
+  first_name VARCHAR(45),
+  last_name VARCHAR(45),
+  cedula INTEGER NOT NULL UNIQUE,
+  permission VARCHAR(45) NOT NULL,
+  password VARCHAR(60) NOT NULL
+);
+
+INSERT INTO account (username, first_name, last_name, cedula, permission, password)
+  VALUES (%(username)s, %(first_name)s, %(last_name)s, %(cedula)s, %(permission)s, %(password)s);
+
+UPDATE account SET
+  username=%(username)s,
+  first_name=%(first_name)s,
+  last_name=%(last_name)s,
+  cedula=%(cedula)s,
+  permission=%(permission)s,
+  password=%(password)s,
+  WHERE user_id=%(user_id)s;
