@@ -134,8 +134,8 @@ class ViviendoForm(tk.Frame, Methods):
 			justify="left",background="#1E6FBA", width=25)
 		fieldState_civil['values'] = self.select_civil_status()
 		for (x, item) in enumerate(fieldState_civil['values']):
-			if item == self.sex.get():
-				fieldSex.current(int(x))
+			if item == self.estado_civil.get():
+				fieldState_civil.current(int(x))
 		fieldState_civil.pack(pady=8)
 
 		# Entrada de texto para postulation

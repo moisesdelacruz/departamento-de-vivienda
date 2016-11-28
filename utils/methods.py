@@ -30,3 +30,6 @@ class Methods(object):
 
 	def select_sex(self):
 		return ('Hombre', 'Mujer')
+
+	def selectPermissions(self):
+		return ('Lectura', 'Lectura y Escritura')
