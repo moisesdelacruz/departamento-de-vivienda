@@ -10,6 +10,7 @@ class User(object):
             first_name VARCHAR(45),
             last_name VARCHAR(45),
             cedula INTEGER NOT NULL UNIQUE,
+            is_superuser BOOLEAN DEFAULT FALSE,
             permission VARCHAR(45) NOT NULL,
             password VARCHAR(60) NOT NULL
         )""")
@@ -18,9 +19,9 @@ class User(object):
 
     def create(self, request, *args, **kwargs):
         self.cursor.execute("""INSERT INTO account (username,
-            first_name, last_name, cedula, permission, password)
+            first_name, last_name, cedula, permission, is_superuser, password)
             VALUES (%(username)s, %(first_name)s, %(last_name)s,
-                %(cedula)s, %(permission)s, %(password)s)""", request)
+                %(cedula)s, %(permission)s, %(is_superuser)s, %(password)s)""", request)
     	self.conn.commit()
         return True
 
@@ -42,6 +43,7 @@ class User(object):
             last_name=%(last_name)s,
             cedula=%(cedula)s,
             permission=%(permission)s,
+            is_superuser=%(is_superuser)s,
             password=%(password)s,
             WHERE user_id=%(user_id)s;""", request)
         self.conn.commit()

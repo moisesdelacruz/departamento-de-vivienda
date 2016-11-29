@@ -198,6 +198,7 @@ CREATE TABLE IF NOT EXISTS account (
   first_name VARCHAR(45),
   last_name VARCHAR(45),
   cedula INTEGER NOT NULL UNIQUE,
+  is_superuser BOOLEAN DEFAULT FALSE,
   permission VARCHAR(45) NOT NULL,
   password VARCHAR(60) NOT NULL
 );
