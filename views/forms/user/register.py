@@ -110,7 +110,7 @@ class RegisterForm(tk.Frame, Methods):
 		tk.Label(form, text="Contraseña:", font="Helvetica 10",
 			fg="#474747").place(x=125,y=320)
 
-		self.password=validate.MaxLengthEntry(form, maxlength=40,
+		self.password=validate.MaxLengthEntry(form, show="*", maxlength=40,
 			width=22, bd=0, font="Helvetica 14 normal",justify="left",
 			bg="white",fg="#6b6a6a", highlightbackground="black",
 			highlightcolor="red", highlightthickness=0)
@@ -120,7 +120,7 @@ class RegisterForm(tk.Frame, Methods):
 		tk.Label(form, text="Repita Contraseña:", font="Helvetica 10",
 			fg="#474747").place(x=83,y=360)
 
-		self.password2=validate.MaxLengthEntry(form, maxlength=40,
+		self.password2=validate.MaxLengthEntry(form, show="*", maxlength=40,
 			width=22, bd=0, font="Helvetica 14 normal",justify="left",
 			bg="white",fg="#6b6a6a", highlightbackground="black",
 			highlightcolor="red", highlightthickness=0)

@@ -29,8 +29,7 @@ class LoginForm(tk.Frame, Methods):
 						"last_name": query[0][3],
 						"cedula": query[0][4],
 						"is_superuser": query[0][5],
-						"permission": query[0][6],
-						"password": query[0][7]
+						"permission": query[0][6]
 					})
 					print self.session
 					self.control.set(self.session)
@@ -66,7 +65,7 @@ class LoginForm(tk.Frame, Methods):
 		tk.Label(form, text="Contraseña:", font="Helvetica 10",
 			fg="#474747").place(x=125,y=118)
 
-		self.password=validate.MaxLengthEntry(form, maxlength=40,
+		self.password=validate.MaxLengthEntry(form, show="*", maxlength=40,
 			width=22, bd=0, font="Helvetica 14 normal",justify="left",
 			bg="white",fg="#6b6a6a", highlightbackground="black",
 			highlightcolor="red", highlightthickness=0)

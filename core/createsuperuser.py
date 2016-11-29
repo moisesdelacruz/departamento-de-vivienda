@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from database.main import UserModel
+import getpass
 
 class CreateSuperUser(object):
 	def __init__(self):
@@ -14,7 +15,7 @@ class CreateSuperUser(object):
 				"username": str(self.username),
 				"first_name": '',
 				"last_name": '',
-				"cedula": 0,
+				"cedula": int(self.cedula),
 				"permission": str('Lectura y Escritura'),
 				"is_superuser": bool(True),
 				"password": str(self.password1)
@@ -24,6 +25,7 @@ class CreateSuperUser(object):
 
 	def form(self):
 		self.username = raw_input("Nombre de Usuario: ")
-		self.password1 = raw_input("Contraseña: ")
-		self.password2 = raw_input("Confirme Contraseña: ")
+		self.cedula = raw_input("Cedula de Identidad: ")
+		self.password1 = getpass.getpass("Contraseña: ")
+		self.password2 = getpass.getpass("Confirme Contraseña: ")
 		self.save()
