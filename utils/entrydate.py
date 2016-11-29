@@ -52,8 +52,8 @@ class DateEntry(tk.Frame):
 	def _e1_check(self, e):
 		cont = self.entry_1.get()
 		if not self.entry_1.get(): self.entry_1.set(01)
-		if not self.entry_2.get(): self.entry_2.set(01)
-		if not self.entry_3.get(): self.entry_3.set(01)
+		if not self.entry_2.get(): self.entry_2.set(datetime.now().month)
+		if not self.entry_3.get(): self.entry_3.set(datetime.now().year)
 		month = calendar.monthrange(int(self.entry_3.get()),int(self.entry_2.get()))
 		if cont and int(cont) <= month[1]:
 			if len(cont) > 2 or not cont[-1].isdigit():
