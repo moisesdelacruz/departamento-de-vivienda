@@ -5,6 +5,15 @@
 ### Descargar como zip:
 click aquí: https://gitlab.com/moisesdelacruz/departamento_de_vivienda/repository/archive.zip?ref=master
 
+### Instalacion > dependencias del sistema
+```sh
+  sudo apt-get install python-pip
+
+  sudo apt-get update
+  
+  sudo apt-get install libpq-dev python-dev
+```
+
 ### Instalacion
 ```sh
   git clone https://gitlab.com/moisesdelacruz/departamento_de_vivienda.git
@@ -13,7 +22,16 @@ click aquí: https://gitlab.com/moisesdelacruz/departamento_de_vivienda/reposito
 
   pip install -r requirements.txt
 
-  python main.py
+```
+
+### Crear Superusuario
+```sh
+  python manage.py createsuperuser
+```
+
+### Ejecucion
+````sh
+  python manage.py run
 ```
 
 ### Configurar base de datos > postgresql
