@@ -1,6 +1,7 @@
 import os
 import Tkinter as tk
 import tkSimpleDialog
+import base64
 
 from PIL import Image, ImageTk
 from utils.asktext import TextDialog
@@ -33,3 +34,9 @@ class Methods(object):
 
 	def selectPermissions(self):
 		return ('Lectura', 'Lectura y Escritura')
+
+	def encrypt(self, password):
+		return base64.b64encode(password)
+
+	def decrypt(self, password):
+		return base64.b64decode(password)
