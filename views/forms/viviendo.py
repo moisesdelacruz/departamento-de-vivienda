@@ -18,8 +18,10 @@ class ViviendoForm(tk.Frame, Methods):
 		self.root = root
 		self.db = ViviendoModel()
 		self.viviendo = {}
-		if kwargs.get('viviendoDetail'):
-			self.viviendoDetail = kwargs.get('viviendoDetail')
+		if kwargs.get('session'):
+			self.session = kwargs.get('session')
+		if kwargs.get('viviendo_detail'):
+			self.viviendoDetail = kwargs.get('viviendo_detail')
 		if kwargs.get('viviendo'):
 			self.viviendo = kwargs.get('viviendo')
 		self.form()
@@ -46,12 +48,12 @@ class ViviendoForm(tk.Frame, Methods):
 			# Content main.
 			parent = self.root._nametowidget(self.root.winfo_parent())
 			self.clean(parent)
-			render = self.viviendoDetail.__init__(parent, viviendo_id=self.viviendo.get('id'))
+			render = self.viviendoDetail.__init__(parent, session=self.session, viviendo_id=self.viviendo.get('id'))
 		else:
 			self.db.create(data)
 			# View Vivivendo Detail
 			self.clean(self.root)
-			view = ViviendoDetail(self.root, ci=data.get('ci'))
+			view = ViviendoDetail(self.root, session=self.session, ci=data.get('ci'))
 			view.pack()
 
 	def form(self):

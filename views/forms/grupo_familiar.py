@@ -12,9 +12,13 @@ from database.main import FamilyModel
 from views.detail.grupo_familiar import Grupo_familiarDetail 
 
 class Grupo_familiarForm(tk.Frame, Methods):
-	def __init__(self, root, viviendo_id):
+	def __init__(self, root, viviendo_id, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
+		# get session
+		if kwargs.get('session'):
+			self.session = kwargs.get('session')
+
 		self.viviendo_id = viviendo_id
 		self.form()
 
@@ -35,7 +39,7 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		db = FamilyModel()
 		db.create(data)
 		self.clean(self.root)
-		view = Grupo_familiarDetail(self.root, self.viviendo_id)
+		view = Grupo_familiarDetail(self.root, self.viviendo_id, session=self.session)
 
 	def form(self):
 		# Content Horizontal

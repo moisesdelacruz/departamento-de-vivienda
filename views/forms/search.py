@@ -9,9 +9,11 @@ from utils import validate
 from views.detail.viviendo import ViviendoDetail
 
 class SearchForm(tk.Frame, Methods):
-	def __init__(self, root):
+	def __init__(self, root, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
+		if kwargs.get('session'):
+			self.session = kwargs.get('session')
 		self.form()
 
 	def searchdb(self):
@@ -23,7 +25,7 @@ class SearchForm(tk.Frame, Methods):
 
 		if self.result:
 			self.clean(self.root)
-			self.detail = ViviendoDetail(self.root, viviendo=self.result)
+			self.detail = ViviendoDetail(self.root, session=self.session, viviendo=self.result)
 		else:
 			self.message = 'no se encontro resultado'
 			self.noResult()

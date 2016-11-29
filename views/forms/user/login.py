@@ -9,9 +9,10 @@ from views.forms import user
 from database.main import UserModel
 
 class LoginForm(tk.Frame, Methods):
-	def __init__(self, root):
+	def __init__(self, root, control):
 		tk.Frame.__init__(self, root)
 		self.root = root
+		self.control = control
 		self.db = UserModel()
 		self.session = []
 		self.form()
@@ -19,27 +20,24 @@ class LoginForm(tk.Frame, Methods):
 	def login(self):
 		query = self.db.retrive(str(self.username.get()), field='username')
 		if query:
-			if query[0][6] == self.password.get():
-				self.session = ({
-					"user_id": query[0][0],
-					"username": query[0][1],
-					"first_name": query[0][2],
-					"last_name": query[0][3],
-					"cedula": query[0][4],
-					"permission": query[0][5],
-					"password": query[0][6]
-				})
-				print self.session
-			else: print 'password does not match with username'
+			if self.password.get():
+				if query[0][7] == self.password.get():
+					self.session = ({
+						"user_id": query[0][0],
+						"username": query[0][1],
+						"first_name": query[0][2],
+						"last_name": query[0][3],
+						"cedula": query[0][4],
+						"is_superuser": query[0][5],
+						"permission": query[0][6],
+						"password": query[0][7]
+					})
+					print self.session
+					self.control.set(self.session)
+				else: print 'password does not match with username'
+			else: print 'debe ingresar una contraseña'
 		else: print 'username no exist'
-
-	def get(self):
-		return self.session
 		
-
-	def register(self):
-		self.clean(self.root)
-		user.register.RegisterForm(self.root)
 
 	def form(self):
 		div = tk.Frame(self.root, height=550, background="grey", relief=tk.RAISED)
@@ -82,10 +80,4 @@ class LoginForm(tk.Frame, Methods):
 		tk.Button(buttons, command=self.login, text="Iniciar Sesion",
 			font="Helvetica 12 bold", bd=0, activebackground="red",
 			activeforeground="blue", bg="green", fg="white", width=13,
-			height=2).pack(side=tk.LEFT, padx=8)
-
-		# Login up
-		tk.Button(buttons, command=self.register, text="Crear Cuenta",
-			font="Helvetica 12 bold", bd=0, activebackground="red",
-			activeforeground="blue", bg="blue", fg="white", width=13,
 			height=2).pack(side=tk.LEFT, padx=8)

@@ -6,6 +6,7 @@ import ttk
 from utils import validate
 from utils.methods import Methods
 from views.forms.user import login
+from views.generic.successes import SuccessesView
 from database.main import UserModel
 
 class RegisterForm(tk.Frame, Methods):
@@ -23,16 +24,15 @@ class RegisterForm(tk.Frame, Methods):
 				"last_name": self.last_name.get(),
 				"cedula": int(self.ci.get()),
 				"permission": self.permissions.get(),
+				"is_superuser": bool(self.is_superuser.get()),
 				"password": self.password.get()
 			})
 			print data
 			self.db.create(data)
+			successes = SuccessesView(self.root, message='Usuario Creado')
+
 		else:
 			print "Password does not match"
-
-	def login(self):
-		self.clean(self.root)
-		login.LoginForm(self.root)
 
 	def form(self):
 		div = tk.Frame(self.root, height=550, background="grey", relief=tk.RAISED)
@@ -101,9 +101,14 @@ class RegisterForm(tk.Frame, Methods):
 				fieldPermissions.current(int(x))
 		fieldPermissions.pack(pady=8)
 
+		# is superuser
+		self.is_superuser = tk.BooleanVar(form, value=False)
+		ttk.Checkbutton(form, text='Superusuario', variable=self.is_superuser,
+			onvalue=True, offvalue=False).pack(pady=8)
+
 		# Entry of the password
 		tk.Label(form, text="Contraseña:", font="Helvetica 10",
-			fg="#474747").place(x=125,y=280)
+			fg="#474747").place(x=125,y=320)
 
 		self.password=validate.MaxLengthEntry(form, maxlength=40,
 			width=22, bd=0, font="Helvetica 14 normal",justify="left",
@@ -113,7 +118,7 @@ class RegisterForm(tk.Frame, Methods):
 
 		# Entry of the password repeat
 		tk.Label(form, text="Repita Contraseña:", font="Helvetica 10",
-			fg="#474747").place(x=83,y=320)
+			fg="#474747").place(x=83,y=360)
 
 		self.password2=validate.MaxLengthEntry(form, maxlength=40,
 			width=22, bd=0, font="Helvetica 14 normal",justify="left",
@@ -129,11 +134,5 @@ class RegisterForm(tk.Frame, Methods):
 		tk.Button(buttons, command=self.save, text="Crear Cuenta",
 			font="Helvetica 12 bold", bd=0, activebackground="red",
 			activeforeground="blue", bg="green", fg="white", width=13,
-			height=2).pack(side=tk.LEFT, padx=8)
-
-		# Login
-		tk.Button(buttons, command=self.login, text="Iniciar Sesion",
-			font="Helvetica 12 bold", bd=0, activebackground="red",
-			activeforeground="blue", bg="grey", fg="white", width=13,
 			height=2).pack(side=tk.LEFT, padx=8)
 

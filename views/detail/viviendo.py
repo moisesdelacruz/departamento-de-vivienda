@@ -16,6 +16,11 @@ class ViviendoDetail(tk.Frame, Methods):
 	def __init__(self, root, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
+		# get session
+		if kwargs.get('session'):
+			self.session = kwargs.get('session')
+
+		# instance of database
 		self.db = ViviendoModel()
 		# Get from data base if not exist
 		if kwargs.get('viviendo'):
@@ -43,7 +48,6 @@ class ViviendoDetail(tk.Frame, Methods):
 			"discapacity": viviendo[0][11],
 			"discapacity_desc": viviendo[0][12]
 		}
-		print self.viviendo
 		# Detect Sex for styles change of the view
 		if self.viviendo.get('sex') == "Hombre":
 			self.suffixSex = 'male'
@@ -107,7 +111,9 @@ class ViviendoDetail(tk.Frame, Methods):
 		# Action
 		btn=tk.Button(viviendo, text="Actualizar", command=self.viviendoForm,
 			font="Helvetica 14 normal", fg="grey", bd=0)
-		btn.pack(anchor=tk.NE)
+
+		if self.session.permission():
+			btn.pack(anchor=tk.NE)
 
 		# CI
 		ci=tk.Label(viviendo, text=self.viviendo['ci'],
@@ -132,9 +138,11 @@ class ViviendoDetail(tk.Frame, Methods):
 		# Actions
 		btn=tk.Button(family, text="Agregar", command=self.family,
 			font="Helvetica 14 normal", fg="grey", bd=0)
-		btn.pack(anchor=tk.NE)
 		btn2=tk.Button(family, text="Lista", command=self.grupo_familiar,
 			font="Helvetica 14 normal", fg="grey", bd=0)
+
+		if self.session.permission():
+			btn.pack(anchor=tk.NE)
 		btn2.pack(anchor=tk.E)
 
 		# CI
@@ -158,9 +166,11 @@ class ViviendoDetail(tk.Frame, Methods):
 		# Actions
 		btn=tk.Button(solicitud, text="Actualizar", command=self.solicitudForm,
 			font="Helvetica 14 normal", fg="grey", bd=0)
-		btn.pack(anchor=tk.NE)
 		btn2=tk.Button(solicitud, text="Estatus", command=self.status,
 			font="Helvetica 14 normal", fg="grey", bd=0)
+
+		if self.session.permission():
+			btn.pack(anchor=tk.NE)
 		btn2.pack(anchor=tk.E)
 
 		# CI
@@ -170,19 +180,21 @@ class ViviendoDetail(tk.Frame, Methods):
 
 
 	def family(self):
-		self.clean(self.right)
-		view = Grupo_familiarForm(self.right, self.viviendo['id'])
-		view.pack()
+		if self.session.permission():
+			self.clean(self.right)
+			view = Grupo_familiarForm(self.right, self.viviendo['id'], session=self.session)
+			view.pack()
 
 	def grupo_familiar(self):
 		self.clean(self.right)
-		view = Grupo_familiarDetail(self.right, self.viviendo['id'])
+		view = Grupo_familiarDetail(self.right, self.viviendo['id'], session=self.session)
 		view.pack()
 
 	def solicitudForm(self):
-		self.clean(self.right)
-		view = SolicitudForm(self.right, self.viviendo['id'])
-		view.pack()
+		if self.session.permission():
+			self.clean(self.right)
+			view = SolicitudForm(self.right, self.viviendo['id'], session=self.session)
+			view.pack()
 
 	def status(self):
 		self.clean(self.right)
@@ -190,10 +202,11 @@ class ViviendoDetail(tk.Frame, Methods):
 		view.pack()
 
 	def viviendoForm(self):
-		self.clean(self.right)
-		view = forms.viviendo.ViviendoForm(self.right,
-			viviendo=self.viviendo, viviendoDetail=self)
-		view.pack()
+		if self.session.permission():
+			self.clean(self.right)
+			view = forms.viviendo.ViviendoForm(self.right, session=self.session,
+				viviendo=self.viviendo, viviendo_detail=self)
+			view.pack()
 
 
 # anchor support: must be n, ne, e, se, s, sw, w, nw, or center

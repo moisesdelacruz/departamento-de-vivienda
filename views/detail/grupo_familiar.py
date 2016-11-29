@@ -8,12 +8,19 @@ from utils.methods import Methods
 from database.main import FamilyModel
 
 class Grupo_familiarDetail(tk.Frame, Methods):
-	def __init__(self, root, viviendo_id):
+	def __init__(self, root, viviendo_id, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
+		# get session
+		if kwargs.get('session'):
+			self.session = kwargs.get('session')
+
 		self.viviendo_id = viviendo_id
 		self.db = FamilyModel()
 		self.models = self.db.list(viviendo_id=self.viviendo_id)
+
+		# clean content
+		# self.clean(self.root)
 
 		# content list
 		# Content Horizontal
@@ -53,8 +60,10 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 			bg="#EFEFEF", bd=0).pack(side=tk.RIGHT, padx=4)
 
 	def delete(self, model):
-		if tkMessageBox.askyesno(title='Advertencia',
-			message='¿Seguro(a) que desea Eliminar?'):
-			self.db.delete(model)
-			self.parent.destroy()
-			self.__init__(self.root, self.viviendo_id)
+		if self.session.permission():
+			if tkMessageBox.askyesno(title='Advertencia',
+				message='¿Seguro(a) que desea Eliminar?'):
+				self.db.delete(model)
+				self.parent.destroy()
+				self.__init__(self.root, self.viviendo_id, session=self.session)
+		else: self.session.denegate()
