@@ -21,7 +21,8 @@ class LoginForm(tk.Frame, Methods):
 		query = self.db.retrive(str(self.username.get()), field='username')
 		if query:
 			if self.password.get():
-				if query[0][7] == self.password.get():
+				password_decrypt = self.decrypt(query[0][7])
+				if password_decrypt == self.password.get():
 					self.session = ({
 						"user_id": query[0][0],
 						"username": query[0][1],

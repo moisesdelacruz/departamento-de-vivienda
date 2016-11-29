@@ -18,6 +18,7 @@ class RegisterForm(tk.Frame, Methods):
 
 	def save(self):
 		if self.password.get() == self.password2.get():
+			password_encrypt = self.encrypt(self.password.get())
 			data = ({
 				"username": self.username.get(),
 				"first_name": self.first_name.get(),
@@ -25,9 +26,8 @@ class RegisterForm(tk.Frame, Methods):
 				"cedula": int(self.ci.get()),
 				"permission": self.permissions.get(),
 				"is_superuser": bool(self.is_superuser.get()),
-				"password": self.password.get()
+				"password": password_encrypt
 			})
-			print data
 			self.db.create(data)
 			successes = SuccessesView(self.root, message='Usuario Creado')
 

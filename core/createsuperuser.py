@@ -2,15 +2,17 @@
 # -*- coding: utf-8 -*-
 
 from database.main import UserModel
+from utils.methods import Methods
 import getpass
 
-class CreateSuperUser(object):
+class CreateSuperUser(Methods):
 	def __init__(self):
 		self.db = UserModel()
 		self.form()
 
 	def save(self):
 		if self.password1 == self.password2:
+			password_encrypt = self.encrypt(self.password1)
 			data = ({
 				"username": str(self.username),
 				"first_name": '',
@@ -18,9 +20,8 @@ class CreateSuperUser(object):
 				"cedula": int(self.cedula),
 				"permission": str('Lectura y Escritura'),
 				"is_superuser": bool(True),
-				"password": str(self.password1)
+				"password": str(password_encrypt)
 			})
-			print data
 			self.db.create(data)
 
 	def form(self):
