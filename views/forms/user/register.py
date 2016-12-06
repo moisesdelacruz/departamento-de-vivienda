@@ -15,6 +15,8 @@ class RegisterForm(tk.Frame, Methods):
 		self.root = root
 		self.db = UserModel()
 
+		self.user = {}
+		self.passwd = None
 		# edit
 		if kwargs.get('user'):
 			self.user = kwargs.get('user')
@@ -45,7 +47,7 @@ class RegisterForm(tk.Frame, Methods):
 
 
 		else:
-			print "Password does not match"
+			self.alert('Alerta Contraseña', 'Contraseñas no coinciden')
 
 	def form(self):
 		div = tk.Frame(self.root, height=550, background="grey", relief=tk.RAISED)

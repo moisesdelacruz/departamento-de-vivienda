@@ -18,7 +18,6 @@ class UsersListDetail(tk.Frame, Methods):
 
 		self.db = UserModel()
 		self.models = self.db.list()
-		print self.models
 
 		# content list
 		# Content Horizontal

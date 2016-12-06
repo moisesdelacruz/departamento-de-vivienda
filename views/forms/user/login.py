@@ -32,11 +32,10 @@ class LoginForm(tk.Frame, Methods):
 						"is_superuser": query[0][5],
 						"permission": query[0][6]
 					})
-					print self.session
 					self.control.set(self.session)
-				else: print 'password does not match with username'
-			else: print 'debe ingresar una contraseña'
-		else: print 'username no exist'
+				else: self.alert('Alerta Contraseña', 'contraseña no coincide con el nombre de usuario')
+			else: self.alert('Alerta Contraseña', 'debe ingresar una contraseña')
+		else: self.alert('Alerta Contraseña', 'nombre de usuario no existe')
 		
 
 	def form(self):

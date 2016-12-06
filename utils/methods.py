@@ -1,5 +1,6 @@
 import os
 import Tkinter as tk
+import tkMessageBox
 import tkSimpleDialog
 import base64
 
@@ -40,3 +41,6 @@ class Methods(object):
 
 	def decrypt(self, password):
 		return base64.b64decode(password)
+
+	def alert(self, title='Alert', message=''):
+		tkMessageBox.showwarning(title=title, message=message)
