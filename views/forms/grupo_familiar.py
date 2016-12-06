@@ -63,6 +63,7 @@ class Grupo_familiarForm(tk.Frame, Methods):
 			justify="left",bg="white",fg="#6b6a6a",
 			highlightbackground="black",highlightcolor="red",
 			highlightthickness=0)
+		self.ci.focus()
 		self.ci.pack(pady=8)
 
 		# Entry of first_name
@@ -119,14 +120,16 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		self.discapacity=tk.BooleanVar(booleans, value=False)
 		ttk.Checkbutton(booleans, text='Discapacidad', variable=self.discapacity,
 			onvalue=True, offvalue=False,
-			command=self.textDialog).pack(side=tk.LEFT, padx=5, pady=8)
+			command=lambda : self.textDialog(self.discapacity_desc)
+			).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Boolean of work
 		self.value=0
 		self.work=tk.BooleanVar(booleans, value=False)
 		ttk.Checkbutton(booleans, text='Trabaja', variable=self.work,
 			onvalue=True, offvalue=False,
-			command=self.entry).pack(side=tk.LEFT, padx=5, pady=8)
+			command=lambda : self.entry(self.value)
+			).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Buttons of actions
 		buttons = tk.Frame(form,  relief=tk.RAISED)
