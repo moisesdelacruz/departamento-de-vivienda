@@ -12,6 +12,7 @@ from forms.search import SearchForm
 from forms.user.register import RegisterForm
 from forms.user.login import LoginForm
 from views.detail.home import HomeView
+from views.detail.users_list import UsersListDetail
 
 class Toolbar(tk.Frame, Methods):
 
@@ -79,6 +80,12 @@ class Toolbar(tk.Frame, Methods):
         else:
             self.loginFrom()
 
+    def users_list(self):
+        if self.content_session.get('is_superuser'):
+            self.clean(self.body)
+            self.parent.title('Lista de Usuarios')
+            self.users = UsersListDetail(self.body, session=self)
+
     def set(self, account):
         self.content_session = account
         # TOP Toolbar
@@ -108,6 +115,8 @@ class Toolbar(tk.Frame, Methods):
             command=self.formSearch)
         addUserButton = tk.Button(self.tool, image=iconAddUser, relief=tk.FLAT,
             command=self.formRegister)
+        listUsersButton = tk.Button(self.tool, image=iconAddUser, relief=tk.FLAT,
+            command=self.users_list)
         exitButton = tk.Button(self.tool, image=iconExit, relief=tk.FLAT,
             command=self.exit)
 
@@ -125,6 +134,9 @@ class Toolbar(tk.Frame, Methods):
         if self.content_session.get('is_superuser'):
             addUserButton.image = iconAddUser
             addUserButton.pack(side=tk.LEFT, padx=2, pady=2)
+
+            listUsersButton.image = iconAddUser
+            listUsersButton.pack(side=tk.LEFT, padx=2, pady=2)
         
         exitButton.image = iconExit
         exitButton.pack(side=tk.LEFT, padx=2, pady=2)

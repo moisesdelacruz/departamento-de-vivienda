@@ -10,7 +10,7 @@ from views.generic.successes import SuccessesView
 from database.main import UserModel
 
 class RegisterForm(tk.Frame, Methods):
-	def __init__(self, root):
+	def __init__(self, root, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
 		self.db = UserModel()
