@@ -18,6 +18,7 @@ class RegisterForm(tk.Frame, Methods):
 		# edit
 		if kwargs.get('user'):
 			self.user = kwargs.get('user')
+			self.passwd = self.decrypt(self.user[7])
 
 		self.form()
 
@@ -129,6 +130,7 @@ class RegisterForm(tk.Frame, Methods):
 			fg="#474747").place(x=125,y=320)
 
 		self.password=validate.MaxLengthEntry(form, show="*", maxlength=40,
+			value=self.passwd if self.passwd else '',
 			width=22, bd=0, font="Helvetica 14 normal",justify="left",
 			bg="white",fg="#6b6a6a", highlightbackground="black",
 			highlightcolor="red", highlightthickness=0)
@@ -139,6 +141,7 @@ class RegisterForm(tk.Frame, Methods):
 			fg="#474747").place(x=83,y=360)
 
 		self.password2=validate.MaxLengthEntry(form, show="*", maxlength=40,
+			value=self.passwd if self.passwd else '',
 			width=22, bd=0, font="Helvetica 14 normal",justify="left",
 			bg="white",fg="#6b6a6a", highlightbackground="black",
 			highlightcolor="red", highlightthickness=0)
