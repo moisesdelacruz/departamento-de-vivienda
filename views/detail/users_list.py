@@ -54,11 +54,11 @@ class UsersListDetail(tk.Frame, Methods):
 		tk.Label(root, text=model[1], font="Helvetica 13 normal",
 			fg="#757575", bg="#EFEFEF").pack(side=tk.LEFT, padx=4)
 
-		tk.Label(root, text=model[6], font="Helvetica 13 normal",
-			fg="#757575", bg="#EFEFEF").pack(side=tk.LEFT, padx=4)
+		tk.Label(root, text=model[6], font="Helvetica 10 normal",
+			fg="red", bg="#EFEFEF").pack(side=tk.LEFT, padx=4)
 
 		tk.Label(root, text='superusuario' if model[5] else 'usuario',
-			font="Helvetica 13 normal", fg="#757575",
+			font="Helvetica 12 normal", fg="green" if model[5] else "red",
 			bg="#EFEFEF").pack(side=tk.LEFT, padx=4)
 
 		tk.Button(root, text="Eliminar", font="Helvetica 12 normal",
@@ -66,7 +66,7 @@ class UsersListDetail(tk.Frame, Methods):
 			bg="#EFEFEF", bd=0).pack(side=tk.RIGHT, padx=4)
 
 		tk.Button(root, text="Editar", font="Helvetica 12 normal",
-			command=lambda : self.edit(model_id), fg="#757575",
+			command=lambda : self.edit(model), fg="#757575",
 			bg="#EFEFEF", bd=0).pack(side=tk.RIGHT, padx=4)
 
 	def delete(self, model):
@@ -82,4 +82,4 @@ class UsersListDetail(tk.Frame, Methods):
 	def edit(self, model):
 		if self.session.permission():
 			self.clean(self.root)
-			RegisterForm(self.root, user_id=model)
+			RegisterForm(self.root, user=model)

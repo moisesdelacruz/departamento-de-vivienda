@@ -60,6 +60,7 @@ class LoginForm(tk.Frame, Methods):
 			width=22, bd=0, font="Helvetica 14 normal",justify="left",
 			bg="white",fg="#6b6a6a", highlightbackground="black",
 			highlightcolor="red", highlightthickness=0)
+		self.username.focus()
 		self.username.pack(pady=8)
 
 		# Entry of the password

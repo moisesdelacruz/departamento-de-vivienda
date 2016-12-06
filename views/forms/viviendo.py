@@ -78,6 +78,7 @@ class ViviendoForm(tk.Frame, Methods):
 			width=22, bd=0, font="Helvetica 14 normal",justify="left",
 			bg="white",fg="#6b6a6a", highlightbackground="black",
 			highlightcolor="red", highlightthickness=0)
+		self.ci.focus()
 		self.ci.pack(pady=8)
 
 		# Entrada de texto para Nombre

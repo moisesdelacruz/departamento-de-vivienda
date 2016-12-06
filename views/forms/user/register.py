@@ -14,6 +14,11 @@ class RegisterForm(tk.Frame, Methods):
 		tk.Frame.__init__(self, root)
 		self.root = root
 		self.db = UserModel()
+
+		# edit
+		if kwargs.get('user'):
+			self.user = kwargs.get('user')
+
 		self.form()
 
 	def save(self):
@@ -28,8 +33,15 @@ class RegisterForm(tk.Frame, Methods):
 				"is_superuser": bool(self.is_superuser.get()),
 				"password": password_encrypt
 			})
-			self.db.create(data)
-			successes = SuccessesView(self.root, message='Usuario Creado')
+
+			if not self.user:
+				self.db.create(data)
+				successes = SuccessesView(self.root, message='Usuario Creado')
+			else:
+				data['user_id'] = self.user[0]
+				self.db.update(data)
+				successes = SuccessesView(self.root, message='Usuario Editado')
+
 
 		else:
 			print "Password does not match"
@@ -52,9 +64,11 @@ class RegisterForm(tk.Frame, Methods):
 			fg="#474747").place(x=83,y=78)
 
 		self.username=validate.MaxLengthEntry(form, maxlength=40,
+			value=self.user[1] if self.user else '',
 			width=22, bd=0, font="Helvetica 14 normal",justify="left",
 			bg="white",fg="#6b6a6a", highlightbackground="black",
 			highlightcolor="red", highlightthickness=0)
+		self.username.focus()
 		self.username.pack(pady=8)
 
 		# Entry of the first_name
@@ -62,6 +76,7 @@ class RegisterForm(tk.Frame, Methods):
 			fg="#474747").place(x=145,y=118)
 
 		self.first_name=validate.MaxLengthEntry(form, maxlength=40,
+			value=self.user[2] if self.user else '',
 			width=22, bd=0, font="Helvetica 14 normal",justify="left",
 			bg="white",fg="#6b6a6a", highlightbackground="black",
 			highlightcolor="red", highlightthickness=0)
@@ -72,6 +87,7 @@ class RegisterForm(tk.Frame, Methods):
 			fg="#474747").place(x=140,y=158)
 
 		self.last_name=validate.MaxLengthEntry(form, maxlength=40,
+			value=self.user[3] if self.user else '',
 			width=22, bd=0, font="Helvetica 14 normal",justify="left",
 			bg="white",fg="#6b6a6a", highlightbackground="black",
 			highlightcolor="red", highlightthickness=0)
@@ -82,6 +98,7 @@ class RegisterForm(tk.Frame, Methods):
 			fg="#474747").place(x=176,y=198)
 
 		self.ci=validate.IntegerEntry(form,
+			value=self.user[4] if self.user else 0,
 			width=22, bd=0, font="Helvetica 14 normal",justify="left",
 			bg="white",fg="#6b6a6a", highlightbackground="black",
 			highlightcolor="red", highlightthickness=0)
@@ -90,19 +107,20 @@ class RegisterForm(tk.Frame, Methods):
 		# Entrada de texto para permissions
 		tk.Label(form, text="Permisos:", font="Helvetica 10",
 			fg="#474747").place(x=135,y=239)
-		self.permissions=tk.StringVar(form)
+		self.permissions=tk.StringVar(form,
+			value=self.user[6] if self.user else '')
 		fieldPermissions = ttk.Combobox(form, state='readonly',
 			textvariable=self.permissions, font="Helvetica 13",
 			justify="left",background="#1E6FBA", width=25)
 		fieldPermissions['values'] = self.selectPermissions()
-		fieldPermissions.current(0)
 		for (x, item) in enumerate(fieldPermissions['values']):
 			if item == self.permissions.get():
 				fieldPermissions.current(int(x))
 		fieldPermissions.pack(pady=8)
 
 		# is superuser
-		self.is_superuser = tk.BooleanVar(form, value=False)
+		self.is_superuser = tk.BooleanVar(form,
+			value=self.user[5] if self.user else False)
 		ttk.Checkbutton(form, text='Superusuario', variable=self.is_superuser,
 			onvalue=True, offvalue=False).pack(pady=8)
 

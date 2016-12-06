@@ -44,8 +44,8 @@ class User(object):
             cedula=%(cedula)s,
             permission=%(permission)s,
             is_superuser=%(is_superuser)s,
-            password=%(password)s,
-            WHERE user_id=%(user_id)s;""", request)
+            password=%(password)s
+            WHERE user_id=%(user_id)s""", request)
         self.conn.commit()
         return True
 

@@ -51,6 +51,7 @@ class SearchForm(tk.Frame, Methods):
 			width=34, bd=0, font="Helvetica 18 normal",justify="left",
 			bg="white",fg="black", highlightbackground="black",
 			highlightcolor="red", highlightthickness=1)
+		self.search.focus()
 		self.search.pack(side=tk.LEFT)
 		iconSearch = self.getImage("views/images/search-icon.png")
 		searchButton = tk.Button(form, command=self.searchdb,

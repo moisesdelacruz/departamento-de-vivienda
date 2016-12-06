@@ -66,6 +66,7 @@ class SolicitudForm(tk.Frame, Methods):
 			font="Helvetica 14 normal",justify="left",bg="white",fg="#6b6a6a",
 			highlightbackground="black",highlightcolor="red",
 			highlightthickness=0)
+		self.housing_conditions.focus()
 		self.housing_conditions.pack(pady=8)
 
 		# Entry housing_direction
