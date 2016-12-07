@@ -102,28 +102,35 @@ class Toolbar(tk.Frame, Methods):
 
         self.tool = tk.Frame(self.parent, bd=1, relief=tk.RAISED)
 
-        iconHome = self.getImage("views/images/homeIcon.png")
-        iconAdd = self.getImage("views/images/add-viviendo.png")
+        iconHome = self.getImage("views/images/homeIcon.png", 37, 30)
+        iconAdd = self.getImage("views/images/add-viviendo.png", 35, 30)
         iconAddUser = self.getImage("views/images/add-user.png")
+        iconShow = self.getImage("views/images/show-viviendo.png", 40, 33)
         iconListUser = self.getImage("views/images/user-list-icons.png")
         iconProfile = self.getImage("views/images/user-information-icon.png")
-        iconShow = self.getImage("views/images/show-viviendo.png")
         iconExit = self.getImage("views/images/exit.png")
 
-        homeButton = tk.Button(self.tool, text='Inicio', image=iconHome, relief=tk.FLAT,
-            command=self.home, compound=tk.LEFT, font="Helvetica 10 bold")
-        addButton = tk.Button(self.tool, text='Nuevo', image=iconAdd, relief=tk.FLAT,
-            command=self.formViviendo, compound=tk.LEFT, font="Helvetica 10 bold")
-        showButton = tk.Button(self.tool, text='Buscar', image=iconShow, relief=tk.FLAT,
-            command=self.formSearch, compound=tk.LEFT, font="Helvetica 10 bold")
-        showProfile = tk.Button(self.tool, text='Perfil', image=iconProfile, relief=tk.FLAT,
-            command=self.formSearch, compound=tk.LEFT, font="Helvetica 10 bold")
-        addUserButton = tk.Button(self.tool, text='Nuevo User', image=iconAddUser, relief=tk.FLAT,
-            command=self.formRegister, compound=tk.LEFT, font="Helvetica 10 bold")
-        listUsersButton = tk.Button(self.tool, text='Users', image=iconListUser, relief=tk.FLAT,
-            command=self.users_list, compound=tk.LEFT, font="Helvetica 10 bold")
-        exitButton = tk.Button(self.tool, text='Salir', image=iconExit, relief=tk.FLAT,
-            command=self.exit, compound=tk.LEFT, font="Helvetica 10 bold")
+        homeButton = tk.Button(self.tool, text='Inicio', image=iconHome,
+            relief=tk.FLAT, command=self.home, compound=tk.LEFT,
+            font="Helvetica 10 bold")
+        addButton = tk.Button(self.tool, text='Nuevo', image=iconAdd,
+            relief=tk.FLAT, command=self.formViviendo, compound=tk.LEFT,
+            font="Helvetica 10 bold")
+        showButton = tk.Button(self.tool, text='Buscar', image=iconShow,
+            relief=tk.FLAT, command=self.formSearch, compound=tk.LEFT,
+            font="Helvetica 10 bold")
+        showProfile = tk.Button(self.tool, text='Perfil', image=iconProfile,
+            relief=tk.FLAT, command=self.formSearch, compound=tk.LEFT,
+            font="Helvetica 10 bold")
+        addUserButton = tk.Button(self.tool, text='Nuevo User', image=iconAddUser,
+            relief=tk.FLAT, command=self.formRegister, compound=tk.LEFT,
+            font="Helvetica 10 bold")
+        listUsersButton = tk.Button(self.tool, text='Users', image=iconListUser,
+            relief=tk.FLAT, command=self.users_list, compound=tk.LEFT,
+            font="Helvetica 10 bold")
+        exitButton = tk.Button(self.tool, text='Salir', image=iconExit,
+            relief=tk.FLAT, command=self.exit, compound=tk.LEFT,
+            font="Helvetica 10 bold")
 
         # Packs
         homeButton.image = iconHome
