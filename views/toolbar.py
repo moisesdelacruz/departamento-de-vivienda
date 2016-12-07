@@ -89,6 +89,7 @@ class Toolbar(tk.Frame, Methods):
     def set(self, account):
         self.content_session = account
         # TOP Toolbar
+        self.menu()
         self.toolbar()
         self.home()
 
@@ -109,20 +110,20 @@ class Toolbar(tk.Frame, Methods):
         iconShow = self.getImage("views/images/show-viviendo.png")
         iconExit = self.getImage("views/images/exit.png")
 
-        homeButton = tk.Button(self.tool, image=iconHome, relief=tk.FLAT,
-            command=self.home)
-        addButton = tk.Button(self.tool, image=iconAdd, relief=tk.FLAT,
-            command=self.formViviendo)
-        showButton = tk.Button(self.tool, image=iconShow, relief=tk.FLAT,
-            command=self.formSearch)
-        showProfile = tk.Button(self.tool, image=iconProfile, relief=tk.FLAT,
-            command=self.formSearch)
-        addUserButton = tk.Button(self.tool, image=iconAddUser, relief=tk.FLAT,
-            command=self.formRegister)
-        listUsersButton = tk.Button(self.tool, image=iconListUser, relief=tk.FLAT,
-            command=self.users_list)
-        exitButton = tk.Button(self.tool, image=iconExit, relief=tk.FLAT,
-            command=self.exit)
+        homeButton = tk.Button(self.tool, text='Inicio', image=iconHome, relief=tk.FLAT,
+            command=self.home, compound=tk.LEFT, font="Helvetica 10 bold")
+        addButton = tk.Button(self.tool, text='Nuevo', image=iconAdd, relief=tk.FLAT,
+            command=self.formViviendo, compound=tk.LEFT, font="Helvetica 10 bold")
+        showButton = tk.Button(self.tool, text='Buscar', image=iconShow, relief=tk.FLAT,
+            command=self.formSearch, compound=tk.LEFT, font="Helvetica 10 bold")
+        showProfile = tk.Button(self.tool, text='Perfil', image=iconProfile, relief=tk.FLAT,
+            command=self.formSearch, compound=tk.LEFT, font="Helvetica 10 bold")
+        addUserButton = tk.Button(self.tool, text='Nuevo User', image=iconAddUser, relief=tk.FLAT,
+            command=self.formRegister, compound=tk.LEFT, font="Helvetica 10 bold")
+        listUsersButton = tk.Button(self.tool, text='Users', image=iconListUser, relief=tk.FLAT,
+            command=self.users_list, compound=tk.LEFT, font="Helvetica 10 bold")
+        exitButton = tk.Button(self.tool, text='Salir', image=iconExit, relief=tk.FLAT,
+            command=self.exit, compound=tk.LEFT, font="Helvetica 10 bold")
 
         # Packs
         homeButton.image = iconHome
@@ -151,3 +152,34 @@ class Toolbar(tk.Frame, Methods):
 
         self.tool.pack(side=tk.TOP, fill=tk.X)
         self.pack()
+
+
+    def menu(self):
+        menubar = tk.Menu(self.parent)
+        # File
+        filemenu = tk.Menu(menubar, tearoff=0)
+        filemenu.add_command(label='Inicio', command=self.home)
+        filemenu.add_separator()
+        filemenu.add_command(label='Nuevo Viviendo', command=self.formViviendo)
+        filemenu.add_command(label='Buscar Viviendo', command=self.formSearch)
+        filemenu.add_separator()
+        filemenu.add_command(label='Salir', command=self.exit)
+
+        # Edit
+        editmenu = tk.Menu(menubar, tearoff=0)
+        editmenu.add_command(label='Mi Perfil', command=self.formRegister)
+        editmenu.add_separator()
+        editmenu.add_command(label='Nuevo Usuario', command=self.formRegister)
+        editmenu.add_command(label='Lista de Usuarios', command=self.users_list)
+
+        # Help
+        helpmenu = tk.Menu(menubar, tearoff=0)
+        helpmenu.add_command(label='Acerca de')
+        helpmenu.add_separator()
+        helpmenu.add_command(label='Ayuda')
+
+        menubar.add_cascade(label="Archivo", menu=filemenu)
+        menubar.add_cascade(label="Editar", menu=editmenu)
+        menubar.add_cascade(label="Ayuda", menu=helpmenu)
+
+        self.parent.config(menu=menubar)
