@@ -31,21 +31,24 @@ class SearchForm(tk.Frame, Methods):
 			self.noResult()
 
 	def form(self):
-		# Content
-		div = tk.Frame(self.root, width=650, height=300,
-			background="grey", relief=tk.RAISED)
-		div.pack(side=tk.TOP, expand=True, fill=tk.X)
+		# Content Horizontal
+		div = tk.Frame(self.root, height=500, background="grey", relief=tk.RAISED)
+		div.pack(expand=True, fill=tk.X)
 		div.pack_propagate(0)
+		# Content Vertical
+		hor = tk.Frame(div, width=650, relief=tk.RAISED)
+		hor.pack(expand=True, fill=tk.Y)
+		hor.pack_propagate(0)
 
 		# Logo
-		logoImage = self.getImage("views/images/Gran-Mision-Vivienda-Venezuela.jpg", 520, 240)
-		logo = tk.Label(div, image=logoImage)
+		logoImage = self.getImage("views/images/Gran-Mision-Vivienda-Venezuela.png", 520, 240)
+		logo = tk.Label(hor, image=logoImage)
 		logo.pack()
 		logo.image = logoImage
 
 		# form
 		# Entry Cedula de Identidad
-		form = tk.Frame(div, background="violet", relief=tk.RAISED)
+		form = tk.Frame(hor, background="grey", relief=tk.RAISED)
 		form.pack()
 		self.search=validate.IntegerEntry(form,
 			width=34, bd=0, font="Helvetica 18 normal",justify="left",
