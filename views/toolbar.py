@@ -13,6 +13,7 @@ from forms.user.register import RegisterForm
 from forms.user.login import LoginForm
 from views.detail.home import HomeView
 from views.detail.users_list import UsersListDetail
+from views.generic.about import AboutView
 
 class Toolbar(tk.Frame, Methods):
 
@@ -49,9 +50,10 @@ class Toolbar(tk.Frame, Methods):
             message='No tienes permisos para realizar esta acción')
 
     def formViviendo(self):
-        self.clean(self.body)
-        self.parent.title('Registar Viviendo')
-        self.formViviendo = ViviendoForm(self.body, session=self)
+        if self.permission():
+            self.clean(self.body)
+            self.parent.title('Registar Viviendo')
+            self.formViviendo = ViviendoForm(self.body, session=self)
 
     def formSearch(self):
         if self.session():
@@ -86,6 +88,10 @@ class Toolbar(tk.Frame, Methods):
             self.parent.title('Lista de Usuarios')
             self.users = UsersListDetail(self.body, session=self)
 
+    def about(self):
+        self.clean(self.body)
+        about = AboutView(self.body)
+
     def set(self, account):
         self.content_session = account
         # TOP Toolbar
@@ -103,29 +109,29 @@ class Toolbar(tk.Frame, Methods):
         self.tool = tk.Frame(self.parent, bd=1, relief=tk.RAISED)
 
         iconHome = self.getImage("views/images/homeIcon.png", 37, 30)
-        iconAdd = self.getImage("views/images/add-viviendo.png", 35, 30)
+        iconAdd = self.getImage("views/images/add-viviendo.png", 40, 35)
         iconAddUser = self.getImage("views/images/add-user.png")
-        iconShow = self.getImage("views/images/show-viviendo.png", 40, 33)
-        iconListUser = self.getImage("views/images/user-list-icons.png")
-        iconProfile = self.getImage("views/images/user-information-icon.png")
+        iconShow = self.getImage("views/images/show-viviendo.png", 44, 33)
+        iconListUser = self.getImage("views/images/user-list-icons.png", 35)
+        iconProfile = self.getImage("views/images/user-information-icon.png", 35)
         iconExit = self.getImage("views/images/exit.png")
 
         homeButton = tk.Button(self.tool, text='Inicio', image=iconHome,
             relief=tk.FLAT, command=self.home, compound=tk.LEFT,
             font="Helvetica 10 bold")
-        addButton = tk.Button(self.tool, text='Nuevo', image=iconAdd,
+        addButton = tk.Button(self.tool, text='Nuevo Viviendo', image=iconAdd,
             relief=tk.FLAT, command=self.formViviendo, compound=tk.LEFT,
             font="Helvetica 10 bold")
-        showButton = tk.Button(self.tool, text='Buscar', image=iconShow,
+        showButton = tk.Button(self.tool, text='Buscar Viviendo', image=iconShow,
             relief=tk.FLAT, command=self.formSearch, compound=tk.LEFT,
             font="Helvetica 10 bold")
-        showProfile = tk.Button(self.tool, text='Perfil', image=iconProfile,
+        showProfile = tk.Button(self.tool, text='Mi Perfil', image=iconProfile,
             relief=tk.FLAT, command=self.formSearch, compound=tk.LEFT,
             font="Helvetica 10 bold")
-        addUserButton = tk.Button(self.tool, text='Nuevo User', image=iconAddUser,
+        addUserButton = tk.Button(self.tool, text='Nuevo Usuario', image=iconAddUser,
             relief=tk.FLAT, command=self.formRegister, compound=tk.LEFT,
             font="Helvetica 10 bold")
-        listUsersButton = tk.Button(self.tool, text='Users', image=iconListUser,
+        listUsersButton = tk.Button(self.tool, text='Lista de Usuarios', image=iconListUser,
             relief=tk.FLAT, command=self.users_list, compound=tk.LEFT,
             font="Helvetica 10 bold")
         exitButton = tk.Button(self.tool, text='Salir', image=iconExit,
@@ -181,7 +187,7 @@ class Toolbar(tk.Frame, Methods):
 
         # Help
         helpmenu = tk.Menu(menubar, tearoff=0)
-        helpmenu.add_command(label='Acerca de')
+        helpmenu.add_command(label='Acerca de', command=self.about)
         helpmenu.add_separator()
         helpmenu.add_command(label='Ayuda')
 
