@@ -105,6 +105,7 @@ class Toolbar(tk.Frame, Methods):
         iconAdd = self.getImage("views/images/add-viviendo.png")
         iconAddUser = self.getImage("views/images/add-user.png")
         iconListUser = self.getImage("views/images/user-list-icons.png")
+        iconProfile = self.getImage("views/images/user-information-icon.png")
         iconShow = self.getImage("views/images/show-viviendo.png")
         iconExit = self.getImage("views/images/exit.png")
 
@@ -113,6 +114,8 @@ class Toolbar(tk.Frame, Methods):
         addButton = tk.Button(self.tool, image=iconAdd, relief=tk.FLAT,
             command=self.formViviendo)
         showButton = tk.Button(self.tool, image=iconShow, relief=tk.FLAT,
+            command=self.formSearch)
+        showProfile = tk.Button(self.tool, image=iconProfile, relief=tk.FLAT,
             command=self.formSearch)
         addUserButton = tk.Button(self.tool, image=iconAddUser, relief=tk.FLAT,
             command=self.formRegister)
@@ -131,6 +134,9 @@ class Toolbar(tk.Frame, Methods):
 
         showButton.image = iconShow
         showButton.pack(side=tk.LEFT, padx=2, pady=2)
+
+        showProfile.image = iconProfile
+        showProfile.pack(side=tk.LEFT, padx=2, pady=2)
 
         if self.content_session.get('is_superuser'):
             listUsersButton.image = iconListUser
