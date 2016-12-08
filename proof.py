@@ -325,81 +325,207 @@
 # 		cn.pack(side='left')
 # 		mainloop()
 
-import Tkinter as tk
+# import Tkinter as tk
 
 
-class DateEntry(tk.Frame):
-	def __init__(self, master, frame_look={}, **look):
-		args = dict(relief=tk.SUNKEN, border=1)
-		args.update(frame_look)
-		tk.Frame.__init__(self, master, **args)
+# class DateEntry(tk.Frame):
+# 	def __init__(self, master, frame_look={}, **look):
+# 		args = dict(relief=tk.SUNKEN, border=1)
+# 		args.update(frame_look)
+# 		tk.Frame.__init__(self, master, **args)
 
-		args = {'relief': tk.FLAT}
-		args.update(look)
+# 		args = {'relief': tk.FLAT}
+# 		args.update(look)
 
-		self.entry_1 = tk.Entry(self, width=2, **args)
-		self.label_1 = tk.Label(self, text='/', **args)
-		self.entry_2 = tk.Entry(self, width=2, **args)
-		self.label_2 = tk.Label(self, text='/', **args)
-		self.entry_3 = tk.Entry(self, width=4, **args)
+# 		self.entry_1 = tk.Entry(self, width=2, **args)
+# 		self.label_1 = tk.Label(self, text='/', **args)
+# 		self.entry_2 = tk.Entry(self, width=2, **args)
+# 		self.label_2 = tk.Label(self, text='/', **args)
+# 		self.entry_3 = tk.Entry(self, width=4, **args)
 
-		self.entry_1.pack(side=tk.LEFT)
-		self.label_1.pack(side=tk.LEFT)
-		self.entry_2.pack(side=tk.LEFT)
-		self.label_2.pack(side=tk.LEFT)
-		self.entry_3.pack(side=tk.LEFT)
+# 		self.entry_1.pack(side=tk.LEFT)
+# 		self.label_1.pack(side=tk.LEFT)
+# 		self.entry_2.pack(side=tk.LEFT)
+# 		self.label_2.pack(side=tk.LEFT)
+# 		self.entry_3.pack(side=tk.LEFT)
 
-		self.entry_1.bind('<KeyRelease>', self._e1_check)
-		self.entry_2.bind('<KeyRelease>', self._e2_check)
-		self.entry_3.bind('<KeyRelease>', self._e3_check)
+# 		self.entry_1.bind('<KeyRelease>', self._e1_check)
+# 		self.entry_2.bind('<KeyRelease>', self._e2_check)
+# 		self.entry_3.bind('<KeyRelease>', self._e3_check)
 
-	def _backspace(self, entry):
-		cont = entry.get()
-		entry.delete(0, tk.END)
-		entry.insert(0, cont[:-1])
+# 	def _backspace(self, entry):
+# 		cont = entry.get()
+# 		entry.delete(0, tk.END)
+# 		entry.insert(0, cont[:-1])
 
-	def _e1_check(self, e):
-		cont = self.entry_1.get()
-		if cont:
-			if len(cont) >= 2:
-				self.entry_2.focus()
-			if len(cont) > 2 or not cont[-1].isdigit():
-				self._backspace(self.entry_1)
-				self.entry_1.focus()
+# 	def _e1_check(self, e):
+# 		cont = self.entry_1.get()
+# 		if cont:
+# 			if len(cont) >= 2:
+# 				self.entry_2.focus()
+# 			if len(cont) > 2 or not cont[-1].isdigit():
+# 				self._backspace(self.entry_1)
+# 				self.entry_1.focus()
 
-	def _e2_check(self, e):
-		cont = self.entry_2.get()
-		if cont:
-			if len(cont) >= 2:
-				self.entry_3.focus()
-			if len(cont) > 2 or not cont[-1].isdigit():
-				self._backspace(self.entry_2)
-				self.entry_2.focus()
+# 	def _e2_check(self, e):
+# 		cont = self.entry_2.get()
+# 		if cont:
+# 			if len(cont) >= 2:
+# 				self.entry_3.focus()
+# 			if len(cont) > 2 or not cont[-1].isdigit():
+# 				self._backspace(self.entry_2)
+# 				self.entry_2.focus()
 
-	def _e3_check(self, e):
-		cont = self.entry_3.get()
-		if cont:
-			if len(cont) > 4 or not cont[-1].isdigit():
-				self._backspace(self.entry_3)
+# 	def _e3_check(self, e):
+# 		cont = self.entry_3.get()
+# 		if cont:
+# 			if len(cont) > 4 or not cont[-1].isdigit():
+# 				self._backspace(self.entry_3)
 
-	def get(self):
-		return '%s-%s-%s' %(self.entry_3.get(), self.entry_2.get(), self.entry_1.get())
+# 	def get(self):
+# 		return '%s-%s-%s' %(self.entry_3.get(), self.entry_2.get(), self.entry_1.get())
 
 
-if __name__ == '__main__':
-	def show_contents(e):
-		print dentry.get()
+# if __name__ == '__main__':
+# 	def show_contents(e):
+# 		print dentry.get()
 
-	win = tk.Tk()
-	win.title('DateEntry demo')
+# 	win = tk.Tk()
+# 	win.title('DateEntry demo')
 
-	def show():
-		print dentry.get()
+# 	def show():
+# 		print dentry.get()
 
-	dentry = DateEntry(win, font=('Helvetica', 14, tk.NORMAL), border=0)
-	dentry.pack()
-	boton = tk.Button(win, text="Ok", command=show)
-	boton.pack()
+# 	dentry = DateEntry(win, font=('Helvetica', 14, tk.NORMAL), border=0)
+# 	dentry.pack()
+# 	boton = tk.Button(win, text="Ok", command=show)
+# 	boton.pack()
 
-	win.bind('<Return>', show_contents)
-	win.mainloop()
+# 	win.bind('<Return>', show_contents)
+# 	win.mainloop()
+
+
+
+
+
+# Table---------------------
+
+
+
+# import Tkinter as tk
+
+# class ExampleApp(tk.Tk):
+#     def __init__(self):
+#         tk.Tk.__init__(self)
+#         t = SimpleTable(self, 10,3)
+#         t.pack(side="top", fill="x")
+
+#         t.set(0,0,"Día")
+#         t.set(0,1,"Mes")
+#         t.set(0,2,"Año")
+#         for x in xrange(1,10):
+#         	t.set(x,0,"Martes 13")
+#         	t.set(x,1,"Septiembre")
+#         	t.set(x,2,"2016")
+
+# class SimpleTable(tk.Frame):
+#     def __init__(self, parent, rows=10, columns=2):
+#         # use black background so it "peeks through" to 
+#         # form grid lines
+#         tk.Frame.__init__(self, parent, background="black")
+#         self._widgets = []
+#         for row in range(rows):
+#             current_row = []
+#             for column in range(columns):
+#                 label = tk.Label(self, text="%s/%s" % (row, column), 
+#                                  borderwidth=0, width=10)
+#                 label.grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+#                 current_row.append(label)
+#             self._widgets.append(current_row)
+
+#         for column in range(columns):
+#             self.grid_columnconfigure(column, weight=1)
+
+
+#     def set(self, row, column, value):
+#         widget = self._widgets[row][column]
+#         widget.configure(text=value)
+
+# if __name__ == "__main__":
+#     app = ExampleApp()
+#     app.mainloop()
+
+
+# Scroll------------------------
+
+
+from Tkinter import *   # from x import * is bad practice
+from ttk import *
+
+# http://tkinter.unpythonic.net/wiki/VerticalScrolledFrame
+
+class VerticalScrolledFrame(Frame):
+    """A pure Tkinter scrollable frame that actually works!
+    * Use the 'interior' attribute to place widgets inside the scrollable frame
+    * Construct and pack/place/grid normally
+    * This frame only allows vertical scrolling
+
+    """
+    def __init__(self, parent, *args, **kw):
+        Frame.__init__(self, parent, *args, **kw)            
+
+        # create a canvas object and a vertical scrollbar for scrolling it
+        vscrollbar = Scrollbar(self, orient=VERTICAL)
+        vscrollbar.pack(fill=Y, side=RIGHT, expand=FALSE)
+        canvas = Canvas(self, bd=0, highlightthickness=0,
+                        yscrollcommand=vscrollbar.set)
+        canvas.pack(side=LEFT, fill=BOTH, expand=TRUE)
+        vscrollbar.config(command=canvas.yview)
+
+        # reset the view
+        canvas.xview_moveto(0)
+        canvas.yview_moveto(0)
+
+        # create a frame inside the canvas which will be scrolled with it
+        self.interior = interior = Frame(canvas)
+        interior_id = canvas.create_window(0, 0, window=interior,
+                                           anchor=NW)
+
+        # track changes to the canvas and frame width and sync them,
+        # also updating the scrollbar
+        def _configure_interior(event):
+            # update the scrollbars to match the size of the inner frame
+            size = (interior.winfo_reqwidth(), interior.winfo_reqheight())
+            canvas.config(scrollregion="0 0 %s %s" % size)
+            if interior.winfo_reqwidth() != canvas.winfo_width():
+                # update the canvas's width to fit the inner frame
+                canvas.config(width=interior.winfo_reqwidth())
+        interior.bind('<Configure>', _configure_interior)
+
+        def _configure_canvas(event):
+            if interior.winfo_reqwidth() != canvas.winfo_width():
+                # update the inner frame's width to fill the canvas
+                canvas.itemconfigure(interior_id, width=canvas.winfo_width())
+        canvas.bind('<Configure>', _configure_canvas)
+
+
+if __name__ == "__main__":
+
+    class SampleApp(Tk):
+        def __init__(self, *args, **kwargs):
+            root = Tk.__init__(self, *args, **kwargs)
+
+
+            self.frame = VerticalScrolledFrame(root)
+            self.frame.pack()
+            self.label = Label(text="Shrink the window to activate the scrollbar.")
+            self.label.pack()
+            buttons = []
+            for i in range(10):
+                buttons.append(Button(self.frame.interior, text="Button " + str(i)))
+                buttons[-1].pack()
+
+            Label(self.frame.interior, text="Hello World, Hello World, Hello World").pack()
+
+    app = SampleApp()
+    app.mainloop()
