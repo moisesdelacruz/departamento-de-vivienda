@@ -214,3 +214,17 @@ UPDATE account SET
   permission=%(permission)s,
   password=%(password)s,
   WHERE user_id=%(user_id)s;
+
+
+
+-- Tracing
+CREATE TABLE IF NOT EXISTS tracing (
+  tracing_id BIGSERIAL PRIMARY KEY,
+  viviendo_id BIGINT NOT NULL,
+  date_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+
+  UNIQUE("tracing_id"), FOREIGN KEY ("viviendo_id") REFERENCES "viviendo"("viviendo_id")
+);
+
+INSERT INTO tracing (viviendo_id)
+  VALUES (%(viviendo_id)s)
