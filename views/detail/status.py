@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import Tkinter as tk
+from datetime import datetime
 from database.main import SolicitudModel
+from database.main import TracingModel
 from utils.methods import Methods
 from utils.verticalScrolled import VerticalScrolledFrame
 from utils.table import SimpleTable
@@ -11,7 +13,14 @@ class StatusDetail(tk.Frame, Methods):
 	def __init__(self, root, viviendo_id):
 		tk.Frame.__init__(self, root)
 		self.root = root
-		self.db = SolicitudModel()
+
+		# Data base
+		class DB(object): pass
+		self.db = DB()
+		self.db.solicitud = SolicitudModel()
+		self.db.tracing = TracingModel()
+
+		# viviendo id
 		self.viviendo_id = viviendo_id
 
 		# Content Horizontal
@@ -36,7 +45,7 @@ class StatusDetail(tk.Frame, Methods):
 
 
 		# query to data base
-		self.query = self.db.retrive(self.viviendo_id)
+		self.query = self.db.solicitud.retrive(self.viviendo_id)
 		if self.query:
 			self.data = {
 				"residence_constancia": self.query[0][5],
@@ -51,14 +60,9 @@ class StatusDetail(tk.Frame, Methods):
 			self.status()
 
 	def status(self):
-		# ------------
-		# Title
-		tk.Label(self.bottom, text="Estatus", font="Helvetica 16 bold",
-			fg="violet").pack(pady=20)
-
 		# scroll
 		root = VerticalScrolledFrame(self.bottom)
-		root.pack()
+		root.pack(pady=10, padx=15)
 
 		# BOTTOM content
 		item = tk.Frame(root.interior, width=600,
@@ -127,7 +131,10 @@ class StatusDetail(tk.Frame, Methods):
 		tk.Label(item, text="Copia del registro Gran Misíon Vivienda",
 			font="Helvetica 10 normal", fg="#474747").place(x=320,y=60)
 
+
 	def tracing(self):
+		# Query yo database
+		result = self.db.tracing.list({ "viviendo_id": self.viviendo_id })
 		# ------------
 		top = tk.Frame(self.top, width=700, height=70, background="#DDD")
 		top.pack(side=tk.TOP, pady=10, padx=15)
@@ -138,7 +145,10 @@ class StatusDetail(tk.Frame, Methods):
 		tk.Label(last_time, text="Ultima Vez", font="Roboto 12 normal",
 			fg="#474747", bg="#DDD").pack(anchor=tk.SE, padx=5)
 		# ------
-		tk.Label(last_time, text="27/12/2015", font="Roboto 22 normal",
+		date=datetime.strptime(str(result[-1][2]),
+			'%Y-%m-%d %H:%M:%S.%f').strftime('%Y-%m-%d %H:%M:%S')
+		tk.Label(last_time, text=date,
+			font="Roboto 22 normal",
 			fg="#474747", bg="#DDD").pack(side=tk.RIGHT)
 
 		# Numbers of times
@@ -147,7 +157,7 @@ class StatusDetail(tk.Frame, Methods):
 		tk.Label(numbers_times, text="Veces", font="Roboto 12 normal",
 			fg="#474747", bg="#DDD").pack()
 		# ------
-		tk.Label(numbers_times, text="20", font="Roboto 22 normal",
+		tk.Label(numbers_times, text=len(result), font="Roboto 22 normal",
 			fg="#474747", bg="#DDD").pack()
 		
 		# scroll
@@ -155,14 +165,23 @@ class StatusDetail(tk.Frame, Methods):
 		root.pack(expand=True, fill=tk.BOTH, pady=15, padx=15)
 		root.pack_propagate(0)
 
-		t = SimpleTable(root.interior, 20,3)
+		# inverse list
+		list_inverse = []
+		for i in xrange(len(result)-1+1):
+			list_inverse.insert(0, result[i])
+
+		# table of dates
+		t = SimpleTable(root.interior, len(list_inverse)+1,4)
 		t.pack(side="top", fill="x")
 
 		t.set(0,0,"Día")
 		t.set(0,1,"Mes")
 		t.set(0,2,"Año")
-		for x in xrange(1,20):
-			t.set(x,0,"Martes 13")
-			t.set(x,1,"Septiembre")
-			t.set(x,2,"2016")
+		t.set(0,3,"Hora")
+		for (i, item) in enumerate(list_inverse):
+			date = datetime.strptime(str(item[2]), '%Y-%m-%d %H:%M:%S.%f')
+			t.set(int(i)+1,0,date.strftime('%d'))
+			t.set(int(i)+1,1,date.strftime('%B'))
+			t.set(int(i)+1,2,date.strftime('%Y'))
+			t.set(int(i)+1,3,date.strftime('%H:%M:%S'))
 

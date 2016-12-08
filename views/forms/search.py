@@ -3,7 +3,9 @@
 
 import os
 import Tkinter as tk
+
 from database.main import ViviendoModel
+from database.main import TracingModel
 from utils.methods import Methods
 from utils import validate
 from views.detail.viviendo import ViviendoDetail
@@ -12,6 +14,13 @@ class SearchForm(tk.Frame, Methods):
 	def __init__(self, root, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
+
+		# Data base
+		class DB(object): pass
+		self.db = DB()
+		self.db.viviendo = ViviendoModel()
+		self.db.tracing = TracingModel()
+
 		if kwargs.get('session'):
 			self.session = kwargs.get('session')
 		self.form()
@@ -20,11 +29,14 @@ class SearchForm(tk.Frame, Methods):
 		if hasattr(self, 'message'):
 			self.empty.destroy()
 
-		tb = ViviendoModel()
-		self.result = tb.retrive(int(self.search.get()), field='ci')
+		self.result = self.db.viviendo.retrive(int(self.search.get()), field='ci')
 
 		if self.result:
+			# set time
+			self.db.tracing.create({"viviendo_id": self.result[0][0]})
+			# clean content
 			self.clean(self.root)
+			# render view
 			self.detail = ViviendoDetail(self.root, session=self.session, viviendo=self.result)
 		else:
 			self.message = 'no se encontro resultado'
