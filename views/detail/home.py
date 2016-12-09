@@ -22,41 +22,11 @@ class HomeView(tk.Frame):
 		tk.Label(view, text=' '.join(['Bienvenido',
 			self.account.get('first_name'),
 			self.account.get('last_name')]),
-			font="Helvetica 24 normal").pack(pady=20)
+			font="Helvetica 22 normal").pack(pady=20)
 
 		box = tk.Frame(view)
 		box.pack(side=tk.LEFT, anchor=tk.N)
-		# username
-		box1 = tk.Frame(box)
-		box1.pack(anchor=tk.NW)
-		tk.Label(box1, text="Nombre de Usuario:",
-			font="Helvetica 14 normal", fg="#6b6a6a").pack(pady=10, side=tk.LEFT)
-		tk.Label(box1, text=self.account.get('username'),
-			font="Helvetica 14 normal", fg="red").pack(pady=10, side=tk.LEFT)
 
-		# cedula
-		box2 = tk.Frame(box)
-		box2.pack(anchor=tk.NW)
-		tk.Label(box2, text="Cedula de Identidad:",
-			font="Helvetica 14 normal", fg="#6b6a6a").pack(pady=10, side=tk.LEFT)
-		tk.Label(box2, text=self.account.get('cedula'),
-			font="Helvetica 14 normal", fg="green").pack(pady=10, side=tk.LEFT)
-
-		# permission
-		box3 = tk.Frame(box)
-		box3.pack(anchor=tk.NW)
-		tk.Label(box3, text="Permisos:",
-			font="Helvetica 14 normal", fg="#6b6a6a").pack(pady=10, side=tk.LEFT)
-		tk.Label(box3, text=self.account.get('permission'),
-			font="Helvetica 14 normal", fg="blue").pack(pady=10, side=tk.LEFT)
-
-		# is_superuser
-		box4 = tk.Frame(box)
-		box4.pack(anchor=tk.NW)
-		tk.Label(box4, text="Superusuario:",
-			font="Helvetica 14 normal", fg="#6b6a6a").pack(pady=10, side=tk.LEFT)
-		tk.Label(box4, text="SI" if self.account.get('is_superuser') else "NO",
-			font="Helvetica 14 normal", fg="blue").pack(pady=10, side=tk.LEFT)
 
 		# last inicio of session
 		box5 = tk.Frame(view)
