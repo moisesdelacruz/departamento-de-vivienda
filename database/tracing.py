@@ -18,7 +18,7 @@ class Tracing(object):
 		self.conn.commit()
 		return True
 
-	def list(self, request, *args, **kwargs):
+	def list(self, *args, **kwargs):
 		if kwargs.get('viviendo_id'):
 			self.cursor.execute("SELECT * FROM tracing WHERE viviendo_id=%s" %(kwargs.get('viviendo_id')))
 		else:

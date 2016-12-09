@@ -134,7 +134,7 @@ class StatusDetail(tk.Frame, Methods):
 
 	def tracing(self):
 		# Query yo database
-		result = self.db.tracing.list({ "viviendo_id": self.viviendo_id })
+		result = self.db.tracing.list(viviendo_id=self.viviendo_id)
 		# ------------
 		top = tk.Frame(self.top, width=700, height=70, background="#DDD")
 		top.pack(side=tk.TOP, pady=10, padx=15)
@@ -146,7 +146,7 @@ class StatusDetail(tk.Frame, Methods):
 			fg="#474747", bg="#DDD").pack(anchor=tk.SE, padx=5)
 		# ------
 		date=datetime.strptime(str(result[-1][2]),
-			'%Y-%m-%d %H:%M:%S.%f').strftime('%Y-%m-%d %H:%M:%S')
+			'%Y-%m-%d %H:%M:%S.%f').strftime('%Y/%m/%d')
 		tk.Label(last_time, text=date,
 			font="Roboto 22 normal",
 			fg="#474747", bg="#DDD").pack(side=tk.RIGHT)
