@@ -75,9 +75,7 @@ class ViviendoForm(tk.Frame, Methods):
 
 		self.ci=validate.IntegerEntry(form,
 			value=self.viviendo.get('ci') if self.viviendo else 0,
-			width=22, bd=0, font="Helvetica 14 normal",justify="left",
-			bg="white",fg="#6b6a6a", highlightbackground="black",
-			highlightcolor="red", highlightthickness=0)
+			width=27, font="Helvetica 13",justify="left")
 		self.ci.focus()
 		self.ci.pack(pady=8)
 
@@ -86,10 +84,7 @@ class ViviendoForm(tk.Frame, Methods):
 			fg="#474747").place(x=143,y=120)
 		self.first_name=validate.MaxLengthEntry(form,
 			value=self.viviendo.get('first_name') if self.viviendo else '',
-			maxlength=40, width=22, bd=0,
-			font="Helvetica 14 normal",justify="left",bg="white",fg="#6b6a6a",
-			highlightbackground="black",highlightcolor="red",
-			highlightthickness=0)
+			maxlength=40, width=27, font="Helvetica 13",justify="left")
 		self.first_name.pack(pady=8)
 
 		# Entrada de texto para Apellido
@@ -97,10 +92,7 @@ class ViviendoForm(tk.Frame, Methods):
 			fg="#474747").place(x=142,y=162)
 		self.last_name=validate.MaxLengthEntry(form,
 			value=self.viviendo.get('last_name') if self.viviendo else '',
-			maxlength=40, width=22, bd=0,
-			font="Helvetica 14 normal",justify="left",bg="white",fg="#6b6a6a",
-			highlightbackground="black",highlightcolor="red",
-			highlightthickness=0)
+			maxlength=40, width=27, font="Helvetica 13",justify="left")
 		self.last_name.pack(pady=8)
 
 		# Entry birthday
@@ -111,7 +103,7 @@ class ViviendoForm(tk.Frame, Methods):
 
 		actually = self.viviendo.get('birthday') if self.viviendo else None
 
-		self.birthday=entrydate.DateEntry(date, actually=actually, bd=0, font="Helvetica 14 normal")
+		self.birthday=entrydate.DateEntry(date, actually=actually, font="Helvetica 13")
 		self.birthday.pack(side=tk.LEFT)
 
 		# Sex
@@ -146,10 +138,7 @@ class ViviendoForm(tk.Frame, Methods):
 			fg="#474747").place(x=120,y=330)
 		self.postulation=validate.MaxLengthEntry(form,
 			value=self.viviendo.get('postulation') if self.viviendo else '',
-			maxlength=40, width=22, bd=0,
-			font="Helvetica 14 normal",justify="left",bg="white",fg="#6b6a6a",
-			highlightbackground="black",highlightcolor="red",
-			highlightthickness=0)
+			maxlength=40, width=27, font="Helvetica 13",justify="left")
 		self.postulation.pack(pady=8)
 
 		# Entrada de texto para Direccion
@@ -157,8 +146,8 @@ class ViviendoForm(tk.Frame, Methods):
 			fg="#474747").place(x=135,y=372)
 		self.direction=tk.Text(form, width=27, height=3, bd=0,
 			font="Helvetica 12 normal",bg="white",fg="#6b6a6a",
-			highlightbackground="black",highlightcolor="red",
-			highlightthickness=0)
+			highlightbackground="grey",highlightcolor="#4FC2EB",
+			highlightthickness=1)
 		self.direction.insert(tk.INSERT,
 			self.viviendo.get('direction') if self.viviendo else '')
 		self.direction.pack(pady=8)

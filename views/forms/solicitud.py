@@ -62,10 +62,8 @@ class SolicitudForm(tk.Frame, Methods):
 		housing_conditions = tk.StringVar(form,
 			value=data[0][2]) if data else tk.StringVar()
 		self.housing_conditions=validate.MaxLengthEntry(form,
-			value=housing_conditions.get(), maxlength=45, width=22, bd=0,
-			font="Helvetica 14 normal",justify="left",bg="white",fg="#6b6a6a",
-			highlightbackground="black",highlightcolor="red",
-			highlightthickness=0)
+			value=housing_conditions.get(), maxlength=45, width=27,
+			font="Helvetica 13",justify="left")
 		self.housing_conditions.focus()
 		self.housing_conditions.pack(pady=8)
 
@@ -74,8 +72,8 @@ class SolicitudForm(tk.Frame, Methods):
 			fg="#474747").place(x=60,y=120)
 		self.housing_direction=tk.Text(form, width=27, height=3, bd=0,
 			font="Helvetica 12 normal",bg="white",fg="#6b6a6a",
-			highlightbackground="black",highlightcolor="red",
-			highlightthickness=0)
+			highlightbackground="grey",highlightcolor="#4FC2EB",
+			highlightthickness=1)
 		self.housing_direction.insert(tk.INSERT,
 			data[0][3] if data else '')
 		self.housing_direction.pack(pady=8)
@@ -86,10 +84,8 @@ class SolicitudForm(tk.Frame, Methods):
 		phone_number = tk.IntVar(form,
 			value=data[0][4]) if data else tk.IntVar()
 		self.phone_number=validate.IntegerEntry(form, value=phone_number.get(),
-			width=22, bd=0, font="Helvetica 14 normal",
-			justify="left",bg="white",fg="#6b6a6a",
-			highlightbackground="black",highlightcolor="red",
-			highlightthickness=0)
+			width=27, font="Helvetica 13",
+			justify="left")
 		self.phone_number.pack(pady=8)
 
 		# Fields Booleans 1

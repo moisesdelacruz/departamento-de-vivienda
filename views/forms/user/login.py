@@ -55,21 +55,17 @@ class LoginForm(tk.Frame, Methods):
 		tk.Label(form, text="Nombre de usuario:", font="Helvetica 10",
 			fg="#474747").place(x=83,y=78)
 
-		self.username=validate.MaxLengthEntry(form, maxlength=40,
-			width=22, bd=0, font="Helvetica 14 normal",justify="left",
-			bg="white",fg="#6b6a6a", highlightbackground="black",
-			highlightcolor="red", highlightthickness=0)
-		self.username.focus()
+		self.username=validate.MaxLengthEntry(form, maxlength=40, value="moisesdelacruz",
+			width=27, font="Helvetica 13",justify="left")
+		# self.username.focus()
 		self.username.pack(pady=8)
 
 		# Entry of the password
 		tk.Label(form, text="Contraseña:", font="Helvetica 10",
 			fg="#474747").place(x=125,y=118)
 
-		self.password=validate.MaxLengthEntry(form, show="*", maxlength=40,
-			width=22, bd=0, font="Helvetica 14 normal",justify="left",
-			bg="white",fg="#6b6a6a", highlightbackground="black",
-			highlightcolor="red", highlightthickness=0)
+		self.password=validate.MaxLengthEntry(form, show="*", maxlength=40, value="demilovato",
+			width=27, font="Helvetica 13",justify="left")
 		self.password.pack(pady=8)
 
 		# Buttons of actions
@@ -77,7 +73,7 @@ class LoginForm(tk.Frame, Methods):
 		buttons.pack(pady=8)
 		# buttons.pack_propagate(0)
 		# Login
-		tk.Button(buttons, command=self.login, text="Iniciar Sesion",
-			font="Helvetica 12 bold", bd=0, activebackground="red",
-			activeforeground="blue", bg="green", fg="white", width=13,
-			height=2).pack(side=tk.LEFT, padx=8)
+		ok=ttk.Button(buttons, command=self.login,
+			text="Iniciar Sesion", width=13)
+		ok.focus()
+		ok.pack(side=tk.LEFT, padx=8)

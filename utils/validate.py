@@ -9,6 +9,7 @@ All other options are passed on to the Entry widget itself.
 '''
 
 from Tkinter import *
+from ttk import *
 
 class ValidatingEntry(Entry):
 	# base class for validating entry widgets

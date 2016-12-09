@@ -68,9 +68,7 @@ class RegisterForm(tk.Frame, Methods):
 
 		self.username=validate.MaxLengthEntry(form, maxlength=40,
 			value=self.user[1] if self.user else '',
-			width=22, bd=0, font="Helvetica 14 normal",justify="left",
-			bg="white",fg="#6b6a6a", highlightbackground="black",
-			highlightcolor="red", highlightthickness=0)
+			width=27, font="Helvetica 13",justify="left")
 		self.username.focus()
 		self.username.pack(pady=8)
 
@@ -80,9 +78,7 @@ class RegisterForm(tk.Frame, Methods):
 
 		self.first_name=validate.MaxLengthEntry(form, maxlength=40,
 			value=self.user[2] if self.user else '',
-			width=22, bd=0, font="Helvetica 14 normal",justify="left",
-			bg="white",fg="#6b6a6a", highlightbackground="black",
-			highlightcolor="red", highlightthickness=0)
+			width=27, font="Helvetica 13",justify="left")
 		self.first_name.pack(pady=8)
 
 		# Entry of the last_name
@@ -91,9 +87,7 @@ class RegisterForm(tk.Frame, Methods):
 
 		self.last_name=validate.MaxLengthEntry(form, maxlength=40,
 			value=self.user[3] if self.user else '',
-			width=22, bd=0, font="Helvetica 14 normal",justify="left",
-			bg="white",fg="#6b6a6a", highlightbackground="black",
-			highlightcolor="red", highlightthickness=0)
+			width=27, font="Helvetica 13",justify="left")
 		self.last_name.pack(pady=8)
 
 		# Entry of the cedula
@@ -102,9 +96,7 @@ class RegisterForm(tk.Frame, Methods):
 
 		self.ci=validate.IntegerEntry(form,
 			value=self.user[4] if self.user else 0,
-			width=22, bd=0, font="Helvetica 14 normal",justify="left",
-			bg="white",fg="#6b6a6a", highlightbackground="black",
-			highlightcolor="red", highlightthickness=0)
+			width=27, font="Helvetica 13",justify="left")
 		self.ci.pack(pady=8)
 
 		# Entrada de texto para permissions
@@ -133,9 +125,7 @@ class RegisterForm(tk.Frame, Methods):
 
 		self.password=validate.MaxLengthEntry(form, show="*", maxlength=40,
 			value=self.passwd if self.passwd else '',
-			width=22, bd=0, font="Helvetica 14 normal",justify="left",
-			bg="white",fg="#6b6a6a", highlightbackground="black",
-			highlightcolor="red", highlightthickness=0)
+			width=27, font="Helvetica 13",justify="left")
 		self.password.pack(pady=8)
 
 		# Entry of the password repeat
@@ -144,18 +134,18 @@ class RegisterForm(tk.Frame, Methods):
 
 		self.password2=validate.MaxLengthEntry(form, show="*", maxlength=40,
 			value=self.passwd if self.passwd else '',
-			width=22, bd=0, font="Helvetica 14 normal",justify="left",
-			bg="white",fg="#6b6a6a", highlightbackground="black",
-			highlightcolor="red", highlightthickness=0)
+			width=27, font="Helvetica 13",justify="left")
 		self.password2.pack(pady=8)
 
 		# Buttons of actions
 		buttons = tk.Frame(form,  relief=tk.RAISED)
-		buttons.pack(side=tk.RIGHT, pady=8)
+		buttons.pack(pady=8)
 		# buttons.pack_propagate(0)
 		# Create Account
-		tk.Button(buttons, command=self.save, text="Crear Cuenta",
-			font="Helvetica 12 bold", bd=0, activebackground="red",
-			activeforeground="blue", bg="green", fg="white", width=13,
-			height=2).pack(side=tk.LEFT, padx=8)
+		ttk.Button(buttons, command=self.save, text="Crear Cuenta",
+			width=13).pack(padx=8)
+		# tk.Button(buttons, command=self.save, text="Crear Cuenta",
+		# 	font="Helvetica 12 bold", bd=0, activebackground="red",
+		# 	activeforeground="blue", bg="green", fg="white", width=13,
+		# 	height=2).pack(side=tk.LEFT, padx=8)
 

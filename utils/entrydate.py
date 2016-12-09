@@ -7,9 +7,9 @@ from datetime import datetime
 
 class DateEntry(tk.Frame):
 	def __init__(self, master, frame_look={}, actually="", **look):
-		args = dict(relief=tk.SUNKEN, border=1)
+		args = dict()
 		args.update(frame_look)
-		tk.Frame.__init__(self, master, **args)
+		tk.Frame.__init__(self, master, relief=tk.SUNKEN, border=1, **args)
 
 		self.actually = actually if actually else '%s-%s-%s' %(
 											datetime.now().year,
@@ -17,13 +17,12 @@ class DateEntry(tk.Frame):
 											datetime.now().day)
 		self.result=datetime.strptime(str(self.actually), '%Y-%m-%d')
 
-		args = {'relief': tk.FLAT}
 		args.update(look)
 
 
-		self.entry_1 = validate.IntegerEntry(self, width=3, **args)
+		self.entry_1 = validate.IntegerEntry(self, width=4, **args)
 		self.label_1 = tk.Label(self, text='/', **args)
-		self.entry_2 = validate.IntegerEntry(self, width=3, **args)
+		self.entry_2 = validate.IntegerEntry(self, width=4, **args)
 		self.label_2 = tk.Label(self, text='/', **args)
 		self.entry_3 = validate.IntegerEntry(self, width=6, **args)
 		self.ac=tk.Label(self, text=self.result.strftime('%Y/%m/%d'), font="Helvetica 12 normal", fg="#757575")

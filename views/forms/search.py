@@ -63,9 +63,7 @@ class SearchForm(tk.Frame, Methods):
 		form = tk.Frame(hor, background="grey", relief=tk.RAISED)
 		form.pack()
 		self.search=validate.IntegerEntry(form,
-			width=34, bd=0, font="Helvetica 18 normal",justify="left",
-			bg="white",fg="black", highlightbackground="black",
-			highlightcolor="red", highlightthickness=1)
+			width=34, font="Helvetica 18 normal",justify="left")
 		self.search.focus()
 		self.search.pack(side=tk.LEFT)
 		iconSearch = self.getImage("views/images/search-icon.png")

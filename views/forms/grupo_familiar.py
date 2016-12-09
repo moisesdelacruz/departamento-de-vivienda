@@ -59,10 +59,8 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		tk.Label(form,text="CI:", font="Helvetica 10",
 			fg="#474747").place(x=176,y=78)
 		self.ci=validate.IntegerEntry(form,
-			width=22, bd=0, font="Helvetica 14 normal",
-			justify="left",bg="white",fg="#6b6a6a",
-			highlightbackground="black",highlightcolor="red",
-			highlightthickness=0)
+			width=27, font="Helvetica 13",
+			justify="left")
 		self.ci.focus()
 		self.ci.pack(pady=8)
 
@@ -70,20 +68,15 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		tk.Label(form,text="Nombre:", font="Helvetica 10",
 			fg="#474747").place(x=143,y=120)
 		self.first_name=validate.MaxLengthEntry(form,
-			maxlength=30,width=22, bd=0,
-			font="Helvetica 14 normal",justify="left",bg="white",
-			fg="#6b6a6a", highlightbackground="black",
-			highlightcolor="red", highlightthickness=0)
+			maxlength=30,width=27,
+			font="Helvetica 13",justify="left")
 		self.first_name.pack(pady=8)
 
 		# Entry of last_name
 		tk.Label(form,text="Apellido:", font="Helvetica 10",
 			fg="#474747").place(x=142,y=162)
 		self.last_name=validate.MaxLengthEntry(form,
-			maxlength=30, width=22, bd=0, font="Helvetica 14 normal",
-			justify="left",bg="white",fg="#6b6a6a",
-			highlightbackground="black",highlightcolor="red",
-			highlightthickness=0)
+			maxlength=30, width=27, font="Helvetica 13", justify="left")
 		self.last_name.pack(pady=8)
 
 		# Entry birthday
@@ -92,17 +85,15 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		date = tk.Frame(form, background="grey", relief=tk.RAISED)
 		date.pack(pady=8)
 
-		self.birthday=entrydate.DateEntry(date, bd=0, font="Helvetica 14 normal")
+		self.birthday=entrydate.DateEntry(date, font="Helvetica 13")
 		self.birthday.pack(side=tk.LEFT)
 
 		# Entry birth_state
 		tk.Label(form,text="Estado de Nacimiento:", font="Helvetica 10",
 			fg="#474747").place(x=63,y=248)
 		self.birth_state=validate.MaxLengthEntry(form, 
-			maxlength=30, width=22, bd=0, font="Helvetica 14 normal",
-			justify="left",bg="white",fg="#6b6a6a", 
-			highlightbackground="black",highlightcolor="red", 
-			highlightthickness=0)
+			maxlength=30, width=27, font="Helvetica 13",
+			justify="left")
 		self.birth_state.pack(pady=8)
 
 		# Booleans Fields
