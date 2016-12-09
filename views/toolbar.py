@@ -133,28 +133,28 @@ class Toolbar(tk.Frame, Methods):
 
         # Packs
         homeButton.image = iconHome
-        homeButton.pack(side=tk.LEFT, padx=2, pady=2)
+        homeButton.pack(side=tk.LEFT, pady=2)
 
         if self.permission():
             addButton.image = iconAdd
-            addButton.pack(side=tk.LEFT, padx=2, pady=2)
+            addButton.pack(side=tk.LEFT, pady=2)
 
         showButton.image = iconShow
-        showButton.pack(side=tk.LEFT, padx=2, pady=2)
+        showButton.pack(side=tk.LEFT, pady=2)
 
         showProfile.image = iconProfile
-        showProfile.pack(side=tk.LEFT, padx=2, pady=2)
+        showProfile.pack(side=tk.LEFT, pady=2)
 
         if self.content_session.get('is_superuser'):
             listUsersButton.image = iconListUser
-            listUsersButton.pack(side=tk.LEFT, padx=2, pady=2)
+            listUsersButton.pack(side=tk.LEFT, pady=2)
 
             addUserButton.image = iconAddUser
-            addUserButton.pack(side=tk.LEFT, padx=2, pady=2)
+            addUserButton.pack(side=tk.LEFT, pady=2)
 
         
         exitButton.image = iconExit
-        exitButton.pack(side=tk.LEFT, padx=2, pady=2)
+        exitButton.pack(side=tk.LEFT, pady=2)
 
         self.tool.pack(side=tk.TOP, fill=tk.X)
         self.pack()
