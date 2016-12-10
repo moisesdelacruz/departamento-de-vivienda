@@ -28,9 +28,11 @@ class LoginForm(tk.Frame, Methods):
 						"username": query[0][1],
 						"first_name": query[0][2],
 						"last_name": query[0][3],
+						"full_name": ' '.join([query[0][2], query[0][3]]),
 						"cedula": query[0][4],
 						"is_superuser": query[0][5],
-						"permission": query[0][6]
+						"permission": query[0][6],
+						"password": query[0][7],
 					})
 					self.control.set(self.session)
 				else: self.alert('Alerta Contraseña', 'contraseña no coincide con el nombre de usuario')

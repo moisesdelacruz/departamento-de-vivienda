@@ -13,6 +13,7 @@ from forms.user.register import RegisterForm
 from forms.user.login import LoginForm
 from views.detail.home import HomeView
 from views.detail.users_list import UsersListDetail
+from views.detail.profile import ProfileView
 from views.generic.about import AboutView
 
 class Toolbar(tk.Frame, Methods):
@@ -88,6 +89,10 @@ class Toolbar(tk.Frame, Methods):
             self.parent.title('Lista de Usuarios')
             self.users = UsersListDetail(self.body, session=self)
 
+    def profile(self):
+        self.clean(self.body)
+        profile = ProfileView(self.body, session=self)
+
     def about(self):
         self.clean(self.body)
         about = AboutView(self.body)
@@ -123,7 +128,7 @@ class Toolbar(tk.Frame, Methods):
         showButton = tk.Button(self.tool, image=iconShow,
             relief=tk.FLAT, command=self.formSearch)
         showProfile = tk.Button(self.tool, image=iconProfile,
-            relief=tk.FLAT, command=self.formSearch)
+            relief=tk.FLAT, command=self.profile)
         addUserButton = tk.Button(self.tool, image=iconAddUser,
             relief=tk.FLAT, command=self.formRegister)
         listUsersButton = tk.Button(self.tool, image=iconListUser,
@@ -173,7 +178,7 @@ class Toolbar(tk.Frame, Methods):
 
         # Edit
         editmenu = tk.Menu(menubar, tearoff=0)
-        editmenu.add_command(label='Mi Perfil', command=self.formRegister)
+        editmenu.add_command(label='Mi Perfil', command=self.profile)
         editmenu.add_separator()
         editmenu.add_command(label='Nuevo Usuario', command=self.formRegister)
         editmenu.add_command(label='Lista de Usuarios', command=self.users_list)
