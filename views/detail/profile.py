@@ -34,37 +34,26 @@ class ProfileView(tk.Frame, Methods):
 			font="Helvetica 22 normal").pack(pady=20)
 		# ---- button edit ----
 		ttk.Button(view, text="Editar", command=self.edit).pack(pady=10)
+
 		# ---- info ----
 		left = tk.Frame(view)
 		left.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 
-		tk.Label(left, text="Nombre de Usuario:", font="Helvetica 13",
-			fg="#474747").pack(anchor=tk.E, padx=2, pady=8)
-		tk.Label(left, text="Cedula de Identidad:", font="Helvetica 13",
-			fg="#474747").pack(anchor=tk.E, padx=2, pady=8)
-		tk.Label(left, text="Nombre:", font="Helvetica 13",
-			fg="#474747").pack(anchor=tk.E, padx=2, pady=8)
-		tk.Label(left, text="Apellido:", font="Helvetica 13",
-			fg="#474747").pack(anchor=tk.E, padx=2, pady=8)
-		tk.Label(left, text="Permisos:", font="Helvetica 13",
-			fg="#474747").pack(anchor=tk.E, padx=2, pady=8)
-		tk.Label(left, text="Superusuario:", font="Helvetica 13",
-			fg="#474747").pack(anchor=tk.E, padx=2, pady=8)
+		info = ["Nombre de Usuario:", "Cedula de Identidad:",
+			"Nombre:", "Apellido:", "Permisos:", "Superusuario:"]
 
-		# --------
+		for item in info:
+			tk.Label(left, text=item, font="Helvetica 13",
+				fg="#474747").pack(anchor=tk.E, padx=2, pady=8)
+
+		# ---- data account ----
 		right = tk.Frame(view)
 		right.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 
-		tk.Label(right, text=self.account.get('username'), font="Helvetica 13",
-			fg="#474747").pack(anchor=tk.W, padx=2, pady=8)
-		tk.Label(right, text=self.account.get('cedula'), font="Helvetica 13",
-			fg="#474747").pack(anchor=tk.W, padx=2, pady=8)
-		tk.Label(right, text=self.account.get('first_name'), font="Helvetica 13",
-			fg="#474747").pack(anchor=tk.W, padx=2, pady=8)
-		tk.Label(right, text=self.account.get('last_name'), font="Helvetica 13",
-			fg="#474747").pack(anchor=tk.W, padx=2, pady=8)
-		tk.Label(right, text=self.account.get('permission'), font="Helvetica 13",
-			fg="#474747").pack(anchor=tk.W, padx=2, pady=8)
-		tk.Label(right, text=self.account.get('is_superuser'), font="Helvetica 13",
-			fg="#474747").pack(anchor=tk.W, padx=2, pady=8)
+		data = [self.account.get('username'), self.account.get('cedula'),
+			self.account.get('first_name'), self.account.get('last_name'),
+			self.account.get('permission'), self.account.get('is_superuser')]
 
+		for item in data:
+			tk.Label(right, text=item, font="Helvetica 13",
+				fg="#474747").pack(anchor=tk.W, padx=2, pady=8)
