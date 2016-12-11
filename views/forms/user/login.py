@@ -62,18 +62,18 @@ class LoginForm(tk.Frame, Methods):
 			font="Candara 28").pack(pady=10)
 
 		# Entry of the username
-		tk.Label(form, text="Usuario:", font="Helvetica 10",
-			fg="white", background="#012D5A").place(x=120,y=310)
+		ttk.Label(form, text="Usuario",
+			style="TLabel").place(x=90,y=310)
 
 		self.username=validate.MaxLengthEntry(form, maxlength=40,
-			value="moisesdelacruz", style="Kim.TEntry",
-			width=25, font="Helvetica 14",justify="left")
+			value="moisesdelacruz", style="Kim.TEntry", font="Helvetica 14",
+			width=25, justify="left")
 		# self.username.focus()
 		self.username.pack(pady=8)
 
 		# Entry of the password
-		tk.Label(form, text="Contraseña:", font="Helvetica 10",
-			fg="white", background="#012D5A").place(x=100,y=360)
+		ttk.Label(form, text="Contraseña",
+			style="TLabel").place(x=90,y=365)
 
 		password = tk.Frame(form, background="#325678", relief=tk.RAISED)
 		password.pack(pady=8)
