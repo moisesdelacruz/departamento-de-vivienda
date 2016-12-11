@@ -21,6 +21,8 @@ class Toolbar(tk.Frame, Methods):
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
         self.parent = parent
+        # Init styles
+        self.style()
         # BOTTOM div
         self.body = tk.Frame(self.parent, relief=tk.RAISED)
         self.body.pack(side=tk.BOTTOM, expand=True, fill=tk.BOTH)

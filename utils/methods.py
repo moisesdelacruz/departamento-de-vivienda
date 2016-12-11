@@ -1,5 +1,6 @@
 import os
 import Tkinter as tk
+import ttk
 import tkMessageBox
 import tkSimpleDialog
 import base64
@@ -44,3 +45,23 @@ class Methods(object):
 
 	def alert(self, title='Alert', message=''):
 		tkMessageBox.showwarning(title=title, message=message)
+
+	def style(self):
+		s = ttk.Style()
+		s.element_create("plain.field", "from", "clam")
+		s.layout("Kim.TEntry",
+                   [('Entry.plain.field', {'children': [(
+                       'Entry.background', {'children': [(
+                           'Entry.padding', {'children': [(
+                               'Entry.textarea', {'sticky': 'nswe'})],
+                      'sticky': 'nswe'})], 'sticky': 'nswe'})],
+                      'border':'2', 'sticky': 'nswe'})])
+		s.configure('Kim.TEntry', foreground='#6F767E',
+			fieldbackground="#00162D", padding=5)
+
+		# Button
+		s.configure('Kim.TButton', foreground='#6F767E',
+			fieldbackground="#00162D")
+
+		# Frame
+		s.configure('Kim.TFrame', background="#012D5A")
