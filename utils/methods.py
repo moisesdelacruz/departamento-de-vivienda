@@ -1,6 +1,7 @@
 import os
 import Tkinter as tk
 import ttk
+import tkFont
 import tkMessageBox
 import tkSimpleDialog
 import base64
@@ -47,17 +48,34 @@ class Methods(object):
 		tkMessageBox.showwarning(title=title, message=message)
 
 	def style(self):
+		# Fonts
+		self.microsoft_10 = tkFont.Font(
+			family="Microsoft New Tai Lue",size=10,weight="normal")
+		self.microsoft_12 = tkFont.Font(
+			family="Microsoft New Tai Lue",size=12,weight="normal")
+		self.microsoft_14 = tkFont.Font(
+			family="Microsoft New Tai Lue",size=14,weight="normal")
+		self.microsoft_22 = tkFont.Font(
+			family="Microsoft New Tai Lue",size=22,weight="normal")
+
+		# styles forms
 		s = ttk.Style()
 		s.element_create("plain.field", "from", "clam")
 		s.layout("Kim.TEntry",
-                   [('Entry.plain.field', {'children': [(
-                       'Entry.background', {'children': [(
-                           'Entry.padding', {'children': [(
-                               'Entry.textarea', {'sticky': 'nswe'})],
-                      'sticky': 'nswe'})], 'sticky': 'nswe'})],
-                      'border':'2', 'sticky': 'nswe'})])
+				   [('Entry.plain.field', {'children': [(
+					   'Entry.background', {'children': [(
+						   'Entry.padding', {'children': [(
+							   'Entry.textarea', {'sticky': 'nswe'})],
+					  'sticky': 'nswe'})], 'sticky': 'nswe'})],
+					  'border':'2', 'sticky': 'nswe'})])
 		s.configure('Kim.TEntry', foreground='#6F767E',
 			fieldbackground="#00162D", padding=5)
+
+		# Combobox
+		s.configure('TCombobox', padding=5)
+
+		# Checkbutton
+		s.configure('TCheckbutton', background="#012D5A", foreground='white')
 
 		# Button
 		s.configure('Kim.TButton', foreground='#6F767E',
@@ -65,3 +83,13 @@ class Methods(object):
 
 		# Frame
 		s.configure('Kim.TFrame', background="#012D5A")
+
+		# Label
+		s.configure('Title.TLabel', foreground='#FFF',
+			background="#012D5A", font=self.microsoft_22)
+
+		s.configure('Text.TLabel', foreground='#FFF',
+			background="#012D5A", font=self.microsoft_12, justify="left")
+
+		s.configure('TLabel', foreground='#FFF',
+			background="#012D5A", font=self.microsoft_10, justify="left")
