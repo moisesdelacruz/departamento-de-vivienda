@@ -55,6 +55,8 @@ class Methods(object):
 			family="Microsoft New Tai Lue",size=12,weight="normal")
 		self.microsoft_14 = tkFont.Font(
 			family="Microsoft New Tai Lue",size=14,weight="normal")
+		self.microsoft_16 = tkFont.Font(
+			family="Microsoft New Tai Lue",size=16,weight="normal")
 		self.microsoft_22 = tkFont.Font(
 			family="Microsoft New Tai Lue",size=22,weight="normal")
 
@@ -83,13 +85,23 @@ class Methods(object):
 
 		# Frame
 		s.configure('Kim.TFrame', background="#012D5A")
+		# item list
+		s.configure('Item.TFrame', background="#00162D")
 
 		# Label
 		s.configure('Title.TLabel', foreground='#FFF',
 			background="#012D5A", font=self.microsoft_22)
+
+		# title black
+		s.configure('Black.TLabel', foreground='#000',
+			background='#f0f0f0', font=self.microsoft_16)
 
 		s.configure('Text.TLabel', foreground='#FFF',
 			background="#012D5A", font=self.microsoft_12, justify="left")
 
 		s.configure('TLabel', foreground='#FFF',
 			background="#012D5A", font=self.microsoft_10, justify="left")
+
+		# text item list
+		s.configure('Item.TLabel', foreground='#FFF',
+			background="#00162D", font=self.microsoft_12, justify="left")

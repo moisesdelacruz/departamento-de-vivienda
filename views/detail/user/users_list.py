@@ -3,6 +3,7 @@
 
 import os
 import Tkinter as tk
+import ttk
 import tkMessageBox
 from utils.methods import Methods
 from database.main import UserModel
@@ -21,18 +22,18 @@ class UsersListDetail(tk.Frame, Methods):
 
 		# content list
 		# Content Horizontal
-		self.parent = tk.Frame(self.root, height=550, background="grey", relief=tk.RAISED)
+		self.parent = ttk.Frame(self.root, height=550, style="Kim.TFrame")
 		self.parent.pack(expand=True, fill=tk.X)
 		self.parent.pack_propagate(0)
 
 		# Content Vertical
-		self.div = tk.Frame(self.parent, width=650, relief=tk.RAISED)
+		self.div = ttk.Frame(self.parent, width=650, style="Kim.TFrame")
 		self.div.pack(expand=True, fill=tk.Y)
 		self.div.pack_propagate(0)
 
 		# Title
-		tk.Label(self.div, text="Lista de Usuarios", fg="orange",
-			font="Helvetica 16 bold").pack(pady=20)
+		ttk.Label(self.div, text="Lista de Usuarios",
+			style="Title.TLabel").pack(pady=15, anchor=tk.NW)
 
 		self.list()
 
@@ -44,29 +45,31 @@ class UsersListDetail(tk.Frame, Methods):
 	def item(self, model):
 		model_id = int(model[0])
 
-		root = tk.Frame(self.div, bd=1, height=30, relief=tk.RAISED)
+		root = ttk.Frame(self.div, height=50, style='Item.TFrame')
 		root.pack(side=tk.TOP, padx=2, pady=1, fill=tk.X)
+		root.pack_propagate(0)
 
-		tk.Label(root, text=model[4], font="Helvetica 10 normal",
-			fg="#757575", bg="#EFEFEF").pack(side=tk.LEFT, padx=4)
+		ttk.Label(root, text=model[4], style='Item.TLabel'
+			).pack(side=tk.LEFT, padx=4)
 
-		tk.Label(root, text=model[1], font="Helvetica 13 normal",
-			fg="#757575", bg="#EFEFEF").pack(side=tk.LEFT, padx=4)
+		ttk.Label(root, text=model[1], style='Item.TLabel'
+			).pack(side=tk.LEFT, padx=4)
 
-		tk.Label(root, text=model[6], font="Helvetica 10 normal",
-			fg="red", bg="#EFEFEF").pack(side=tk.LEFT, padx=4)
+		ttk.Label(root, text=model[6], style='Item.TLabel'
+			).pack(side=tk.LEFT, padx=4)
 
-		tk.Label(root, text='superusuario' if model[5] else 'usuario',
-			font="Helvetica 12 normal", fg="green" if model[5] else "red",
-			bg="#EFEFEF").pack(side=tk.LEFT, padx=4)
+		ttk.Label(root, text='superusuario' if model[5] else 'usuario',
+			style='Item.TLabel').pack(side=tk.LEFT, padx=4)
 
 		tk.Button(root, text="Eliminar", font="Helvetica 12 normal",
-			command=lambda : self.delete(model_id), fg="#757575",
-			bg="#EFEFEF", bd=0).pack(side=tk.RIGHT, padx=4)
+			command=lambda : self.delete(model_id), fg="#FFF",
+			bg="#00162D", bd=0, activebackground="#00162D",
+			activeforeground="#BBB").pack(side=tk.RIGHT, padx=4)
 
 		tk.Button(root, text="Editar", font="Helvetica 12 normal",
-			command=lambda : self.edit(model), fg="#757575",
-			bg="#EFEFEF", bd=0).pack(side=tk.RIGHT, padx=4)
+			command=lambda : self.edit(model), fg="#FFF",
+			bg="#00162D", bd=0, activebackground="#00162D",
+			activeforeground="#BBB").pack(side=tk.RIGHT, padx=4)
 
 	def delete(self, model):
 		if self.session.permission():
