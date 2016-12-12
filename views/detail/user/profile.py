@@ -21,39 +21,50 @@ class ProfileView(tk.Frame, Methods):
 		
 
 	def view(self):
-		div = tk.Frame(self.root, height=550, background="grey", relief=tk.RAISED)
+		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
 		div.pack(expand=True, fill=tk.X)
 		div.pack_propagate(0)
 
-		view = tk.Frame(div, width=650, relief=tk.RAISED)
+		view = ttk.Frame(div, width=650, style='Kim.TFrame')
 		view.pack(expand=True, fill=tk.Y)
 		view.pack_propagate(0)
 
-		tk.Label(view, text=' '.join(['Bienvenido',
+		ttk.Label(view, text=' '.join(['Bienvenido',
 			self.account.get('full_name')]),
-			font="Helvetica 22 normal").pack(pady=20)
+			style="Title.TLabel").pack(pady=20)
 		# ---- button edit ----
-		ttk.Button(view, text="Editar", command=self.edit).pack(pady=10)
+
+		# Image
+		i = ttk.Frame(view, style='Kim.TFrame')
+		i.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
+
+		img = self.getImage("views/images/user.png", 200, 200)
+		image = tk.Label(i, image=img, fg="blue", background="#012D5A")
+		image.image = img
+		image.pack(pady=10)
+
+		ttk.Button(i, text="Editar", command=self.edit).pack(pady=10)
 
 		# ---- info ----
-		left = tk.Frame(view)
+		left = ttk.Frame(view, style='Kim.TFrame')
 		left.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
+
 
 		info = ["Nombre de Usuario:", "Cedula de Identidad:",
 			"Nombre:", "Apellido:", "Permisos:", "Superusuario:"]
 
 		for item in info:
-			tk.Label(left, text=item, font="Helvetica 13",
-				fg="#474747").pack(anchor=tk.E, padx=2, pady=8)
+			ttk.Label(left, text=item, style='Text.TLabel'
+				).pack(anchor=tk.E, padx=2, pady=8)
 
 		# ---- data account ----
-		right = tk.Frame(view)
+		right = ttk.Frame(view, style='Kim.TFrame')
 		right.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 
 		data = [self.account.get('username'), self.account.get('cedula'),
 			self.account.get('first_name'), self.account.get('last_name'),
-			self.account.get('permission'), self.account.get('is_superuser')]
+			self.account.get('permission'), bool(self.account.get('is_superuser'))]
 
 		for item in data:
-			tk.Label(right, text=item, font="Helvetica 13",
-				fg="#474747").pack(anchor=tk.W, padx=2, pady=8)
+			ttk.Label(right, text=item, style='Text.TLabel'
+				).pack(anchor=tk.W, padx=2, pady=8)
