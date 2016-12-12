@@ -14,6 +14,7 @@ from forms.user.login import LoginForm
 from views.detail.home import HomeView
 from views.detail.user.users_list import UsersListDetail
 from views.detail.user.profile import ProfileView
+from views.detail.user.main import ConfigView
 from views.generic.about import AboutView
 
 class Toolbar(tk.Frame, Methods):
@@ -95,6 +96,10 @@ class Toolbar(tk.Frame, Methods):
         self.clean(self.body)
         profile = ProfileView(self.body, session=self)
 
+    def config(self):
+        self.clean(self.body)
+        view = ConfigView(self.body, session=self)
+
     def about(self):
         self.clean(self.body)
         about = AboutView(self.body)
@@ -103,7 +108,7 @@ class Toolbar(tk.Frame, Methods):
         self.content_session = account
         # TOP Toolbar
         self.menu()
-        self.toolbar()
+        # self.toolbar()
         self.home()
 
     def exit(self):
@@ -184,6 +189,8 @@ class Toolbar(tk.Frame, Methods):
         editmenu.add_separator()
         editmenu.add_command(label='Nuevo Usuario', command=self.formRegister)
         editmenu.add_command(label='Lista de Usuarios', command=self.users_list)
+        editmenu.add_separator()
+        editmenu.add_command(label='Configuracion', command=self.config)
 
         # Help
         helpmenu = tk.Menu(menubar, tearoff=0)
