@@ -21,12 +21,12 @@ class RegisterForm(tk.Frame, Methods):
 
 		# contents
 		div = ttk.Frame(self.root, height=550, padding=20,
-			style='Kim.TFrame', relief=tk.RAISED)
+			style='Kim.TFrame')
 		div.pack(expand=True, fill=tk.X)
 		div.pack_propagate(0)
 
-		self._form = tk.Frame(div, width=650,
-			background="#012D5A", relief=tk.RAISED)
+		self._form = ttk.Frame(div, width=650,
+			style="Kim.TFrame")
 		self._form.pack(expand=True, fill=tk.Y)
 		self._form.pack_propagate(0)
 

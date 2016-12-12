@@ -44,11 +44,11 @@ class LoginForm(tk.Frame, Methods):
 		
 
 	def form(self):
-		div = ttk.Frame(self.root, height=550, padding=50, style='Kim.TFrame', relief=tk.RAISED)
+		div = ttk.Frame(self.root, height=550, padding=50, style='Kim.TFrame')
 		div.pack(expand=True, fill=tk.X)
 		div.pack_propagate(0)
 
-		form = tk.Frame(div, width=650, background="#012D5A", relief=tk.RAISED)
+		form = ttk.Frame(div, width=650, style='Kim.TFrame')
 		form.pack(expand=True, fill=tk.Y)
 		form.pack_propagate(0)
 
