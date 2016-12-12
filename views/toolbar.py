@@ -12,8 +12,8 @@ from forms.search import SearchForm
 from forms.user.register import RegisterForm
 from forms.user.login import LoginForm
 from views.detail.home import HomeView
-from views.detail.users_list import UsersListDetail
-from views.detail.profile import ProfileView
+from views.detail.user.users_list import UsersListDetail
+from views.detail.user.profile import ProfileView
 from views.generic.about import AboutView
 
 class Toolbar(tk.Frame, Methods):

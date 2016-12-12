@@ -7,7 +7,7 @@ from utils import validate
 from utils.methods import Methods
 from views.forms.user import login
 from views.generic.successes import SuccessesView
-from views import detail 
+from views.detail import user 
 from database.main import UserModel
 
 class RegisterForm(tk.Frame, Methods):
@@ -97,7 +97,7 @@ class RegisterForm(tk.Frame, Methods):
 	def cancel(self):
 		if hasattr(self, 'session'):
 			self.clean(self.root)
-			detail.profile.ProfileView(self.root, session=self.session)
+			user.profile.ProfileView(self.root, session=self.session)
 
 	def form1(self):
 		form = self._form
