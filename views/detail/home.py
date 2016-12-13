@@ -2,8 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import Tkinter as tk
+import ttk
 
-class HomeView(tk.Frame):
+from utils.methods import Methods
+
+class HomeView(tk.Frame, Methods):
 	def __init__(self, root, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
@@ -13,21 +16,45 @@ class HomeView(tk.Frame):
 		self.view()
 
 	def view(self):
-		div = tk.Frame(self.root, height=550, background="grey", relief=tk.RAISED)
+		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
 		div.pack(expand=True, fill=tk.X)
 		div.pack_propagate(0)
 
-		view = tk.Frame(div, width=650, relief=tk.RAISED)
+		view = ttk.Frame(div, width=650, style='White.TFrame')
 		view.pack(expand=True, fill=tk.Y)
 		view.pack_propagate(0)
 
-		tk.Label(view, text=' '.join(['Bienvenido',
+		ttk.Label(view, text=' '.join(['Bienvenido',
 			self.account.get('first_name'),
 			self.account.get('last_name')]),
-			font="Helvetica 22 normal").pack(pady=20)
+			style='Black22.TLabel').pack(pady=20)
 
-		box = tk.Frame(view)
-		box.pack(side=tk.LEFT, anchor=tk.N)
+		box_time=ttk.Frame(view, style='White.TFrame', padding=32)
+		box_time.pack(anchor=tk.NW)
+
+		time=ttk.Label(box_time, text='12:37 p.m.', style='Hour.TLabel')
+		time.pack()
+
+
+		# ------box-------
+		box = ttk.Frame(view, style='White.TFrame')
+		box.pack(anchor=tk.CENTER)
+		# boxs----------
+		# option config
+		config=ttk.Frame(box, width=250, height=120, style='Kim.TFrame')
+		config.pack(side=tk.LEFT, padx=15)
+		icon_config=self.getImage("views/images/btn-config.png", 276, 129)
+		btn_config=tk.Button(config, bd=0, image=icon_config)
+		btn_config.image=icon_config
+		btn_config.pack()
+
+		# option viviendo
+		viviendo=ttk.Frame(box, width=250, height=120, style='Item.TFrame')
+		viviendo.pack(side=tk.LEFT, padx=15)
+		icon_viviendo=self.getImage("views/images/btn_viviendo.png", 276, 129)
+		btn_viviendo=tk.Button(viviendo, bd=0, image=icon_viviendo)
+		btn_viviendo.image=icon_viviendo
+		btn_viviendo.pack()
 
 
 		# last inicio of session

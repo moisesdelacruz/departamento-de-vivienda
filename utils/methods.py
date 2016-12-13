@@ -59,6 +59,8 @@ class Methods(object):
 			family="Microsoft New Tai Lue",size=16,weight="normal")
 		self.microsoft_22 = tkFont.Font(
 			family="Microsoft New Tai Lue",size=22,weight="normal")
+		self.microsoft_36 = tkFont.Font(
+			family="Microsoft Yi Baiti",size=50)
 
 		# styles forms
 		s = ttk.Style()
@@ -87,6 +89,8 @@ class Methods(object):
 		s.configure('Kim.TFrame', background="#012D5A")
 		# item list
 		s.configure('Item.TFrame', background="#00162D")
+		# frame white
+		s.configure('White.TFrame', background="#FFF")
 
 		# Label
 		s.configure('Title.TLabel', foreground='#FFF',
@@ -95,6 +99,9 @@ class Methods(object):
 		# title black
 		s.configure('Black.TLabel', foreground='#000',
 			background='#f0f0f0', font=self.microsoft_16)
+		# title back 22
+		s.configure('Black22.TLabel', foreground='#000',
+			background='#FFF', font=self.microsoft_22)
 
 		s.configure('Text.TLabel', foreground='#FFF',
 			background="#012D5A", font=self.microsoft_12, justify="left")
@@ -105,3 +112,7 @@ class Methods(object):
 		# text item list
 		s.configure('Item.TLabel', foreground='#FFF',
 			background="#00162D", font=self.microsoft_12, justify="left")
+
+		# hour
+		s.configure('Hour.TLabel', foreground='#000',
+			background="#FFF", font=self.microsoft_36, justify="left")
