@@ -1,4 +1,5 @@
 import Tkinter as tk
+import ttk
 import validate
 import calendar
 
@@ -20,12 +21,13 @@ class DateEntry(tk.Frame):
 		args.update(look)
 
 
-		self.entry_1 = validate.IntegerEntry(self, width=4, **args)
-		self.label_1 = tk.Label(self, text='/', **args)
-		self.entry_2 = validate.IntegerEntry(self, width=4, **args)
-		self.label_2 = tk.Label(self, text='/', **args)
 		self.entry_3 = validate.IntegerEntry(self, width=6, **args)
-		self.ac=tk.Label(self, text=self.result.strftime('%Y/%m/%d'), font="Helvetica 12 normal", fg="#757575")
+		# self.label_1 = ttk.Label(self, text='/', **args)
+		self.entry_2 = validate.IntegerEntry(self, width=4, **args)
+		# self.label_2 = ttk.Label(self, text='/', **args)
+		self.entry_1 = validate.IntegerEntry(self, width=4, **args)
+		self.ac=tk.Label(self, text=self.result.strftime('%Y/%m/%d'),
+			font="Helvetica 12 normal", fg="#757575")
 
 		if actually:
 			self.entry_1.set(self.result.strftime('%d'))
@@ -33,9 +35,9 @@ class DateEntry(tk.Frame):
 			self.entry_3.set(self.result.strftime('%Y'))
 
 		self.entry_3.pack(side=tk.LEFT)
-		self.label_1.pack(side=tk.LEFT)
+		# self.label_1.pack(side=tk.LEFT)
 		self.entry_2.pack(side=tk.LEFT)
-		self.label_2.pack(side=tk.LEFT)
+		# self.label_2.pack(side=tk.LEFT)
 		self.entry_1.pack(side=tk.LEFT)
 		self.ac.pack(side=tk.RIGHT)
 
