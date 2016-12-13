@@ -185,7 +185,7 @@ class RegisterForm(tk.Frame, Methods):
 		form = self._form
 
 		# Title of the Form
-		ttk.Label(form, text="Nuevo Usuario", style="Title.TLabel").pack(anchor=tk.NW)
+		ttk.Label(form, text="Editar Usuario", style="Title.TLabel").pack(anchor=tk.NW)
 		# message about password
 		ttk.Label(form, text="Elija una contraseña que sea fácil de recordar pero difícil de adivinar.\nSi te olvidas, mostraremos la pista",
 			style="Text.TLabel").pack(anchor=tk.NW, pady=15)
