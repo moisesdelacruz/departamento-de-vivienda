@@ -4,10 +4,12 @@
 import Tkinter as tk
 
 class HomeView(tk.Frame):
-	def __init__(self, root, account):
+	def __init__(self, root, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
-		self.account = account
+		if kwargs.get('session'):
+			self.session = kwargs.get('session')
+			self.account = self.session.content_session
 		self.view()
 
 	def view(self):

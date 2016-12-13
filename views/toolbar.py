@@ -25,7 +25,7 @@ class Toolbar(tk.Frame, Methods):
         # Init styles
         self.style()
         # BOTTOM div
-        self.body = tk.Frame(self.parent, relief=tk.RAISED)
+        self.body = tk.Frame(self.parent)
         self.body.pack(side=tk.BOTTOM, expand=True, fill=tk.BOTH)
         # session
         self.content_session = {}
@@ -82,7 +82,7 @@ class Toolbar(tk.Frame, Methods):
     def home(self):
         if self.content_session:
             self.clean(self.body)
-            HomeView(self.body, self.content_session)
+            HomeView(self.body, session=self)
         else:
             self.loginFrom()
 
