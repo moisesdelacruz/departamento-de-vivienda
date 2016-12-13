@@ -75,8 +75,11 @@ class Methods(object):
 		s.configure('Kim.TEntry', foreground='#6F767E',
 			fieldbackground="#00162D", padding=5)
 
+		# Entry White
+		s.configure('White.TEntry', padding=5)
+
 		# Combobox
-		s.configure('TCombobox', padding=5)
+		s.configure('TCombobox', padding=6)
 
 		# Checkbutton
 		s.configure('TCheckbutton', background="#012D5A", foreground='white')
@@ -106,8 +109,14 @@ class Methods(object):
 		s.configure('Text.TLabel', foreground='#FFF',
 			background="#012D5A", font=self.microsoft_12, justify="left")
 
+		s.configure('Black12.TLabel', foreground='#000',
+			background="#FFF", font=self.microsoft_12, justify="left")
+
 		s.configure('TLabel', foreground='#FFF',
 			background="#012D5A", font=self.microsoft_10, justify="left")
+		# label white
+		s.configure('Black.TLabel', foreground='#000',
+			background="#FFF", font=self.microsoft_10, justify="left")
 
 		# text item list
 		s.configure('Item.TLabel', foreground='#FFF',

@@ -24,7 +24,17 @@ class ViviendoForm(tk.Frame, Methods):
 			self.viviendoDetail = kwargs.get('viviendo_detail')
 		if kwargs.get('viviendo'):
 			self.viviendo = kwargs.get('viviendo')
-		self.form()
+
+		# boxs------
+		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
+		div.pack(expand=True, fill=tk.X)
+		div.pack_propagate(0)
+
+		self._form = ttk.Frame(div, width=650, padding=20, style='White.TFrame')
+		self._form.pack(expand=True, fill=tk.Y)
+		self._form.pack_propagate(0)
+		# call form1
+		self.form1()
 
 	def save(self):
 		data = ({
@@ -56,59 +66,72 @@ class ViviendoForm(tk.Frame, Methods):
 			view = ViviendoDetail(self.root, session=self.session, ci=data.get('ci'))
 			view.pack()
 
-	def form(self):
-		div = tk.Frame(self.root, height=550, background="grey", relief=tk.RAISED)
-		div.pack(expand=True, fill=tk.X)
-		div.pack_propagate(0)
+	def next(self):
+		self.clean(self._form)
+		self.form2()
 
-		form = tk.Frame(div, width=650, relief=tk.RAISED)
-		form.pack(expand=True, fill=tk.Y)
-		form.pack_propagate(0)
+	def back(self):
+		self.clean(self._form)
+		self.form1()
+
+	# def cancel(self):
+	# 	if hasattr(self, 'session'):
+	# 		self.clean(self.root)
+	# 		user.profile.ProfileView(self.root, session=self.session)
+
+	def form1(self):
+		form = self._form
 
 		# Title of the Form
-		tk.Label(form, text="Registro de Viviendo", font="Helvetica 16 bold",
-			fg="blue").pack(pady=20)
+		ttk.Label(form, text="Registro de Viviendo",
+			style='Black22.TLabel').pack(anchor=tk.NW)
+
+		ttk.Label(form, text="Sera redirigido automaticamente"+
+			"a un panel de administracion personalizado,"+
+			"\nAl Presionar \"Guardar\".",
+			style="Black12.TLabel").pack(anchor=tk.NW, pady=15)
 
 		# Entry of the cedula
-		tk.Label(form, text="CI:", font="Helvetica 10",
-			fg="#474747").place(x=176,y=78)
+		ttk.Label(form, text="CI:",
+			style='Black.TLabel').place(x=0,y=130)
 
-		self.ci=validate.IntegerEntry(form,
+		self.ci=validate.IntegerEntry(form, style='White.TEntry',
 			value=self.viviendo.get('ci') if self.viviendo else 0,
-			width=27, font="Helvetica 13",justify="left")
+			width=27,justify="left", font="Helvetica 13")
 		self.ci.focus()
 		self.ci.pack(pady=8)
 
 		# Entrada de texto para Nombre
-		tk.Label(form, text="Nombre:", font="Helvetica 10",
-			fg="#474747").place(x=143,y=120)
-		self.first_name=validate.MaxLengthEntry(form,
+		ttk.Label(form, text="Nombre:",
+			style='Black.TLabel').place(x=0,y=185)
+		self.first_name=validate.MaxLengthEntry(form, style='White.TEntry',
 			value=self.viviendo.get('first_name') if self.viviendo else '',
 			maxlength=40, width=27, font="Helvetica 13",justify="left")
 		self.first_name.pack(pady=8)
 
 		# Entrada de texto para Apellido
-		tk.Label(form, text="Apellido:", font="Helvetica 10",
-			fg="#474747").place(x=142,y=162)
-		self.last_name=validate.MaxLengthEntry(form,
+		ttk.Label(form, text="Apellido:",
+			style='Black.TLabel').place(x=0,y=235)
+		self.last_name=validate.MaxLengthEntry(form, style='White.TEntry',
 			value=self.viviendo.get('last_name') if self.viviendo else '',
 			maxlength=40, width=27, font="Helvetica 13",justify="left")
 		self.last_name.pack(pady=8)
 
 		# Entry birthday
-		tk.Label(form, text="Fecha de Nacimiento:", font="Helvetica 10",
-			fg="#474747").place(x=65,y=204)
+		ttk.Label(form, text="Fecha de Nacimiento:",
+			style='Black.TLabel').place(x=0,y=285)
 		date = tk.Frame(form, background="grey", relief=tk.RAISED)
 		date.pack(pady=8)
 
 		actually = self.viviendo.get('birthday') if self.viviendo else None
 
-		self.birthday=entrydate.DateEntry(date, actually=actually, font="Helvetica 13")
+		self.birthday=entrydate.DateEntry(date, actually=actually,
+			style='White.TEntry', font="Helvetica 13")
 		self.birthday.pack(side=tk.LEFT)
 
 		# Sex
-		tk.Label(form, text="Sexo:", font="Helvetica 10",
-			fg="#474747").place(x=157,y=246)
+		ttk.Label(form, text="Sexo:",
+			style='Black.TLabel').place(x=0,y=330)
 		self.sex = tk.StringVar(form,
 			value=self.viviendo.get('sex') if self.viviendo else '')
 		fieldSex = ttk.Combobox(form, state='readonly', textvariable=self.sex,
@@ -119,9 +142,34 @@ class ViviendoForm(tk.Frame, Methods):
 				fieldSex.current(int(x))
 		fieldSex.pack(pady=8)
 
+
+		# Buttons of actions
+		buttons = ttk.Frame(form, style='White.TFrame')
+		buttons.pack(pady=8)
+		# buttons.pack_propagate(0)
+		# Guardar
+		ttk.Button(buttons, command=self.save,
+			text="Cancelar").pack(side=tk.LEFT, padx=8)
+
+		# Cancelar
+		ttk.Button(buttons, command=self.next,
+			text="Siguiente").pack(side=tk.LEFT, padx=8)
+
+	def form2(self):
+		form = self._form
+
+		# Title of the Form
+		ttk.Label(form, text="Registro de Viviendo",
+			style='Black22.TLabel').pack(anchor=tk.NW)
+
+		ttk.Label(form, text="Sera redirigido automaticamente"+
+			"a un panel de administracion personalizado,"+
+			"\nAl Presionar \"Guardar\".",
+			style="Black12.TLabel").pack(anchor=tk.NW, pady=15)
+
 		# Entrada de texto para estado_civil
-		tk.Label(form, text="Estado Civil:", font="Helvetica 10",
-			fg="#474747").place(x=120,y=288)
+		ttk.Label(form, text="Estado Civil:",
+			style='Black.TLabel').place(x=0,y=130)
 		self.estado_civil=tk.StringVar(form,
 			value=self.viviendo.get('estado_civil') if self.viviendo else '')
 		fieldState_civil = ttk.Combobox(form, state='readonly',
@@ -134,17 +182,17 @@ class ViviendoForm(tk.Frame, Methods):
 		fieldState_civil.pack(pady=8)
 
 		# Entrada de texto para postulation
-		tk.Label(form, text="Postulacion:", font="Helvetica 10",
-			fg="#474747").place(x=120,y=330)
-		self.postulation=validate.MaxLengthEntry(form,
+		ttk.Label(form, text="Postulacion:",
+			style='Black.TLabel').place(x=0,y=185)
+		self.postulation=validate.MaxLengthEntry(form, style='White.TEntry',
 			value=self.viviendo.get('postulation') if self.viviendo else '',
 			maxlength=40, width=27, font="Helvetica 13",justify="left")
 		self.postulation.pack(pady=8)
 
 		# Entrada de texto para Direccion
-		tk.Label(form, text="Dirección:", font="Helvetica 10",
-			fg="#474747").place(x=135,y=372)
-		self.direction=tk.Text(form, width=27, height=3, bd=0,
+		ttk.Label(form, text="Dirección:",
+			style='Black.TLabel').place(x=0,y=235)
+		self.direction=tk.Text(form, width=28, height=3, bd=0,
 			font="Helvetica 12 normal",bg="white",fg="#6b6a6a",
 			highlightbackground="grey",highlightcolor="#4FC2EB",
 			highlightthickness=1)
@@ -153,7 +201,7 @@ class ViviendoForm(tk.Frame, Methods):
 		self.direction.pack(pady=8)
 
 		# Content BOOLEANS
-		booleans = tk.Frame(form,  relief=tk.RAISED)
+		booleans = ttk.Frame(form, style='White.TFrame')
 		booleans.pack(pady=2)
 		# Entrada de texto para work BOOLEAN
 		self.work=tk.BooleanVar(booleans, 
@@ -173,17 +221,13 @@ class ViviendoForm(tk.Frame, Methods):
 			).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Buttons of actions
-		buttons = tk.Frame(form,  relief=tk.RAISED)
+		buttons = ttk.Frame(form, style='White.TFrame')
 		buttons.pack(pady=8)
 		# buttons.pack_propagate(0)
 		# Guardar
-		tk.Button(buttons, command=self.save, text="Guardar",
-			font="Helvetica 12 bold", bd=0, activebackground="red",
-			activeforeground="blue", bg="green", fg="white", width=10,
-			height=2).pack(side=tk.LEFT, padx=8)
+		ttk.Button(buttons, command=self.back,
+			text="Atras").pack(side=tk.LEFT, padx=8)
 
 		# Cancelar
-		tk.Button(buttons, command=self.save, text="Cancelar",
-			font="Helvetica 12 bold", bd=0, activebackground="red",
-			activeforeground="blue", bg="grey", fg="white", width=10,
-			height=2).pack(side=tk.LEFT, padx=8)
+		ttk.Button(buttons, command=self.save,
+			text="Guardar").pack(side=tk.LEFT, padx=8)
