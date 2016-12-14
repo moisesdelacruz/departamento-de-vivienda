@@ -5,7 +5,7 @@ import time
 class Clock:
     def __init__(self, root):
         self.time1 = ''
-        self.time2 = time.strftime('%H:%M:%S')
+        self.time2 = time.strftime('%I:%M:%S %p')
         self.mFrame = tk.Frame(root)
         self.mFrame.pack()
 
@@ -16,6 +16,6 @@ class Clock:
         self.changeLabel() #first call it manually
 
     def changeLabel(self): 
-        self.time2 = time.strftime('%H:%M:%S')
+        self.time2 = time.strftime('%I:%M:%S %p')
         self.watch.configure(text=self.time2)
         self.mFrame.after(200, self.changeLabel) #it'll call itself continuously
