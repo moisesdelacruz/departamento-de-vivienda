@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import Tkinter as tk
+import  ttk
 from datetime import datetime
 from database.main import SolicitudModel
 from database.main import TracingModel
@@ -23,23 +24,21 @@ class StatusDetail(tk.Frame, Methods):
 		# viviendo id
 		self.viviendo_id = viviendo_id
 
-		# Content Horizontal
-		parent = tk.Frame(self.root, height=700, relief=tk.RAISED)
-		parent.pack(expand=True, fill=tk.X)
-		parent.pack_propagate(0)
-
-		# Content Vertical
-		div = tk.Frame(parent, width=650, relief=tk.RAISED)
-		div.pack(expand=True, fill=tk.Y)
+		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
+		div.pack(expand=True, fill=tk.X)
 		div.pack_propagate(0)
 
+		view = ttk.Frame(div, width=650, padding=10, style='White.TFrame')
+		view.pack(expand=True, fill=tk.Y)
+		view.pack_propagate(0)
+
 		# TOP content
-		self.top = tk.Frame(div, background="#DDD", bd=1, relief=tk.RAISED)
+		self.top = ttk.Frame(view, padding=10, style='White.TFrame')
 		self.top.pack(side=tk.TOP, expand=True, fill=tk.BOTH)
 		self.top.pack_propagate(0)
 
 		# BOTTOM content
-		self.bottom = tk.Frame(div, background="#DDD", bd=1, relief=tk.RAISED)
+		self.bottom = ttk.Frame(view, padding=10, style='White.TFrame')
 		self.bottom.pack(side=tk.BOTTOM, expand=True, fill=tk.BOTH)
 		self.bottom.pack_propagate(0)
 
@@ -62,7 +61,7 @@ class StatusDetail(tk.Frame, Methods):
 	def status(self):
 		# scroll
 		root = VerticalScrolledFrame(self.bottom)
-		root.pack(pady=10, padx=15)
+		root.pack()
 
 		# BOTTOM content
 		item = tk.Frame(root.interior, width=600,
@@ -72,7 +71,7 @@ class StatusDetail(tk.Frame, Methods):
 
 		# images
 		pointRed = self.getImage("views/images/false.png", 15, 15)
-		pointGreen = self.getImage("views/images/true.png", 20, 15)
+		pointGreen = self.getImage("views/images/true.png", 15, 15)
 
 		# Constancia de residencia
 		residence_constancia = tk.Label(item,
@@ -136,33 +135,31 @@ class StatusDetail(tk.Frame, Methods):
 		# Query yo database
 		result = self.db.tracing.list(viviendo_id=self.viviendo_id)
 		# ------------
-		top = tk.Frame(self.top, width=700, height=70, background="#DDD")
-		top.pack(side=tk.TOP, pady=10, padx=15)
+		top = ttk.Frame(self.top, width=700, height=80, style='White.TFrame')
+		top.pack(side=tk.TOP)
 		top.pack_propagate(0)
 		# last time
-		last_time = tk.Frame(top, background="#DDD")
+		last_time = ttk.Frame(top, style='White.TFrame')
 		last_time.pack(side=tk.RIGHT, pady=10, padx=15)
-		tk.Label(last_time, text="Ultima Vez", font="Roboto 12 normal",
-			fg="#474747", bg="#DDD").pack(anchor=tk.SE, padx=5)
+		ttk.Label(last_time, text="Ultima Vez",
+			style='Black12.TLabel').pack(anchor=tk.SE, padx=5)
 		# ------
 		date=datetime.strptime(str(result[-1][2]),
 			'%Y-%m-%d %H:%M:%S.%f').strftime('%Y/%m/%d')
-		tk.Label(last_time, text=date,
-			font="Roboto 22 normal",
-			fg="#474747", bg="#DDD").pack(side=tk.RIGHT)
+		ttk.Label(last_time, text=date,
+			style='Black22.TLabel').pack(side=tk.RIGHT)
 
 		# Numbers of times
-		numbers_times = tk.Frame(top, background="#DDD")
+		numbers_times = ttk.Frame(top, style='White.TFrame')
 		numbers_times.pack(side=tk.LEFT, pady=10, padx=15)
-		tk.Label(numbers_times, text="Veces", font="Roboto 12 normal",
-			fg="#474747", bg="#DDD").pack()
+		ttk.Label(numbers_times, text="Veces",
+			style='Black12.TLabel').pack()
 		# ------
-		tk.Label(numbers_times, text=len(result), font="Roboto 22 normal",
-			fg="#474747", bg="#DDD").pack()
+		ttk.Label(numbers_times, text=len(result), style='Black22.TLabel').pack()
 		
 		# scroll
 		root = VerticalScrolledFrame(self.top, width=500)
-		root.pack(expand=True, fill=tk.BOTH, pady=15, padx=15)
+		root.pack(expand=True, fill=tk.BOTH)
 		root.pack_propagate(0)
 
 		# inverse list
