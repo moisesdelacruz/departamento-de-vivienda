@@ -114,8 +114,12 @@ class Methods(object):
 		s.configure('Black12.TLabel', foreground='#000',
 			background="#FFF", font=self.microsoft_12, justify="left")
 
+		# background grey foreground black
 		s.configure('Grey12.TLabel', foreground='#000',
 			background="#f0f0f0", font=self.microsoft_12, justify="left")
+
+		s.configure('Grey10.TLabel', foreground='#000',
+			background="#f0f0f0", font=self.microsoft_10, justify="left")
 
 		s.configure('TLabel', foreground='#FFF',
 			background="#012D5A", font=self.microsoft_10, justify="left")
