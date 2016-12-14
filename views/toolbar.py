@@ -65,12 +65,6 @@ class Toolbar(tk.Frame, Methods):
             self.parent.title('Buscar Viviendo')
             self.formSearch = SearchForm(self.body, session=self)
 
-    def formRegister(self):
-        if self.content_session.get('is_superuser'):
-            self.clean(self.body)
-            self.parent.title('Crear Cuenta')
-            self.formRegister = RegisterForm(self.body)
-
 
     def loginFrom(self):
         if not self.content_session:
@@ -86,23 +80,19 @@ class Toolbar(tk.Frame, Methods):
         else:
             self.loginFrom()
 
-    def users_list(self):
-        if self.content_session.get('is_superuser'):
-            self.clean(self.body)
-            self.parent.title('Lista de Usuarios')
-            self.users = UsersListDetail(self.body, session=self)
 
-    def profile(self):
+    def config(self, **kwargs):
         self.clean(self.body)
-        profile = ProfileView(self.body, session=self)
+        if kwargs.get('view'):
+            option = kwargs.get('view')
+            ConfigView(self.body, session=self, view=option)
+        ConfigView(self.body, session=self)
 
-    def config(self):
-        self.clean(self.body)
-        view = ConfigView(self.body, session=self)
 
     def about(self):
         self.clean(self.body)
         about = AboutView(self.body)
+
 
     def set(self, account):
         self.content_session = account
@@ -185,10 +175,12 @@ class Toolbar(tk.Frame, Methods):
 
         # Edit
         editmenu = tk.Menu(menubar, tearoff=0)
-        editmenu.add_command(label='Mi Perfil', command=self.profile)
+        editmenu.add_command(label='Mi Perfil', command=self.config)
         editmenu.add_separator()
-        editmenu.add_command(label='Nuevo Usuario', command=self.formRegister)
-        editmenu.add_command(label='Lista de Usuarios', command=self.users_list)
+        editmenu.add_command(label='Nuevo Usuario',
+            command=lambda : self.config(view='new_user'))
+        editmenu.add_command(label='Lista de Usuarios',
+            command=lambda : self.config(view='user_list'))
         editmenu.add_separator()
         editmenu.add_command(label='Configuracion', command=self.config)
 

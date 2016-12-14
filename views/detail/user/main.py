@@ -17,9 +17,6 @@ class ConfigView(tk.Frame, Methods):
 		tk.Frame.__init__(self, root)
 		self.root = root
 
-		if kwargs.get('session'):
-			self.session = kwargs.get('session')
-
 		self._menu = tk.Frame(self.root, width=300, bd=1,
 			background="white")
 		self._menu.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
@@ -29,48 +26,43 @@ class ConfigView(tk.Frame, Methods):
 		self._body.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 		self._body.pack_propagate(0)
 
+		self.methods = ['my_profile', 'edit_user',
+			'user_list', 'new_user', 'exit']
+
+		# init view
 		self.menu()
+
+		if kwargs.get('session'):
+			self.session = kwargs.get('session')
+
+		if kwargs.get('view'):
+			view=kwargs.get('view')
+			for item in self.methods:
+				if view == item:
+					eval('self.'+item+'()')
+		else: self.my_profile()
 
 
 	def menu(self):
 
-		iconConfig = self.getImage("views/images/config.png", 20,20)
-		t=ttk.Label(self._menu, text="Configuracion",
+		iconConfig = self.getImage("views/images/config.png", 30,30)
+		t=ttk.Label(self._menu, text=" Configuracion",
 			image=iconConfig, style="Text.TLabel",
 			padding=10, compound=tk.LEFT)
 		t.image = iconConfig
 		t.pack(anchor=tk.NW, padx=2, pady=1, fill=tk.BOTH)
 
 		# options------
-		btn1=tk.Button(self._menu, text="Mi Perfil",bd=0,
-			font=("Microsoft New Tai Lue", "11", "normal"),
-			justify=tk.LEFT, command=self.my_profile)
-		btn1.pack(anchor=tk.NW, padx=2, pady=1, fill=tk.BOTH)
-		btn1.pack_propagate(0)
+		for x in xrange(1,6):
+			locals()['icon'+str(x)]=self.getImage(
+				"views/images/config_btn_"+str(x)+".png", 320, 55)
+			locals()['btn'+str(x)]=tk.Button(self._menu,
+				image=locals()['icon'+str(x)], bd=0,
+				justify=tk.LEFT, command=eval('self.'+self.methods[x-1]))
+			locals()['btn'+str(x)].image=locals()['icon'+str(x)]
+			locals()['btn'+str(x)].pack(anchor=tk.NW, padx=2, pady=1, fill=tk.BOTH)
 
-		btn2=tk.Button(self._menu, text="Lista de Usuarios", bd=0,
-			font=("Microsoft New Tai Lue", "11", "normal"),
-			justify=tk.LEFT, command=self.user_list)
-		btn2.pack(anchor=tk.NW, padx=2, pady=1, fill=tk.BOTH)
-		btn2.pack_propagate(0)
 
-		btn3=tk.Button(self._menu, text="Nuevo Usuario", bd=0,
-			font=("Microsoft New Tai Lue", "11", "normal"),
-			justify=tk.LEFT, command=self.new_user)
-		btn3.pack(anchor=tk.NW, padx=2, pady=1, fill=tk.BOTH)
-		btn3.pack_propagate(0)
-
-		btn4=tk.Button(self._menu, text="Editar Mi Perfil", bd=0,
-			font=("Microsoft New Tai Lue", "11", "normal"),
-			justify=tk.LEFT, command=self.edit_user)
-		btn4.pack(anchor=tk.NW, padx=2, pady=1, fill=tk.BOTH)
-		btn4.pack_propagate(0)
-
-		btn5=tk.Button(self._menu, text="Salir", height=1, bd=0,
-			font=("Microsoft New Tai Lue", "11", "normal"),
-			justify=tk.LEFT, command=self.exit)
-		btn5.pack(anchor=tk.NW, padx=2, pady=1, fill=tk.BOTH)
-		btn5.pack_propagate(0)
 
 	def my_profile(self):
 		self.clean(self._body)
