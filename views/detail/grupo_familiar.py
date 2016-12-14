@@ -3,6 +3,7 @@
 
 import os
 import Tkinter as tk
+import ttk
 import tkMessageBox
 from utils.methods import Methods
 from database.main import FamilyModel
@@ -19,23 +20,19 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 		self.db = FamilyModel()
 		self.models = self.db.list(viviendo_id=self.viviendo_id)
 
-		# clean content
-		# self.clean(self.root)
-
 		# content list
-		# Content Horizontal
-		self.parent = tk.Frame(self.root, height=700, background="grey", relief=tk.RAISED)
-		self.parent.pack(expand=True, fill=tk.X)
-		self.parent.pack_propagate(0)
+		# boxs------
+		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
+		div.pack(expand=True, fill=tk.X)
+		div.pack_propagate(0)
 
-		# Content Vertical
-		self.div = tk.Frame(self.parent, width=650, relief=tk.RAISED)
-		self.div.pack(expand=True, fill=tk.Y)
-		self.div.pack_propagate(0)
+		self._form = ttk.Frame(div, width=650, padding=20, style='White.TFrame')
+		self._form.pack(expand=True, fill=tk.Y)
+		self._form.pack_propagate(0)
 
 		# Title
-		tk.Label(self.div, text="Grupo Familiar", fg="orange",
-			font="Helvetica 16 bold").pack(pady=20)
+		ttk.Label(self._form, text="Lista de Usuarios",
+			style="Black22.TLabel").pack(pady=15, anchor=tk.NW)
 
 		self.list()
 
@@ -46,18 +43,18 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 	def item(self, model):
 		model_id = int(model[0])
 
-		root = tk.Frame(self.div, bd=1, height=30, relief=tk.RAISED)
+		root = ttk.Frame(self._form, height=50, style='Grey.TFrame')
 		root.pack(side=tk.TOP, padx=2, pady=1, fill=tk.X)
+		root.pack_propagate(0)
 
-		tk.Label(root, text=model[2], font="Helvetica 10 normal",
-			fg="#757575", bg="#EFEFEF").pack(side=tk.LEFT, padx=4)
+		ttk.Label(root, text=model[2], style='Grey12.TLabel'
+			).pack(side=tk.LEFT, padx=4)
 
-		tk.Label(root, text=' '.join([model[3], model[4]]), font="Helvetica 13 normal",
-			fg="#757575", bg="#EFEFEF").pack(side=tk.LEFT, padx=4)
+		ttk.Label(root, text=' '.join([model[3], model[4]]),
+			style='Grey12.TLabel').pack(side=tk.LEFT, padx=4)
 
-		tk.Button(root, text="Eliminar", font="Helvetica 12 normal",
-			command=lambda : self.delete(model_id), fg="#757575",
-			bg="#EFEFEF", bd=0).pack(side=tk.RIGHT, padx=4)
+		ttk.Button(root, text="Eliminar", style='Grey12.TLabel',
+			command=lambda : self.delete(model_id)).pack(side=tk.RIGHT, padx=4)
 
 	def delete(self, model):
 		if self.session.permission():

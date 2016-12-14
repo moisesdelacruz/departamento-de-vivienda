@@ -94,6 +94,8 @@ class Methods(object):
 		s.configure('Item.TFrame', background="#00162D")
 		# frame white
 		s.configure('White.TFrame', background="#FFF")
+		# frame grey
+		s.configure('Grey.TFrame', background="#f0f0f0")
 
 		# Label
 		s.configure('Title.TLabel', foreground='#FFF',
@@ -111,6 +113,9 @@ class Methods(object):
 
 		s.configure('Black12.TLabel', foreground='#000',
 			background="#FFF", font=self.microsoft_12, justify="left")
+
+		s.configure('Grey12.TLabel', foreground='#000',
+			background="#f0f0f0", font=self.microsoft_12, justify="left")
 
 		s.configure('TLabel', foreground='#FFF',
 			background="#012D5A", font=self.microsoft_10, justify="left")
