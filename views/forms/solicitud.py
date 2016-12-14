@@ -18,6 +18,20 @@ class SolicitudForm(tk.Frame, Methods):
 
 		self.viviendo_id = viviendo_id
 		self.db = SolicitudModel()
+
+		# Content Horizontal
+		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
+		div.pack(expand=True, fill=tk.X)
+		div.pack_propagate(0)
+		# Content Vertical
+		self._form = ttk.Frame(div, width=650, padding=20,
+			style='White.TFrame')
+		self._form.pack(expand=True, fill=tk.Y)
+		self._form.pack_propagate(0)
+
+		# get data from database
+		self.data = self.db.retrive(self.viviendo_id)
+
 		self.form()
 
 	def save(self):
@@ -41,36 +55,33 @@ class SolicitudForm(tk.Frame, Methods):
 		show = StatusDetail(self.root, self.viviendo_id)
 
 	def form(self):
-		# Content Horizontal
-		div = tk.Frame(self.root, height=500, background="grey", relief=tk.RAISED)
-		div.pack(expand=True, fill=tk.X)
-		div.pack_propagate(0)
-		# Content Vertical
-		form = tk.Frame(div, width=650, relief=tk.RAISED)
-		form.pack(expand=True, fill=tk.Y)
-		form.pack_propagate(0)
+		form = self._form
+		data = self.data
 
-		# get data from database
-		data = self.db.retrive(self.viviendo_id)
+		# Title of the Form
+		ttk.Label(form, text="Solicitud de Vivienda",
+			style='Black22.TLabel').pack(anchor=tk.NW)
 
-		tk.Label(form, text="Solicitud de Vivienda", font="Helvetica 16 bold",
-			fg="red").pack(pady=20)
+		ttk.Label(form, text="Sera redirigido automaticamente"+
+			"a un panel de administracion personalizado,"+
+			"\nAl Presionar \"Guardar\".",
+			style="Black12.TLabel").pack(anchor=tk.NW, pady=15)
 
 		# Entry housing_conditions
-		tk.Label(form,text="Condicion Habitacional:", font="Helvetica 10",
-			fg="#474747").place(x=59,y=77)
+		ttk.Label(form,text="Condicion Habitacional",
+			style='Black.TLabel').place(x=0,y=130)
 		housing_conditions = tk.StringVar(form,
 			value=data[0][2]) if data else tk.StringVar()
-		self.housing_conditions=validate.MaxLengthEntry(form,
+		self.housing_conditions=validate.MaxLengthEntry(form, style='White.TEntry',
 			value=housing_conditions.get(), maxlength=45, width=27,
 			font="Helvetica 13",justify="left")
 		self.housing_conditions.focus()
 		self.housing_conditions.pack(pady=8)
 
 		# Entry housing_direction
-		tk.Label(form,text="Dirección Habitacional:", font="Helvetica 10",
-			fg="#474747").place(x=60,y=120)
-		self.housing_direction=tk.Text(form, width=27, height=3, bd=0,
+		ttk.Label(form,text="Dirección Habitacional",
+			style='Black.TLabel').place(x=0,y=185)
+		self.housing_direction=tk.Text(form, width=28, height=3, bd=0,
 			font="Helvetica 12 normal",bg="white",fg="#6b6a6a",
 			highlightbackground="grey",highlightcolor="#4FC2EB",
 			highlightthickness=1)
@@ -79,17 +90,17 @@ class SolicitudForm(tk.Frame, Methods):
 		self.housing_direction.pack(pady=8)
 		
 		# Entry phone_number
-		tk.Label(form,text="Numero de Telefono:", font="Helvetica 10",
-			fg="#474747").place(x=72,y=190)
+		ttk.Label(form,text="Numero de Telefono",
+			style='Black.TLabel').place(x=0,y=255)
 		phone_number = tk.IntVar(form,
 			value=data[0][4]) if data else tk.IntVar()
 		self.phone_number=validate.IntegerEntry(form, value=phone_number.get(),
-			width=27, font="Helvetica 13",
+			width=27, font="Helvetica 13", style='White.TEntry',
 			justify="left")
 		self.phone_number.pack(pady=8)
 
 		# Fields Booleans 1
-		booleans = tk.Frame(form,  relief=tk.RAISED)
+		booleans = ttk.Frame(form, style='White.TFrame')
 		booleans.pack(pady=2)
 
 		# Entry residence_constancia
@@ -111,7 +122,7 @@ class SolicitudForm(tk.Frame, Methods):
 			onvalue=True, offvalue=False).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Fields Booleans 2
-		booleans2 = tk.Frame(form,  relief=tk.RAISED)
+		booleans2 = ttk.Frame(form, style='White.TFrame')
 		booleans2.pack(pady=2)
 
 		# Right
@@ -143,17 +154,23 @@ class SolicitudForm(tk.Frame, Methods):
 			onvalue=True, offvalue=False).pack(pady=8)
 
 		# Buttons of actions
-		buttons = tk.Frame(form,  relief=tk.RAISED)
+		buttons = ttk.Frame(form, style='White.TFrame')
 		buttons.pack(pady=8)
 		# buttons.pack_propagate(0)
 		# Guardar
-		tk.Button(buttons, command=self.save, text="Guardar",
-			font="Helvetica 12 bold", bd=0, activebackground="red",
-			activeforeground="blue", bg="green", fg="white", width=10,
-			height=2).pack(side=tk.LEFT, padx=8)
+		ttk.Button(buttons,
+			text="Cancelar").pack(side=tk.LEFT, padx=8)
 
 		# Cancelar
-		tk.Button(buttons, command=self.save, text="Cancelar",
-			font="Helvetica 12 bold", bd=0, activebackground="red",
-			activeforeground="blue", bg="grey", fg="white", width=10,
-			height=2).pack(side=tk.LEFT, padx=8)
+		ttk.Button(buttons, command=self.save,
+			text="Guardar").pack(side=tk.LEFT, padx=8)
+		# tk.Button(buttons, command=self.save, text="Guardar",
+		# 	font="Helvetica 12 bold", bd=0, activebackground="red",
+		# 	activeforeground="blue", bg="green", fg="white", width=10,
+		# 	height=2).pack(side=tk.LEFT, padx=8)
+
+		# # Cancelar
+		# tk.Button(buttons, command=self.save, text="Cancelar",
+		# 	font="Helvetica 12 bold", bd=0, activebackground="red",
+		# 	activeforeground="blue", bg="grey", fg="white", width=10,
+		# 	height=2).pack(side=tk.LEFT, padx=8)
