@@ -59,8 +59,8 @@ class Methods(object):
 			family="Microsoft New Tai Lue",size=16,weight="normal")
 		self.microsoft_22 = tkFont.Font(
 			family="Microsoft New Tai Lue",size=22,weight="normal")
-		self.microsoft_36 = tkFont.Font(
-			family="Microsoft Yi Baiti",size=50)
+		self.microsoft_62 = tkFont.Font(
+			family="Microsoft Yi Baiti",size=62)
 
 		# styles forms
 		s = ttk.Style()
@@ -124,4 +124,4 @@ class Methods(object):
 
 		# hour
 		s.configure('Hour.TLabel', foreground='#000',
-			background="#FFF", font=self.microsoft_36, justify="left")
+			background="#FFF", font=self.microsoft_62, justify="left")

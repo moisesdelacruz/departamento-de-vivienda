@@ -5,6 +5,9 @@ import Tkinter as tk
 import ttk
 
 from utils.methods import Methods
+from utils.clock import Clock
+from views.forms.search import SearchForm
+from views.detail.user.main import ConfigView
 
 class HomeView(tk.Frame, Methods):
 	def __init__(self, root, **kwargs):
@@ -14,6 +17,15 @@ class HomeView(tk.Frame, Methods):
 			self.session = kwargs.get('session')
 			self.account = self.session.content_session
 		self.view()
+
+	def viviendo(self):
+		self.clean(self.root)
+		SearchForm(self.root, session=self.session)
+
+	def config(self):
+		self.clean(self.root)
+		ConfigView(self.root, session=self.session)
+
 
 	def view(self):
 		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
@@ -32,8 +44,9 @@ class HomeView(tk.Frame, Methods):
 		box_time=ttk.Frame(view, style='White.TFrame', padding=32)
 		box_time.pack(anchor=tk.NW)
 
-		time=ttk.Label(box_time, text='12:37 p.m.', style='Hour.TLabel')
-		time.pack()
+		# time=ttk.Label(box_time, text='', style='Hour.TLabel')
+		# time.pack()
+		Clock(box_time)
 
 
 		# ------box-------
@@ -42,19 +55,19 @@ class HomeView(tk.Frame, Methods):
 		# boxs----------
 		# option config
 		config=ttk.Frame(box, width=250, height=120, style='Kim.TFrame')
-		config.pack(side=tk.LEFT, padx=15)
+		config.pack(side=tk.LEFT, padx=15, pady=30)
 		icon_config=self.getImage("views/images/btn-config.png", 276, 129)
-		btn_config=tk.Button(config, bd=0, image=icon_config)
+		btn_config=tk.Button(config, bd=0, image=icon_config, command=self.config)
 		btn_config.image=icon_config
-		btn_config.pack()
+		btn_config.pack(pady=10)
 
 		# option viviendo
 		viviendo=ttk.Frame(box, width=250, height=120, style='Item.TFrame')
-		viviendo.pack(side=tk.LEFT, padx=15)
+		viviendo.pack(side=tk.LEFT, padx=15, pady=30)
 		icon_viviendo=self.getImage("views/images/btn_viviendo.png", 276, 129)
-		btn_viviendo=tk.Button(viviendo, bd=0, image=icon_viviendo)
+		btn_viviendo=tk.Button(viviendo, bd=0, image=icon_viviendo, command=self.viviendo)
 		btn_viviendo.image=icon_viviendo
-		btn_viviendo.pack()
+		btn_viviendo.pack(pady=10)
 
 
 		# last inicio of session
@@ -62,5 +75,5 @@ class HomeView(tk.Frame, Methods):
 		box5.pack(side=tk.BOTTOM, anchor=tk.SE)
 		tk.Label(box5, text="Ultimo Inicio de Sesión:",
 			font="Helvetica 12 normal", fg="#6b6a6a").pack(pady=10, side=tk.LEFT)
-		tk.Label(box5, text="13/12/1989",
+		tk.Label(box5, text="13/12/1989 08:27 a.m.",
 			font="Helvetica 12 normal", fg="blue").pack(pady=10, side=tk.LEFT)

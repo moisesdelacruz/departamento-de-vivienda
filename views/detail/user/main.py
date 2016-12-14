@@ -9,7 +9,7 @@ from utils.methods import Methods
 from views.detail.user.profile import ProfileView
 from views.detail.user.users_list import UsersListDetail
 from views.forms.user.register import RegisterForm
-from views.detail.home import HomeView
+from views import detail
 
 
 class ConfigView(tk.Frame, Methods):
@@ -90,4 +90,4 @@ class ConfigView(tk.Frame, Methods):
 
 	def exit(self):
 		self.clean(self.root)
-		HomeView(self.root, session=self.session)
+		detail.home.HomeView(self.root, session=self.session)
