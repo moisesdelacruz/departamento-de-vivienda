@@ -3,6 +3,7 @@
 
 import os
 import Tkinter as tk
+import ttk
 
 from database.main import ViviendoModel
 from database.main import TracingModel
@@ -43,35 +44,37 @@ class SearchForm(tk.Frame, Methods):
 			self.noResult()
 
 	def form(self):
-		# Content Horizontal
-		div = tk.Frame(self.root, height=500, background="grey", relief=tk.RAISED)
+		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
 		div.pack(expand=True, fill=tk.X)
 		div.pack_propagate(0)
-		# Content Vertical
-		hor = tk.Frame(div, width=650, relief=tk.RAISED)
-		hor.pack(expand=True, fill=tk.Y)
-		hor.pack_propagate(0)
+
+		view = ttk.Frame(div, width=650, padding=50, style='White.TFrame')
+		view.pack(expand=True, fill=tk.Y)
+		view.pack_propagate(0)
 
 		# Logo
 		logoImage = self.getImage("views/images/Gran-Mision-Vivienda-Venezuela.png", 520, 240)
-		logo = tk.Label(hor, image=logoImage)
+		logo = ttk.Label(view, image=logoImage, style='Black.TLabel')
 		logo.pack()
 		logo.image = logoImage
 
 		# form
 		# Entry Cedula de Identidad
-		form = tk.Frame(hor, background="grey", relief=tk.RAISED)
+		form = ttk.Frame(view, style='Kim.TFrame')
 		form.pack()
-		self.search=validate.IntegerEntry(form,
-			width=34, font="Helvetica 18 normal",justify="left")
+
+		self.search=validate.MaxLengthEntry(form, maxlength=40,
+			style="White.TEntry", width=51, font="Helvetica 13",
+			justify="left")
 		self.search.focus()
 		self.search.pack(side=tk.LEFT)
-		iconSearch = self.getImage("views/images/search-icon.png")
-		searchButton = tk.Button(form, command=self.searchdb,
-			image=iconSearch, width=77, bd=0,
-			bg="#4285f4", activebackground="#1E6FBA")
-		searchButton.pack(side=tk.RIGHT)
-		searchButton.image = iconSearch
+		# btn -----------
+		img_send = self.getImage("views/images/send.png")
+		ok=tk.Button(form, command=self.searchdb, bd=0, 
+			bg="#325678", width=50, image=img_send)
+		ok.image = img_send
+		ok.pack(side=tk.LEFT)
+		
 
 	def noResult(self):
 		self.empty = tk.Frame(self.root, bd=1, bg="red")
