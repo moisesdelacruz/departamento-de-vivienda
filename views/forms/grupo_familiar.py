@@ -20,6 +20,16 @@ class Grupo_familiarForm(tk.Frame, Methods):
 			self.session = kwargs.get('session')
 
 		self.viviendo_id = viviendo_id
+
+		# boxs------
+		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
+		div.pack(expand=True, fill=tk.X)
+		div.pack_propagate(0)
+
+		self._form = ttk.Frame(div, width=650, padding=20, style='White.TFrame')
+		self._form.pack(expand=True, fill=tk.Y)
+		self._form.pack_propagate(0)
+
 		self.form()
 
 	def save(self):
@@ -42,63 +52,61 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		view = Grupo_familiarDetail(self.root, self.viviendo_id, session=self.session)
 
 	def form(self):
-		# Content Horizontal
-		div = tk.Frame(self.root, height=500, background="grey", relief=tk.RAISED)
-		div.pack(expand=True, fill=tk.X)
-		div.pack_propagate(0)
-		# Content Vertical
-		form = tk.Frame(div, width=650, relief=tk.RAISED)
-		form.pack(expand=True, fill=tk.Y)
-		form.pack_propagate(0)
+		form=self._form
 
-		# Title
-		tk.Label(form, text="Registrar Grupo Familiar",
-			font="Helvetica 16 bold", fg="green").pack(pady=20)
+		# Title of the Form
+		ttk.Label(form, text="Registrar Familiar",
+			style='Black22.TLabel').pack(anchor=tk.NW)
+
+		ttk.Label(form, text="Sera redirigido automaticamente"+
+			"a un panel de administracion personalizado,"+
+			"\nAl Presionar \"Guardar\".",
+			style="Black12.TLabel").pack(anchor=tk.NW, pady=15)
 
 		# Entry of the cedula
-		tk.Label(form,text="CI:", font="Helvetica 10",
-			fg="#474747").place(x=176,y=78)
-		self.ci=validate.IntegerEntry(form,
+		ttk.Label(form,text="CI",
+			style='Black.TLabel').place(x=0,y=135)
+		self.ci=validate.IntegerEntry(form, style='White.TEntry',
 			width=27, font="Helvetica 13",
 			justify="left")
 		self.ci.focus()
 		self.ci.pack(pady=8)
 
 		# Entry of first_name
-		tk.Label(form,text="Nombre:", font="Helvetica 10",
-			fg="#474747").place(x=143,y=120)
+		ttk.Label(form,text="Nombre",
+			style='Black.TLabel').place(x=0,y=185)
 		self.first_name=validate.MaxLengthEntry(form,
-			maxlength=30,width=27,
+			style='White.TEntry', maxlength=30,width=27,
 			font="Helvetica 13",justify="left")
 		self.first_name.pack(pady=8)
 
 		# Entry of last_name
-		tk.Label(form,text="Apellido:", font="Helvetica 10",
-			fg="#474747").place(x=142,y=162)
+		ttk.Label(form,text="Apellido",
+			style='Black.TLabel').place(x=0,y=235)
 		self.last_name=validate.MaxLengthEntry(form,
-			maxlength=30, width=27, font="Helvetica 13", justify="left")
+			style='White.TEntry', maxlength=30, width=27,
+			font="Helvetica 13", justify="left")
 		self.last_name.pack(pady=8)
 
 		# Entry birthday
-		tk.Label(form, text="Fecha de Nacimiento:", font="Helvetica 10",
-			fg="#474747").place(x=65,y=204)
-		date = tk.Frame(form, background="grey", relief=tk.RAISED)
-		date.pack(pady=8)
+		ttk.Label(form, text="Fecha de Nacimiento",
+			style='Black.TLabel').place(x=0,y=280)
 
-		self.birthday=entrydate.DateEntry(date, font="Helvetica 13")
-		self.birthday.pack(side=tk.LEFT)
+		self.birthday=entrydate.DateEntry(form,
+			style='White.TEntry', font="Helvetica 13")
+		self.birthday.pack(pady=8)
 
 		# Entry birth_state
-		tk.Label(form,text="Estado de Nacimiento:", font="Helvetica 10",
-			fg="#474747").place(x=63,y=248)
-		self.birth_state=validate.MaxLengthEntry(form, 
-			maxlength=30, width=27, font="Helvetica 13",
-			justify="left")
+		ttk.Label(form,text="Estado de Nacimiento",
+			style='Black.TLabel').place(x=0,y=330)
+		self.birth_state=validate.MaxLengthEntry(form,
+			style='White.TEntry', maxlength=30, width=27,
+			font="Helvetica 13", justify="left")
 		self.birth_state.pack(pady=8)
 
 		# Booleans Fields
 		# Content BOOLEANS
-		booleans = tk.Frame(form,  relief=tk.RAISED)
+		booleans = ttk.Frame(form, style='White.TFrame')
 		booleans.pack(pady=2)
 
 		# Entry of tercera edad
@@ -123,17 +131,12 @@ class Grupo_familiarForm(tk.Frame, Methods):
 			).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Buttons of actions
-		buttons = tk.Frame(form,  relief=tk.RAISED)
+		buttons = ttk.Frame(form, style='White.TFrame')
 		buttons.pack(pady=8)
-		# buttons.pack_propagate(0)
 		# Guardar
-		tk.Button(buttons, command=self.save, text="Guardar",
-			font="Helvetica 12 bold", bd=0, activebackground="red",
-			activeforeground="blue", bg="green", fg="white", width=10,
-			height=2).pack(side=tk.LEFT, padx=8)
+		ttk.Button(buttons,
+			text="Cancelar").pack(side=tk.LEFT, padx=8)
 
 		# Cancelar
-		tk.Button(buttons, command=self.save, text="Cancelar",
-			font="Helvetica 12 bold", bd=0, activebackground="red",
-			activeforeground="blue", bg="grey", fg="white", width=10,
-			height=2).pack(side=tk.LEFT, padx=8)
+		ttk.Button(buttons, command=self.save,
+			text="Guardar").pack(side=tk.LEFT, padx=8)
