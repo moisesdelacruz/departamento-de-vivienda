@@ -163,35 +163,35 @@ class Toolbar(tk.Frame, Methods):
 
 
     def menu(self):
-        menubar = tk.Menu(self.parent)
+        self.menubar = tk.Menu(self.parent)
         # File
-        filemenu = tk.Menu(menubar, tearoff=0)
-        filemenu.add_command(label='Inicio', command=self.home)
-        filemenu.add_separator()
-        filemenu.add_command(label='Nuevo Viviendo', command=self.formViviendo)
-        filemenu.add_command(label='Buscar Viviendo', command=self.formSearch)
-        filemenu.add_separator()
-        filemenu.add_command(label='Salir', command=self.exit)
+        self.filemenu = tk.Menu(self.menubar, tearoff=0)
+        self.filemenu.add_command(label='Inicio', command=self.home)
+        self.filemenu.add_separator()
+        self.filemenu.add_command(label='Nuevo Viviendo', command=self.formViviendo)
+        self.filemenu.add_command(label='Buscar Viviendo', command=self.formSearch)
+        self.filemenu.add_separator()
+        self.filemenu.add_command(label='Salir', command=self.exit)
 
         # Edit
-        editmenu = tk.Menu(menubar, tearoff=0)
-        editmenu.add_command(label='Mi Perfil', command=self.config)
-        editmenu.add_separator()
-        editmenu.add_command(label='Nuevo Usuario',
+        self.editmenu = tk.Menu(self.menubar, tearoff=0)
+        self.editmenu.add_command(label='Mi Perfil', command=self.config)
+        self.editmenu.add_separator()
+        self.editmenu.add_command(label='Nuevo Usuario',
             command=lambda : self.config(view='new_user'))
-        editmenu.add_command(label='Lista de Usuarios',
+        self.editmenu.add_command(label='Lista de Usuarios',
             command=lambda : self.config(view='user_list'))
-        editmenu.add_separator()
-        editmenu.add_command(label='Configuracion', command=self.config)
+        self.editmenu.add_separator()
+        self.editmenu.add_command(label='Configuracion', command=self.config)
 
         # Help
-        helpmenu = tk.Menu(menubar, tearoff=0)
-        helpmenu.add_command(label='Acerca de', command=self.about)
-        helpmenu.add_separator()
-        helpmenu.add_command(label='Ayuda')
+        self.helpmenu = tk.Menu(self.menubar, tearoff=0)
+        self.helpmenu.add_command(label='Acerca de', command=self.about)
+        self.helpmenu.add_separator()
+        self.helpmenu.add_command(label='Ayuda')
 
-        menubar.add_cascade(label="Archivo", menu=filemenu)
-        menubar.add_cascade(label="Editar", menu=editmenu)
-        menubar.add_cascade(label="Ayuda", menu=helpmenu)
+        self.menubar.add_cascade(label="Archivo", menu=self.filemenu)
+        self.menubar.add_cascade(label="Editar", menu=self.editmenu)
+        self.menubar.add_cascade(label="Ayuda", menu=self.helpmenu)
 
-        self.parent.config(menu=menubar)
+        self.parent.config(menu=self.menubar)

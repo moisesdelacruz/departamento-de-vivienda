@@ -533,32 +533,64 @@
 
 # -------------------------------------------
 
-# clock
+# # clock
 
-from Tkinter import *    
-import time
+# from Tkinter import *    
+# import time
 
-root = Tk()
+# root = Tk()
 
-class Clock:
-    def __init__(self):
-    	self.init()
+# class Clock:
+#     def __init__(self):
+#     	self.init()
         
-    def init(self):
-    	self.time1 = ''
-        self.time2 = time.strftime('%H:%M:%S')
-        self.mFrame = Frame()
-        self.mFrame.pack(side=TOP,expand=YES,fill=X)
+#     def init(self):
+#     	self.time1 = ''
+#         self.time2 = time.strftime('%H:%M:%S')
+#         self.mFrame = Frame()
+#         self.mFrame.pack(side=TOP,expand=YES,fill=X)
 
-        self.watch = Label(self.mFrame, text=self.time2, font=('times',62,'bold'))
-        self.watch.pack()
+#         self.watch = Label(self.mFrame, text=self.time2, font=('times',62,'bold'))
+#         self.watch.pack()
 
-        self.changeLabel() #first call it manually
+#         self.changeLabel() #first call it manually
 
-    def changeLabel(self): 
-        self.time2 = time.strftime('%H:%M:%S')
-        self.watch.configure(text=self.time2)
-        self.mFrame.after(200, self.changeLabel) #it'll call itself continuously
+#     def changeLabel(self): 
+#         self.time2 = time.strftime('%H:%M:%S')
+#         self.watch.configure(text=self.time2)
+#         self.mFrame.after(200, self.changeLabel) #it'll call itself continuously
 
-obj1 = Clock()
-root.mainloop()
+# obj1 = Clock()
+# root.mainloop()
+
+# -------------------------------------------------------------------------
+
+# Menu Popup
+
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
+
+from Tkinter import *
+
+raiz = Tk()
+
+def hola():
+    print "Hola!"
+
+# Crear un menu popup (emergente)
+menu = Menu(raiz, tearoff=0)
+menu.add_command(label="Undo", command=hola)
+menu.add_command(label="Redo", command=hola)
+
+# Crear un marco
+marco = Frame(raiz, width=512, height=512, background="red")
+marco.pack()
+
+def popup(event):
+    menu.post(event.x_root, event.y_root)
+
+# Enlazar el menu popup al marco
+marco.bind("<Button-3>", popup)
+
+# Mostrar la ventana
+raiz.mainloop()

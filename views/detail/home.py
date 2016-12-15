@@ -16,6 +16,8 @@ class HomeView(tk.Frame, Methods):
 		if kwargs.get('session'):
 			self.session = kwargs.get('session')
 			self.account = self.session.content_session
+
+		# render view
 		self.view()
 
 	def viviendo(self):
@@ -25,6 +27,14 @@ class HomeView(tk.Frame, Methods):
 	def config(self):
 		self.clean(self.root)
 		ConfigView(self.root, session=self.session)
+
+	def popup_viviendo(self, event):
+		menu=self.session.filemenu
+		menu.post(event.x_root, event.y_root)
+
+	def popup_config(self, event):
+		menu=self.session.editmenu
+		menu.post(event.x_root, event.y_root)
 
 
 	def view(self):
@@ -41,17 +51,15 @@ class HomeView(tk.Frame, Methods):
 			self.account.get('last_name')]),
 			style='Black22.TLabel').pack(pady=20)
 
+		# Clock real time
 		box_time=ttk.Frame(view, style='White.TFrame', padding=32)
 		box_time.pack(anchor=tk.NW)
-
-		# time=ttk.Label(box_time, text='', style='Hour.TLabel')
-		# time.pack()
 		Clock(box_time)
-
 
 		# ------box-------
 		box = ttk.Frame(view, style='White.TFrame')
 		box.pack(anchor=tk.CENTER)
+
 		# boxs----------
 		# option config
 		config=ttk.Frame(box, width=250, height=120, style='Kim.TFrame')
@@ -60,6 +68,7 @@ class HomeView(tk.Frame, Methods):
 		btn_config=tk.Button(config, bd=0, image=icon_config, command=self.config)
 		btn_config.image=icon_config
 		btn_config.pack(pady=10)
+		btn_config.bind("<Button-3>", self.popup_config)
 
 		# option viviendo
 		viviendo=ttk.Frame(box, width=250, height=120, style='Item.TFrame')
@@ -68,6 +77,7 @@ class HomeView(tk.Frame, Methods):
 		btn_viviendo=tk.Button(viviendo, bd=0, image=icon_viviendo, command=self.viviendo)
 		btn_viviendo.image=icon_viviendo
 		btn_viviendo.pack(pady=10)
+		btn_viviendo.bind("<Button-3>", self.popup_viviendo)
 
 
 		# last inicio of session
