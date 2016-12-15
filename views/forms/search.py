@@ -82,7 +82,8 @@ class SearchForm(tk.Frame, Methods):
 		# btn -----------
 		img_send = self.getImage("views/images/send.png")
 		ok=tk.Button(form, command=self.searchdb, bd=0, 
-			bg="#325678", width=50, image=img_send)
+			bg="#325678", width=50, image=img_send,
+			activebackground="#012D5A")
 		ok.image = img_send
 		ok.pack(side=tk.LEFT)
 		

@@ -85,7 +85,7 @@ class LoginForm(tk.Frame, Methods):
 		# Login
 		img_send = self.getImage("views/images/send.png")
 		ok=tk.Button(password, command=self.login, bd=0, 
-			bg="#325678", image=img_send)
+			bg="#325678", image=img_send, activebackground="#012D5A")
 		ok.focus()
 		ok.image = img_send
 		ok.pack(side=tk.LEFT)
