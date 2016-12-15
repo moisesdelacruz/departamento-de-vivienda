@@ -164,7 +164,9 @@ class Toolbar(tk.Frame, Methods):
 
     def menu(self):
         # ---- teclado ----
+        # New Viviendo
         self.parent.bind_all("<Control-n>", self.formViviendo)
+        # form search viviendo
         self.parent.bind_all("<Control-b>", self.formSearch)
 
         # ---- menu ----
