@@ -53,13 +53,13 @@ class Toolbar(tk.Frame, Methods):
         tkMessageBox.showwarning(title='Permiso Denegado',
             message='No tienes permisos para realizar esta acción')
 
-    def formViviendo(self):
+    def formViviendo(self, ev):
         if self.permission():
             self.clean(self.body)
             self.parent.title('Registar Viviendo')
             self.formViviendo = ViviendoForm(self.body, session=self)
 
-    def formSearch(self):
+    def formSearch(self, ev):
         if self.session():
             self.clean(self.body)
             self.parent.title('Buscar Viviendo')
@@ -163,13 +163,20 @@ class Toolbar(tk.Frame, Methods):
 
 
     def menu(self):
+        # ---- teclado ----
+        self.parent.bind_all("<Control-n>", self.formViviendo)
+        self.parent.bind_all("<Control-b>", self.formSearch)
+
+        # ---- menu ----
         self.menubar = tk.Menu(self.parent)
         # File
         self.filemenu = tk.Menu(self.menubar, tearoff=0)
         self.filemenu.add_command(label='Inicio', command=self.home)
         self.filemenu.add_separator()
-        self.filemenu.add_command(label='Nuevo Viviendo', command=self.formViviendo)
-        self.filemenu.add_command(label='Buscar Viviendo', command=self.formSearch)
+        self.filemenu.add_command(label='Nuevo Viviendo',
+            command=self.formViviendo, accelerator="Ctrl+N")
+        self.filemenu.add_command(label='Buscar Viviendo',
+            command=self.formSearch, accelerator="Ctrl+B")
         self.filemenu.add_separator()
         self.filemenu.add_command(label='Salir', command=self.exit)
 
