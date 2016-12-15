@@ -57,6 +57,8 @@ class Methods(object):
 			family="Microsoft New Tai Lue",size=14,weight="normal")
 		self.microsoft_16 = tkFont.Font(
 			family="Microsoft New Tai Lue",size=16,weight="normal")
+		self.microsoft_18 = tkFont.Font(
+			family="Microsoft New Tai Lue",size=18,weight="normal")
 		self.microsoft_22 = tkFont.Font(
 			family="Microsoft New Tai Lue",size=22,weight="normal")
 		self.microsoft_62 = tkFont.Font(
@@ -134,3 +136,7 @@ class Methods(object):
 		# hour
 		s.configure('Hour.TLabel', foreground='#000',
 			background="#FFF", font=self.microsoft_62, justify="left")
+
+		# messages of errors
+		s.configure('Error.TLabel', foreground='#FFF',
+			background="#FF0000", font=self.microsoft_18, justify="left")

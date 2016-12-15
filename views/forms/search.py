@@ -16,44 +16,55 @@ class SearchForm(tk.Frame, Methods):
 		tk.Frame.__init__(self, root)
 		self.root = root
 
+		if kwargs.get('session'):
+			self.session = kwargs.get('session')
+
 		# Data base
 		class DB(object): pass
 		self.db = DB()
 		self.db.viviendo = ViviendoModel()
 		self.db.tracing = TracingModel()
 
-		if kwargs.get('session'):
-			self.session = kwargs.get('session')
-		self.form()
-
-	def searchdb(self):
-		if hasattr(self, 'message'):
-			self.empty.destroy()
-
-		self.result = self.db.viviendo.retrive(int(self.search.get()), field='ci')
-
-		if self.result:
-			# set time
-			self.db.tracing.create({"viviendo_id": self.result[0][0]})
-			# clean content
-			self.clean(self.root)
-			# render view
-			self.detail = ViviendoDetail(self.root, session=self.session, viviendo=self.result)
-		else:
-			self.message = 'no se encontro resultado'
-			self.noResult()
-
-	def form(self):
+		# contents
 		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
 		div.pack(expand=True, fill=tk.X)
 		div.pack_propagate(0)
 
-		view = ttk.Frame(div, width=650, padding=50, style='White.TFrame')
-		view.pack(expand=True, fill=tk.Y)
-		view.pack_propagate(0)
+		self._view = ttk.Frame(div, width=650, padding=50, style='White.TFrame')
+		self._view.pack(expand=True, fill=tk.Y)
+		self._view.pack_propagate(0)
+
+		self.message = ttk.Frame(self._view, style='White.TFrame')
+		self.message.pack(side=tk.BOTTOM)
+
+		# Init view
+		self.form()
+
+	def searchdb(self):
+
+		if len(self.search.get()) >= 7:
+			self.result = self.db.viviendo.retrive(int(self.search.get()), field='ci')
+
+			if self.result:
+				# set time
+				self.db.tracing.create({"viviendo_id": self.result[0][0]})
+				# clean content
+				self.clean(self.root)
+				# render view
+				self.detail = ViviendoDetail(self.root, session=self.session, viviendo=self.result)
+			else:
+				message = 'Viviendo '+self.search.get()+' no existe'
+				self.error(message)
+		else:
+			message = 'Debes introducir una Cedula de Identidad valida'
+			self.error(message)
+
+	def form(self):
+		view=self._view
 
 		# Logo
-		logoImage = self.getImage("views/images/Gran-Mision-Vivienda-Venezuela.png", 520, 240)
+		logoImage = self.getImage(
+			"views/images/Gran-Mision-Vivienda-Venezuela.png", 520, 240)
 		logo = ttk.Label(view, image=logoImage, style='Black.TLabel')
 		logo.pack()
 		logo.image = logoImage
@@ -63,7 +74,7 @@ class SearchForm(tk.Frame, Methods):
 		form = ttk.Frame(view, style='Kim.TFrame')
 		form.pack()
 
-		self.search=validate.MaxLengthEntry(form, maxlength=40,
+		self.search=validate.IntegerEntry(form,
 			style="White.TEntry", width=51, font="Helvetica 13",
 			justify="left")
 		self.search.focus()
@@ -76,9 +87,8 @@ class SearchForm(tk.Frame, Methods):
 		ok.pack(side=tk.LEFT)
 		
 
-	def noResult(self):
-		self.empty = tk.Frame(self.root, bd=1, bg="red")
-
-		tk.Label(self.empty, text=self.message,
-			fg="red", font="Helvetica 14 normal").pack()
-		self.empty.pack(side=tk.TOP)
+	def error(self, message):
+		self.clean(self.message)
+		# message of error
+		ttk.Label(self.message, text=message,
+			style='Error.TLabel').pack()
