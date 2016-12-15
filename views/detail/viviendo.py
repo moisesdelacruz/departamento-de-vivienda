@@ -3,6 +3,7 @@
 
 import os
 import Tkinter as tk
+import ttk
 from database.main import FamilyModel
 from database.main import ViviendoModel
 from utils.methods import Methods
@@ -64,16 +65,16 @@ class ViviendoDetail(tk.Frame, Methods):
 		# query to database
 		self.group_family = self.db.list(viviendo_id=self.viviendo['id'])
 
-		# Top div
-		self.top = tk.Frame(self.root, bd=1, relief=tk.RAISED)
-		self.top.pack(side=tk.TOP, fill=tk.X)
+		# Full name of the Viviendo
+		ttk.Label(self.root, text=self.viviendo['full_name'],
+			style='Title.TLabel').pack(side=tk.TOP, fill=tk.X)
 		# self.top.pack_propagate(0)
 		# Left div
-		self.left = tk.Frame(self.root, bd=1, width=270, relief=tk.RAISED)
+		self.left = ttk.Frame(self.root, width=270, style='White.TFrame')
 		self.left.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 		self.left.pack_propagate(0)
 		# Right div
-		self.right = tk.Frame(self.root, width=2000, relief=tk.RAISED)
+		self.right = ttk.Frame(self.root, width=2000, style='White.TFrame')
 		self.right.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 		self.right.pack_propagate(0)
 		
@@ -85,9 +86,9 @@ class ViviendoDetail(tk.Frame, Methods):
 		color_female = "pink"
 		color = eval('color_'+self.suffixSex)
 
-		tk.Label(self.top, text=self.viviendo['full_name'],
-			font="Helvetica 16 bold", bg=color,
-			fg="white").pack(side=tk.TOP, fill=tk.X)
+		# tk.Label(self.top, text=self.viviendo['full_name'],
+		# 	font="Helvetica 16 bold", bg=color,
+		# 	fg="white").pack(side=tk.TOP, fill=tk.X)
 
 		self.viviendoFrame()
 		self.familyFrame()
