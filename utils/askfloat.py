@@ -10,9 +10,8 @@ class FloatDialog(tkSimpleDialog.Dialog):
 			font="Helvetica 12 normal").pack(side=tk.TOP, pady=10)
 
 		self.value=validate.FloatEntry(master,
-			width=12, bd=0, font="Helvetica 14 normal",
-			justify="left",bg="white",fg="#6b6a6a",
-			highlightthickness=0)
+			width=12, font="Helvetica 14 normal",
+			justify="left")
 		if value: self.value.set(value)
 		self.value.pack(pady=8)
 
