@@ -13,28 +13,22 @@ from views.detail.viviendo import ViviendoDetail
 
 class ViviendoForm(tk.Frame, Methods):
 
-	def __init__(self, root, **kwargs):
+	def __init__(self, root, controller, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
+		self.controller = controller
+		# instance from database
 		self.db = ViviendoModel()
+
 		self.viviendo = {}
-		if kwargs.get('session'):
-			self.session = kwargs.get('session')
 		if kwargs.get('viviendo_detail'):
 			self.viviendoDetail = kwargs.get('viviendo_detail')
 		if kwargs.get('viviendo'):
 			self.viviendo = kwargs.get('viviendo')
 
-		# boxs------
-		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
-		div.pack(expand=True, fill=tk.X)
-		div.pack_propagate(0)
+		# render view
+		self.render()
 
-		self._form = ttk.Frame(div, width=650, padding=20, style='White.TFrame')
-		self._form.pack(expand=True, fill=tk.Y)
-		self._form.pack_propagate(0)
-		# call form1
-		self.form1()
 
 	def save(self):
 		data = ({
@@ -58,12 +52,14 @@ class ViviendoForm(tk.Frame, Methods):
 			# Content main.
 			parent = self.root._nametowidget(self.root.winfo_parent())
 			self.clean(parent)
-			render = self.viviendoDetail.__init__(parent, session=self.session, viviendo_id=self.viviendo.get('id'))
+			render = self.viviendoDetail.__init__(parent,
+				self.controller, viviendo_id=self.viviendo.get('id'))
 		else:
 			self.db.create(data)
 			# View Vivivendo Detail
 			self.clean(self.root)
-			view = ViviendoDetail(self.root, session=self.session, ci=data.get('ci'))
+			view = ViviendoDetail(self.root, self.controller,
+				ci=data.get('ci'))
 			view.pack()
 
 	def next(self):
@@ -74,10 +70,18 @@ class ViviendoForm(tk.Frame, Methods):
 		self.clean(self._form)
 		self.form1()
 
-	# def cancel(self):
-	# 	if hasattr(self, 'session'):
-	# 		self.clean(self.root)
-	# 		user.profile.ProfileView(self.root, session=self.session)
+	def render(self):
+		# boxs------
+		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
+		div.pack(expand=True, fill=tk.X)
+		div.pack_propagate(0)
+
+		self._form = ttk.Frame(div, width=650, padding=20, style='White.TFrame')
+		self._form.pack(expand=True, fill=tk.Y)
+		self._form.pack_propagate(0)
+		# call form1
+		self.form1()
+
 
 	def form1(self):
 		form = self._form

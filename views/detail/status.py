@@ -11,9 +11,10 @@ from utils.verticalScrolled import VerticalScrolledFrame
 from utils.table import SimpleTable
 
 class StatusDetail(tk.Frame, Methods):
-	def __init__(self, root, viviendo_id):
+	def __init__(self, root, controller, viviendo_id):
 		tk.Frame.__init__(self, root)
 		self.root = root
+		self.controller = controller
 
 		# Data base
 		class DB(object): pass
@@ -23,7 +24,16 @@ class StatusDetail(tk.Frame, Methods):
 
 		# viviendo id
 		self.viviendo_id = viviendo_id
+		# query to data base
+		self.solicitud = self.db.solicitud.retrive(self.viviendo_id)
+		# Query to database
+		self.dates = self.db.tracing.list(viviendo_id=self.viviendo_id)
+		
+		# render view
+		self.render()
+		
 
+	def render(self):
 		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
 		div.pack(expand=True, fill=tk.X)
 		div.pack_propagate(0)
@@ -42,18 +52,15 @@ class StatusDetail(tk.Frame, Methods):
 		self.bottom.pack(side=tk.BOTTOM, expand=True, fill=tk.BOTH)
 		self.bottom.pack_propagate(0)
 
-
-		# query to data base
-		self.query = self.db.solicitud.retrive(self.viviendo_id)
-		if self.query:
+		if self.solicitud and self.dates:
 			self.data = {
-				"residence_constancia": self.query[0][5],
-				"copy_ci": self.query[0][6],
-				"medical_reports": self.query[0][7],
-				"housing_in_risk": self.query[0][8],
-				"firefighters_constancy": self.query[0][9],
-				"health_case": self.query[0][10],
-				"copy_register_mision_vivienda": self.query[0][11]
+				"residence_constancia": self.solicitud[0][5],
+				"copy_ci": self.solicitud[0][6],
+				"medical_reports": self.solicitud[0][7],
+				"housing_in_risk": self.solicitud[0][8],
+				"firefighters_constancy": self.solicitud[0][9],
+				"health_case": self.solicitud[0][10],
+				"copy_register_mision_vivienda": self.solicitud[0][11]
 			}
 			self.tracing()
 			self.status()
@@ -132,8 +139,7 @@ class StatusDetail(tk.Frame, Methods):
 
 
 	def tracing(self):
-		# Query yo database
-		result = self.db.tracing.list(viviendo_id=self.viviendo_id)
+		result = self.dates
 		# ------------
 		top = ttk.Frame(self.top, width=700, height=80, style='White.TFrame')
 		top.pack(side=tk.TOP)

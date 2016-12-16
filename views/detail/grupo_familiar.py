@@ -9,17 +9,19 @@ from utils.methods import Methods
 from database.main import FamilyModel
 
 class Grupo_familiarDetail(tk.Frame, Methods):
-	def __init__(self, root, viviendo_id, **kwargs):
+	def __init__(self, root, controller, viviendo_id, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
-		# get session
-		if kwargs.get('session'):
-			self.session = kwargs.get('session')
+		self.controller = controller
 
 		self.viviendo_id = viviendo_id
 		self.db = FamilyModel()
 		self.models = self.db.list(viviendo_id=self.viviendo_id)
 
+		self.render()
+
+
+	def render(self):
 		# content list
 		# boxs------
 		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
@@ -36,9 +38,11 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 
 		self.list()
 
+
 	def list(self):
 		for model in self.models:
 			self.item(model)
+
 
 	def item(self, model):
 		model_id = int(model[0])
@@ -56,11 +60,12 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 		ttk.Button(root, text="Eliminar", style='Grey12.TLabel',
 			command=lambda : self.delete(model_id)).pack(side=tk.RIGHT, padx=4)
 
+
 	def delete(self, model):
-		if self.session.permission():
+		if self.controller.permission():
 			if tkMessageBox.askyesno(title='Advertencia',
 				message='¿Seguro(a) que desea Eliminar?'):
 				self.db.delete(model)
 				self.parent.destroy()
-				self.__init__(self.root, self.viviendo_id, session=self.session)
-		else: self.session.denegate()
+				self.__init__(self.root, self.controller, self.viviendo_id)
+		else: self.controller.denegate()

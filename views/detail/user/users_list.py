@@ -10,12 +10,10 @@ from database.main import UserModel
 from views.forms.user.register import RegisterForm
 
 class UsersListDetail(tk.Frame, Methods):
-	def __init__(self, root, **kwargs):
+	def __init__(self, root, controller, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
-		# get session
-		if kwargs.get('session'):
-			self.session = kwargs.get('session')
+		self.controller = controller
 
 		self.db = UserModel()
 		self.models = self.db.list()
@@ -39,26 +37,28 @@ class UsersListDetail(tk.Frame, Methods):
 
 	def list(self):
 		for model in self.models:
-			if model[0] != self.session.content_session.get('user_id'):
+			model = self._format_user(model)
+			if model.get('user_id') != self.controller.get_session().get('user_id'):
 				self.item(model)
 
 	def item(self, model):
-		model_id = int(model[0])
+		model_id = int(model.get('user_id'))
 
 		root = ttk.Frame(self.div, height=50, style='Item.TFrame')
 		root.pack(side=tk.TOP, padx=2, pady=1, fill=tk.X)
 		root.pack_propagate(0)
 
-		ttk.Label(root, text=model[4], style='Item.TLabel'
+		ttk.Label(root, text=model.get('cedula'), style='Item.TLabel'
 			).pack(side=tk.LEFT, padx=4)
 
-		ttk.Label(root, text=model[1], style='Item.TLabel'
+		ttk.Label(root, text=model.get('username'), style='Item.TLabel'
 			).pack(side=tk.LEFT, padx=4)
 
-		ttk.Label(root, text=model[6], style='Item.TLabel'
+		ttk.Label(root, text=model.get('permission'), style='Item.TLabel'
 			).pack(side=tk.LEFT, padx=4)
 
-		ttk.Label(root, text='superusuario' if model[5] else 'usuario',
+		ttk.Label(root,
+			text='superusuario' if model.get('is_superuser') else 'usuario',
 			style='Item.TLabel').pack(side=tk.LEFT, padx=4)
 
 		tk.Button(root, text="Eliminar", font="Helvetica 12 normal",
@@ -71,17 +71,17 @@ class UsersListDetail(tk.Frame, Methods):
 			bg="#00162D", bd=0, activebackground="#00162D",
 			activeforeground="#BBB").pack(side=tk.RIGHT, padx=4)
 
-	def delete(self, model):
-		if self.session.permission():
+	def delete(self, model_id):
+		if self.controller.permission():
 			if tkMessageBox.askyesno(title='Advertencia',
 				message='¿Seguro(a) que desea Eliminar?'):
-				self.db.delete(model)
+				self.db.delete(model_id)
 				self.parent.destroy()
-				self.__init__(self.root, session=self.session)
-		else: self.session.denegate()
+				self.__init__(self.root, self.controller)
+		else: self.controller.denegate()
 
 
 	def edit(self, model):
-		if self.session.permission():
+		if self.controller.permission():
 			self.clean(self.root)
-			RegisterForm(self.root, user=model)
+			RegisterForm(self.root, self.controller, action='edit_user', data=model)

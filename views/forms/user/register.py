@@ -11,50 +11,45 @@ from views.detail import user
 from database.main import UserModel
 
 class RegisterForm(tk.Frame, Methods):
-	def __init__(self, root, **kwargs):
+	def __init__(self, root, controller, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
+		self.controller = controller
+		self.kwargs = kwargs
+		# instance database
 		self.db = UserModel()
 
-		self.user = {}
+		self.data = {}
 		self.passwd = None
 
-		# contents
-		div = ttk.Frame(self.root, height=550, padding=20,
-			style='Kim.TFrame')
-		div.pack(expand=True, fill=tk.X)
-		div.pack_propagate(0)
+		if self.kwargs.get('action'):
+			self.action = self.kwargs.get('action') 
+			self._actions()
 
-		self._form = ttk.Frame(div, width=650,
-			style="Kim.TFrame")
-		self._form.pack(expand=True, fill=tk.Y)
-		self._form.pack_propagate(0)
+		self.render()
 
-		# edit
-		if kwargs.get('user'):
-			# user_wof = user without format
-			user_wof = kwargs.get('user')
-			self.user = self.format_list(user_wof)
-			self.passwd = self.decrypt(user_wof[7])
-		elif kwargs.get('session'):
-			self.session = kwargs.get('session')
-			self.user = self.session.content_session
-			self.passwd = self.decrypt(self.user.get('password'))
 
-		self.form1()
+	def _actions(self):
+		# edit user
+		if self.action == 'edit_user':
+			if not self.kwargs.get('data'):
+				raise ValueError("This action requires a 'data' attribute")
+			# title of window
+			self.controller.parent.title('Editar Usuario')
+			# data = data without format. self.data = data with format.
+			self.data = self.kwargs.get('data')
+			self.passwd = self.decrypt(self.data.get('password'))
+		# edit my user
+		elif self.action == 'edit_me':
+			# title of the window
+			self.controller.parent.title('Editar Mi Perfil')
+			# instance of dates
+			self.data = self.controller.content_session
+			self.passwd = self.decrypt(self.data.get('password'))
+		# action unknown
+		else:
+			raise ValueError(self.action+'This action is not valid.')
 
-	def format_list(self, data):
-		return ({
-			"user_id": data[0],
-			"username": data[1],
-			"first_name": data[2],
-			"last_name": data[3],
-			"full_name": ' '.join([data[2], data[3]]),
-			"cedula": data[4],
-			"is_superuser": data[5],
-			"permission": data[6],
-			"password": data[7],
-		})
 
 	def save(self):
 		if self.password.get() == self.password2.get():
@@ -69,44 +64,57 @@ class RegisterForm(tk.Frame, Methods):
 				"password": password_encrypt
 			})
 
-			if not self.user:
+			if not hasattr(self, 'action'):
 				self.db.create(data)
 				successes = SuccessesView(self.root, message='Usuario Creado')
 			else:
-				data['user_id'] = self.user['user_id']
+				data['user_id'] = self.data.get('user_id')
 				self.db.update(data)
-				if hasattr(self, 'session'):
-					query = self.db.retrive(int(self.user['user_id']), field='user_id')
-					user = self.format_list(query[0])
-					self.session.content_session = user
-
+				if self.action == 'edit_me':
+					self.controller.update_session()
 				successes = SuccessesView(self.root, message='Usuario Editado')
-
 
 		else:
 			self.alert('Alerta Contraseña', 'Contraseñas no coinciden')
 
 	def next(self):
-		self.clean(self._form)
+		self.clean(self.content_form)
 		self.form2()
 
 	def back(self):
-		self.clean(self._form)
+		self.clean(self.content_form)
 		self.form1()
 
 	def cancel(self):
-		if hasattr(self, 'session'):
-			self.clean(self.root)
-			user.profile.ProfileView(self.root, session=self.session)
+		if hasattr(self, 'action'):
+			if self.action == 'edit_me':
+				self.clean(self.root)
+				user.profile.ProfileView(self.root, self.controller)
+
+	def render(self):
+		# contents
+		div = ttk.Frame(self.root, height=550, padding=20,
+			style='Kim.TFrame')
+		div.pack(expand=True, fill=tk.X)
+		div.pack_propagate(0)
+
+		self.content_form = ttk.Frame(div, width=650,
+			style="Kim.TFrame")
+		self.content_form.pack(expand=True, fill=tk.Y)
+		self.content_form.pack_propagate(0)
+
+		self.form1()
 
 	def form1(self):
-		form = self._form
+		form = self.content_form
 
 		# Title of the Form
-		ttk.Label(form, text="Editar Usuario" if self.user else "Nuevo Usuario",
+		ttk.Label(form, text="Editar Usuario" if self.data else "Nuevo Usuario",
 			style="Title.TLabel").pack(anchor=tk.NW)
 		# message about password
-		ttk.Label(form, text="Elija una contraseña que sea fácil de recordar pero difícil de adivinar.\nSi te olvidas, mostraremos la pista",
+		ttk.Label(form, text="Elija una contraseña que sea fácil"+
+				"de recordar pero difícil de adivinar."+
+				"\nSi te olvidas, mostraremos la pista",
 			style="Text.TLabel").pack(anchor=tk.NW, pady=15)
 
 		# Entry of the username
@@ -114,7 +122,7 @@ class RegisterForm(tk.Frame, Methods):
 			style="TLabel").place(x=0,y=130)
 
 		self.username=validate.MaxLengthEntry(form, maxlength=40,
-			value=self.user['username'] if self.user else '',
+			value=self.data.get('username') if self.data else '',
 			style="Kim.TEntry", width=22, font="Helvetica 14",
 			justify="left")
 		self.username.focus()
@@ -124,7 +132,7 @@ class RegisterForm(tk.Frame, Methods):
 		ttk.Label(form, text="Nombre", style="TLabel").place(x=0,y=185)
 
 		self.first_name=validate.MaxLengthEntry(form, maxlength=40,
-			value=self.user['first_name'] if self.user else '',
+			value=self.data.get('first_name') if self.data else '',
 			style="Kim.TEntry", width=22, font="Helvetica 14",
 			justify="left")
 		self.first_name.pack(pady=8)
@@ -133,7 +141,7 @@ class RegisterForm(tk.Frame, Methods):
 		ttk.Label(form, text="Apellido", style="TLabel").place(x=0,y=240)
 
 		self.last_name=validate.MaxLengthEntry(form, maxlength=40,
-			value=self.user['last_name'] if self.user else '',
+			value=self.data.get('last_name') if self.data else '',
 			style="Kim.TEntry", width=22, font="Helvetica 14",
 			justify="left")
 		self.last_name.pack(pady=8)
@@ -143,7 +151,7 @@ class RegisterForm(tk.Frame, Methods):
 			style="TLabel").place(x=0,y=295)
 
 		self.ci=validate.IntegerEntry(form,
-			value=self.user['cedula'] if self.user else 0,
+			value=self.data.get('cedula') if self.data else 0,
 			style="Kim.TEntry", width=22, font="Helvetica 14",
 			justify="left")
 		self.ci.pack(pady=8)
@@ -152,7 +160,7 @@ class RegisterForm(tk.Frame, Methods):
 		ttk.Label(form, text="Permisos",
 			style="TLabel").place(x=0,y=345)
 		self.permissions=tk.StringVar(form,
-			value=self.user['permission'] if self.user else '')
+			value=self.data.get('permission') if self.data else '')
 		fieldPermissions = ttk.Combobox(form, state='readonly',
 			textvariable=self.permissions, font="Helvetica 14",
 			style="TCombobox",
@@ -165,7 +173,7 @@ class RegisterForm(tk.Frame, Methods):
 
 		# is superuser
 		self.is_superuser = tk.BooleanVar(form,
-			value=self.user['is_superuser'] if self.user else False)
+			value=self.data.get('is_superuser') if self.data else False)
 		ttk.Checkbutton(form, text='Superusuario', variable=self.is_superuser,
 			onvalue=True, offvalue=False).pack(pady=8)
 
@@ -182,12 +190,14 @@ class RegisterForm(tk.Frame, Methods):
 
 
 	def form2(self):
-		form = self._form
+		form = self.content_form
 
 		# Title of the Form
 		ttk.Label(form, text="Editar Usuario", style="Title.TLabel").pack(anchor=tk.NW)
 		# message about password
-		ttk.Label(form, text="Elija una contraseña que sea fácil de recordar pero difícil de adivinar.\nSi te olvidas, mostraremos la pista",
+		ttk.Label(form, text="Elija una contraseña que sea fácil"+
+				"de recordar pero difícil de adivinar."+
+				"\nSi te olvidas, mostraremos la pista",
 			style="Text.TLabel").pack(anchor=tk.NW, pady=15)
 
 		# Entry of the password

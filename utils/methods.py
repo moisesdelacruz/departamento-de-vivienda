@@ -47,6 +47,19 @@ class Methods(object):
 	def alert(self, title='Alert', message=''):
 		tkMessageBox.showwarning(title=title, message=message)
 
+	def _format_user(self, data):
+		return ({
+			"user_id": data[0],
+			"username": data[1],
+			"first_name": data[2],
+			"last_name": data[3],
+			"full_name": ' '.join([data[2], data[3]]),
+			"cedula": data[4],
+			"is_superuser": data[5],
+			"permission": data[6],
+			"password": data[7],
+		})
+
 	def style(self):
 		# Fonts
 		self.microsoft_10 = tkFont.Font(

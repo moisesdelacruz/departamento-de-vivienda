@@ -9,30 +9,20 @@ from utils import validate
 from views.detail.status import StatusDetail
 
 class SolicitudForm(tk.Frame, Methods):
-	def __init__(self, root, viviendo_id, **kwargs):
+	def __init__(self, root, controller, viviendo_id, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
-		# get session
-		if kwargs.get('session'):
-			self.session = kwargs.get('session')
+		self.controller = controller
 
 		self.viviendo_id = viviendo_id
 		self.db = SolicitudModel()
 
-		# Content Horizontal
-		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
-		div.pack(expand=True, fill=tk.X)
-		div.pack_propagate(0)
-		# Content Vertical
-		self._form = ttk.Frame(div, width=650, padding=20,
-			style='White.TFrame')
-		self._form.pack(expand=True, fill=tk.Y)
-		self._form.pack_propagate(0)
-
 		# get data from database
 		self.data = self.db.retrive(self.viviendo_id)
+		
+		# render view
+		self.render()
 
-		self.form()
 
 	def save(self):
 		data = ({
@@ -52,7 +42,22 @@ class SolicitudForm(tk.Frame, Methods):
 		# clean content
 		self.clean(self.root)
 		# render view status
-		show = StatusDetail(self.root, self.viviendo_id)
+		show = StatusDetail(self.root, self.controller, self.viviendo_id)
+
+
+	def render(self):
+		# Content Horizontal
+		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
+		div.pack(expand=True, fill=tk.X)
+		div.pack_propagate(0)
+		# Content Vertical
+		self._form = ttk.Frame(div, width=650, padding=20,
+			style='White.TFrame')
+		self._form.pack(expand=True, fill=tk.Y)
+		self._form.pack_propagate(0)
+		
+		self.form()
+
 
 	def form(self):
 		form = self._form
@@ -106,8 +111,11 @@ class SolicitudForm(tk.Frame, Methods):
 		# Entry residence_constancia
 		self.residence_constancia = tk.BooleanVar(booleans,
 			value=data[0][5]) if data else tk.BooleanVar(booleans, value=False)
-		ttk.Checkbutton(booleans, text='Constancia de residencia', variable=self.residence_constancia,
-			onvalue=True, offvalue=False).pack(side=tk.LEFT, padx=5, pady=8)
+		ttk.Checkbutton(booleans,
+			text='Constancia de residencia',
+			variable=self.residence_constancia,
+			onvalue=True, offvalue=False
+			).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Entry copy_ci
 		self.copy_ci = tk.BooleanVar(booleans,
@@ -118,7 +126,8 @@ class SolicitudForm(tk.Frame, Methods):
 		# Entry medical_reports
 		self.medical_reports = tk.BooleanVar(booleans,
 			value=data[0][7]) if data else tk.BooleanVar(booleans, value=False)
-		ttk.Checkbutton(booleans, text='Informes medicos', variable=self.medical_reports,
+		ttk.Checkbutton(booleans,
+			text='Informes medicos', variable=self.medical_reports,
 			onvalue=True, offvalue=False).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Fields Booleans 2
@@ -129,7 +138,8 @@ class SolicitudForm(tk.Frame, Methods):
 		# Entry housing_in_risk
 		self.housing_in_risk = tk.BooleanVar(booleans2,
 			value=data[0][8]) if data else tk.BooleanVar(booleans2, value=False)
-		ttk.Checkbutton(booleans2, text='Riesgos en el hogar', variable=self.housing_in_risk,
+		ttk.Checkbutton(booleans2,
+			text='Riesgos en el hogar', variable=self.housing_in_risk,
 			onvalue=True, offvalue=False).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Entry firefighters_constancy
@@ -156,7 +166,6 @@ class SolicitudForm(tk.Frame, Methods):
 		# Buttons of actions
 		buttons = ttk.Frame(form, style='White.TFrame')
 		buttons.pack(pady=8)
-		# buttons.pack_propagate(0)
 		# Guardar
 		ttk.Button(buttons,
 			text="Cancelar").pack(side=tk.LEFT, padx=8)
@@ -164,13 +173,3 @@ class SolicitudForm(tk.Frame, Methods):
 		# Cancelar
 		ttk.Button(buttons, command=self.save,
 			text="Guardar").pack(side=tk.LEFT, padx=8)
-		# tk.Button(buttons, command=self.save, text="Guardar",
-		# 	font="Helvetica 12 bold", bd=0, activebackground="red",
-		# 	activeforeground="blue", bg="green", fg="white", width=10,
-		# 	height=2).pack(side=tk.LEFT, padx=8)
-
-		# # Cancelar
-		# tk.Button(buttons, command=self.save, text="Cancelar",
-		# 	font="Helvetica 12 bold", bd=0, activebackground="red",
-		# 	activeforeground="blue", bg="grey", fg="white", width=10,
-		# 	height=2).pack(side=tk.LEFT, padx=8)

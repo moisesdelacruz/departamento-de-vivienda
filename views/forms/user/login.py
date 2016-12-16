@@ -15,6 +15,8 @@ class LoginForm(tk.Frame, Methods):
 		self.control = control
 		self.db = UserModel()
 		self.session = []
+		# title of the window
+		self.control.parent.title('Iniciar Sesion')
 		self.form()
 
 	def login(self):
@@ -34,7 +36,7 @@ class LoginForm(tk.Frame, Methods):
 						"permission": query[0][6],
 						"password": query[0][7],
 					})
-					self.control.set(self.session)
+					self.control.set_session(self.session)
 				else: self.alert('Alerta Contraseña',
 					'contraseña no coincide con el nombre de usuario')
 			else: self.alert('Alerta Contraseña',

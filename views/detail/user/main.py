@@ -13,9 +13,10 @@ from views import detail
 
 
 class ConfigView(tk.Frame, Methods):
-	def __init__(self, root, **kwargs):
+	def __init__(self, root, controller, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
+		self.controller = controller
 
 		self._menu = tk.Frame(self.root, width=300, bd=1,
 			background="white")
@@ -31,9 +32,6 @@ class ConfigView(tk.Frame, Methods):
 
 		# init view
 		self.menu()
-
-		if kwargs.get('session'):
-			self.session = kwargs.get('session')
 
 		if kwargs.get('view'):
 			view=kwargs.get('view')
@@ -66,20 +64,20 @@ class ConfigView(tk.Frame, Methods):
 
 	def my_profile(self):
 		self.clean(self._body)
-		ProfileView(self._body, session=self.session)
+		ProfileView(self._body, self.controller)
 
 	def user_list(self):
 		self.clean(self._body)
-		UsersListDetail(self._body, session=self.session)
+		UsersListDetail(self._body, self.controller)
 
 	def new_user(self):
 		self.clean(self._body)
-		RegisterForm(self._body)
+		RegisterForm(self._body, self.controller)
 
 	def edit_user(self):
 		self.clean(self._body)
-		RegisterForm(self._body, session=self.session)
+		RegisterForm(self._body, self.controller, action='edit_me')
 
 	def exit(self):
 		self.clean(self.root)
-		detail.home.HomeView(self.root, session=self.session)
+		detail.home.HomeView(self.root, self.controller)

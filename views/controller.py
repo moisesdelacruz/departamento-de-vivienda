@@ -5,12 +5,14 @@ import os
 import Tkinter as tk
 import tkMessageBox
 from utils.methods import Methods
-# Forms Import
-from forms.viviendo import ViviendoForm
-from forms.solicitud import SolicitudForm
-from forms.search import SearchForm
-from forms.user.register import RegisterForm
-from forms.user.login import LoginForm
+# database imports
+from database.main import UserModel
+# Views Imports
+from views.forms.viviendo import ViviendoForm
+from views.forms.solicitud import SolicitudForm
+from views.forms.search import SearchForm
+from views.forms.user.register import RegisterForm
+from views.forms.user.login import LoginForm
 from views.detail.home import HomeView
 from views.detail.user.users_list import UsersListDetail
 from views.detail.user.profile import ProfileView
@@ -22,6 +24,9 @@ class Toolbar(tk.Frame, Methods):
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
         self.parent = parent
+
+        # instance database
+        self.db = UserModel()
         # Init styles
         self.style()
         # BOTTOM div
@@ -53,40 +58,37 @@ class Toolbar(tk.Frame, Methods):
         tkMessageBox.showwarning(title='Permiso Denegado',
             message='No tienes permisos para realizar esta acción')
 
-    def formViviendo(self, ev):
+    def formViviendo(self, *args):
         if self.permission():
             self.clean(self.body)
-            self.parent.title('Registar Viviendo')
-            self.formViviendo = ViviendoForm(self.body, session=self)
+            self.formViviendo = ViviendoForm(self.body, self)
 
-    def formSearch(self, ev):
+    def formSearch(self, *args):
         if self.session():
             self.clean(self.body)
-            self.parent.title('Buscar Viviendo')
-            self.formSearch = SearchForm(self.body, session=self)
+            self.formSearch = SearchForm(self.body, self)
 
 
     def loginFrom(self):
         if not self.content_session:
             self.clean(self.body)
-            self.parent.title('Iniciar Sesión')
             self.login = LoginForm(self.body, self)
             
 
     def home(self):
         if self.content_session:
             self.clean(self.body)
-            HomeView(self.body, session=self)
-        else:
-            self.loginFrom()
+            HomeView(self.body, self)
+        self.loginFrom()
 
 
     def config(self, **kwargs):
         self.clean(self.body)
         if kwargs.get('view'):
             option = kwargs.get('view')
-            ConfigView(self.body, session=self, view=option)
-        ConfigView(self.body, session=self)
+            self.parent.title(option)
+            ConfigView(self.body, self, view=option)
+        ConfigView(self.body, self)
 
 
     def about(self):
@@ -94,12 +96,20 @@ class Toolbar(tk.Frame, Methods):
         about = AboutView(self.body)
 
 
-    def set(self, account):
+    def set_session(self, account):
         self.content_session = account
         # TOP Toolbar
         self.menu()
         # self.toolbar()
         self.home()
+
+    def update_session(self):
+        user_id = self.content_session.get('user_id')
+        query = self.db.retrive(user_id, field='user_id')
+        self.content_session = self._format_user(query[0])
+
+    def get_session(self):
+        return self.content_session
 
     def exit(self):
         if tkMessageBox.askyesno(title='Advertencia',

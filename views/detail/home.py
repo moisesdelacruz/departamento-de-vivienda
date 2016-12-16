@@ -10,30 +10,29 @@ from views.forms.search import SearchForm
 from views.detail.user.main import ConfigView
 
 class HomeView(tk.Frame, Methods):
-	def __init__(self, root, **kwargs):
+	def __init__(self, root, controller, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
-		if kwargs.get('session'):
-			self.session = kwargs.get('session')
-			self.account = self.session.content_session
+		self.controller = controller
+		self.account = self.controller.get_session()
 
 		# render view
 		self.view()
 
 	def viviendo(self):
 		self.clean(self.root)
-		SearchForm(self.root, session=self.session)
+		SearchForm(self.root, self.controller)
 
 	def config(self):
 		self.clean(self.root)
-		ConfigView(self.root, session=self.session)
+		ConfigView(self.root, self.controller)
 
 	def popup_viviendo(self, event):
-		menu=self.session.filemenu
+		menu=self.controller.filemenu
 		menu.post(event.x_root, event.y_root)
 
 	def popup_config(self, event):
-		menu=self.session.editmenu
+		menu=self.controller.editmenu
 		menu.post(event.x_root, event.y_root)
 
 
@@ -47,8 +46,9 @@ class HomeView(tk.Frame, Methods):
 		view.pack_propagate(0)
 
 		ttk.Label(view, text=' '.join(['Bienvenido',
-			self.account.get('first_name'),
-			self.account.get('last_name')]),
+			self.account.get('full_name')
+				if self.account.get('full_name') != ' '
+				else self.account.get('username')]),
 			style='Black22.TLabel').pack(pady=20)
 
 		# Clock real time

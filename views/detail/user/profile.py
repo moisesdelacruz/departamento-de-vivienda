@@ -7,17 +7,17 @@ from utils.methods import Methods
 from views.forms.user.register import RegisterForm
 
 class ProfileView(tk.Frame, Methods):
-	def __init__(self, root, **kwargs):
+	def __init__(self, root, controller, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
-		if kwargs.get('session'):
-			self.session = kwargs.get('session')
-			self.account = self.session.content_session
+		self.controller = controller
+		# account
+		self.account = self.controller.get_session()
 		self.view()
 
 	def edit(self):
 		self.clean(self.root)
-		RegisterForm(self.root, session=self.session)
+		RegisterForm(self.root, self.controller, action='edit_me')
 		
 
 	def view(self):

@@ -12,25 +12,15 @@ from database.main import FamilyModel
 from views.detail.grupo_familiar import Grupo_familiarDetail 
 
 class Grupo_familiarForm(tk.Frame, Methods):
-	def __init__(self, root, viviendo_id, **kwargs):
+	def __init__(self, root, controller, viviendo_id, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
-		# get session
-		if kwargs.get('session'):
-			self.session = kwargs.get('session')
+		self.controller = controller
 
 		self.viviendo_id = viviendo_id
 
-		# boxs------
-		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
-		div.pack(expand=True, fill=tk.X)
-		div.pack_propagate(0)
+		self.render()
 
-		self._form = ttk.Frame(div, width=650, padding=20, style='White.TFrame')
-		self._form.pack(expand=True, fill=tk.Y)
-		self._form.pack_propagate(0)
-
-		self.form()
 
 	def save(self):
 		data = ({
@@ -49,7 +39,20 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		db = FamilyModel()
 		db.create(data)
 		self.clean(self.root)
-		view = Grupo_familiarDetail(self.root, self.viviendo_id, session=self.session)
+		view = Grupo_familiarDetail(self.root, self.controller, self.viviendo_id)
+
+
+	def render(self):
+		# boxs------
+		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
+		div.pack(expand=True, fill=tk.X)
+		div.pack_propagate(0)
+
+		self._form = ttk.Frame(div, width=650, padding=20, style='White.TFrame')
+		self._form.pack(expand=True, fill=tk.Y)
+		self._form.pack_propagate(0)
+
+		self.form()
 
 	def form(self):
 		form=self._form

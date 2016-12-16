@@ -14,26 +14,59 @@ from views.detail.status import StatusDetail
 from views.detail.grupo_familiar import Grupo_familiarDetail
 
 class ViviendoDetail(tk.Frame, Methods):
-	def __init__(self, root, **kwargs):
+	def __init__(self, root, controller, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
-		# get session
-		if kwargs.get('session'):
-			self.session = kwargs.get('session')
+		self.controller = controller
 
 		# instance of database
-		self.db = ViviendoModel()
-		# Get from data base if not exist
+		class DB(object): pass
+		self.db = DB()
+		self.db.viviendo = ViviendoModel()
+		self.db.family = FamilyModel()
+
+		# Format data
+		self.format(kwargs)
+
+
+	def format(self, kwargs):
+		# get data
 		if kwargs.get('viviendo'):
 			viviendo = kwargs.get('viviendo')
 		elif kwargs.get('viviendo_id'):
-			viviendo = self.db.retrive(kwargs.get('viviendo_id'), field='viviendo_id')
+			viviendo = self.db.viviendo.retrive(
+				kwargs.get('viviendo_id'), field='viviendo_id')
 		elif kwargs.get('ci'):
-			viviendo = self.db.retrive(kwargs.get('ci'), field='ci')
+			viviendo = self.db.viviendo.retrive(
+				kwargs.get('ci'), field='ci')
 		else:
-			raise ValueError('You must specify a "viviendo_id" or "ci" attribute or viviendo object.')
+			raise ValueError('You must specify a'+
+				'"viviendo_id" or "ci" attribute or viviendo object.')
 
-		self.viviendo = {
+		# format data
+		self.viviendo = self.format_data(viviendo)
+
+		# Detect Sex for styles change of the view
+		if self.viviendo.get('sex') == "Hombre":
+			self.suffixSex = 'male'
+		elif self.viviendo.get('sex') == "Mujer":
+			self.suffixSex = 'female'
+		else:
+			self.suffixSex = 'male'
+
+		# Title of window
+		self.controller.parent.title(self.viviendo.get('full_name'))
+
+		# query to database
+		self.group_family = self.db.family.list(
+			viviendo_id=self.viviendo.get('id'))
+		
+		# render
+		self.render()
+
+
+	def format_data(self, viviendo):
+		return ({
 			"id": viviendo[0][0],
 			"ci": viviendo[0][1],
 			"full_name": ' '.join([viviendo[0][2], viviendo[0][3]]),
@@ -48,48 +81,65 @@ class ViviendoDetail(tk.Frame, Methods):
 			"postulation": viviendo[0][10],
 			"discapacity": viviendo[0][11],
 			"discapacity_desc": viviendo[0][12]
-		}
-		# Detect Sex for styles change of the view
-		if self.viviendo.get('sex') == "Hombre":
-			self.suffixSex = 'male'
-		elif self.viviendo.get('sex') == "Mujer":
-			self.suffixSex = 'female'
-		else:
-			self.suffixSex = 'male'
-		# Title of window
-		parent = self.root._nametowidget(self.root.winfo_parent())
-		parent.title(self.viviendo['full_name'])
+		})
 
-		# Data Base
-		self.db = FamilyModel()
-		# query to database
-		self.group_family = self.db.list(viviendo_id=self.viviendo['id'])
 
+	# ---- view instance ----
+	def family(self):
+		if self.controller.permission():
+			self.clean(self.right)
+			view = Grupo_familiarForm(self.right,
+				self.controller, self.viviendo['id'])
+			view.pack()
+
+	def grupo_familiar(self):
+		self.clean(self.right)
+		view = Grupo_familiarDetail(self.right,
+			self.controller, self.viviendo['id'])
+		view.pack()
+
+	def solicitudForm(self):
+		if self.controller.permission():
+			self.clean(self.right)
+			view = SolicitudForm(self.right,
+				self.controller, self.viviendo['id'])
+			view.pack()
+
+	def status(self):
+		self.clean(self.right)
+		view = StatusDetail(self.right,
+			self.controller, self.viviendo['id'])
+		view.pack()
+
+	def viviendoForm(self):
+		if self.controller.permission():
+			self.clean(self.right)
+			view = forms.viviendo.ViviendoForm(self.right,
+				self.controller, viviendo=self.viviendo,
+				viviendo_detail=self)
+			view.pack()
+
+	# ---- view ----
+	def render(self):
 		# Full name of the Viviendo
-		ttk.Label(self.root, text=self.viviendo['full_name'],
+		ttk.Label(self.root, text=self.viviendo.get('full_name'),
 			style='Title.TLabel').pack(side=tk.TOP, fill=tk.X)
 		# self.top.pack_propagate(0)
 		# Left div
-		self.left = ttk.Frame(self.root, width=270, style='White.TFrame')
+		self.left = ttk.Frame(self.root, width=270, style='Kim.TFrame')
 		self.left.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 		self.left.pack_propagate(0)
 		# Right div
 		self.right = ttk.Frame(self.root, width=2000, style='White.TFrame')
 		self.right.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 		self.right.pack_propagate(0)
-		
-		# render
-		self.render()
 
-	def render(self):
+		# diff for sex
 		color_male = "blue"
 		color_female = "pink"
 		color = eval('color_'+self.suffixSex)
 
-		# tk.Label(self.top, text=self.viviendo['full_name'],
-		# 	font="Helvetica 16 bold", bg=color,
-		# 	fg="white").pack(side=tk.TOP, fill=tk.X)
-
+		# render menu
 		self.viviendoFrame()
 		self.familyFrame()
 		self.solicitudFrame()
@@ -97,12 +147,14 @@ class ViviendoDetail(tk.Frame, Methods):
 
 
 	def viviendoFrame(self):
-		viviendo = tk.Frame(self.left, bd=1, width=270, height=150, relief=tk.RAISED)
+		viviendo = tk.Frame(self.left, width=270, height=150)
 		viviendo.pack(anchor=tk.NW, expand=True, fill=tk.Y)
 		viviendo.pack_propagate(0)
 		# images
-		iconViviendo_male = self.getImage("views/images/viviendo-male.png", 100, 100)
-		iconViviendo_female = self.getImage("views/images/viviendo-female.png", 100, 100)
+		iconViviendo_male = self.getImage(
+			"views/images/viviendo-male.png", 100, 100)
+		iconViviendo_female = self.getImage(
+			"views/images/viviendo-female.png", 100, 100)
 		image = eval('iconViviendo_'+self.suffixSex)
 		# icon
 		icon=tk.Label(viviendo, image=image)
@@ -111,22 +163,22 @@ class ViviendoDetail(tk.Frame, Methods):
 
 		# Action
 		btn=tk.Button(viviendo, text="Actualizar", command=self.viviendoForm,
-			font="Helvetica 14 normal", fg="grey", bd=0)
+			font="Helvetica 14 normal", fg="#2E2E2E", bd=0)
 
-		if self.session.permission():
+		if self.controller.permission():
 			btn.pack(anchor=tk.NE)
 
 		# CI
-		ci=tk.Label(viviendo, text=self.viviendo['ci'],
-			font="Helvetica 10 normal", fg="grey")
-		ci.pack(anchor=tk.SE, side=tk.BOTTOM)
+		tk.Label(viviendo, text=self.viviendo['ci'],
+			font="Helvetica 10 normal",
+			fg="#2E2E2E").pack(anchor=tk.SE, side=tk.BOTTOM)
 
 
 	def familyFrame(self):
 		self.length = ' '.join([str(len(self.group_family)), 'en el grupo'])
 
-		family = tk.Frame(self.left, bd=1, width=270, height=150, relief=tk.RAISED)
-		family.pack(anchor=tk.NW, expand=True, fill=tk.Y)
+		family = tk.Frame(self.left, width=270, height=150)
+		family.pack(anchor=tk.NW, expand=True, fill=tk.Y, pady=1)
 		family.pack_propagate(0)
 		# images
 		iconViviendo = self.getImage("views/images/show-group.png", 100, 100)
@@ -138,22 +190,22 @@ class ViviendoDetail(tk.Frame, Methods):
 
 		# Actions
 		btn=tk.Button(family, text="Agregar", command=self.family,
-			font="Helvetica 14 normal", fg="grey", bd=0)
+			font="Helvetica 14 normal", fg="#2E2E2E", bd=0)
 		btn2=tk.Button(family, text="Lista", command=self.grupo_familiar,
-			font="Helvetica 14 normal", fg="grey", bd=0)
+			font="Helvetica 14 normal", fg="#2E2E2E", bd=0)
 
-		if self.session.permission():
+		if self.controller.permission():
 			btn.pack(anchor=tk.NE)
 		btn2.pack(anchor=tk.E)
 
-		# CI
-		ci=tk.Label(family, text=self.length,
-			font="Helvetica 10 normal", fg="grey")
-		ci.pack(anchor=tk.SE, side=tk.BOTTOM)
+		# length
+		tk.Label(family, text=self.length,
+			font="Helvetica 10 normal",
+			fg="#2E2E2E").pack(anchor=tk.SE, side=tk.BOTTOM)
 
 
 	def solicitudFrame(self):
-		solicitud = tk.Frame(self.left, bd=1, width=270, height=150, relief=tk.RAISED)
+		solicitud = tk.Frame(self.left, width=270, height=150)
 		solicitud.pack(anchor=tk.NW, expand=True, fill=tk.Y)
 		solicitud.pack_propagate(0)
 		# images
@@ -166,48 +218,10 @@ class ViviendoDetail(tk.Frame, Methods):
 
 		# Actions
 		btn=tk.Button(solicitud, text="Actualizar", command=self.solicitudForm,
-			font="Helvetica 14 normal", fg="grey", bd=0)
+			font="Helvetica 14 normal", fg="#2E2E2E", bd=0)
 		btn2=tk.Button(solicitud, text="Estatus", command=self.status,
-			font="Helvetica 14 normal", fg="grey", bd=0)
+			font="Helvetica 14 normal", fg="#2E2E2E", bd=0)
 
-		if self.session.permission():
+		if self.controller.permission():
 			btn.pack(anchor=tk.NE)
 		btn2.pack(anchor=tk.E)
-
-		# CI
-		ci=tk.Label(solicitud, text="estatus: espera",
-			font="Helvetica 10 normal", fg="red")
-		ci.pack(anchor=tk.SE, side=tk.BOTTOM)
-
-
-	def family(self):
-		if self.session.permission():
-			self.clean(self.right)
-			view = Grupo_familiarForm(self.right, self.viviendo['id'], session=self.session)
-			view.pack()
-
-	def grupo_familiar(self):
-		self.clean(self.right)
-		view = Grupo_familiarDetail(self.right, self.viviendo['id'], session=self.session)
-		view.pack()
-
-	def solicitudForm(self):
-		if self.session.permission():
-			self.clean(self.right)
-			view = SolicitudForm(self.right, self.viviendo['id'], session=self.session)
-			view.pack()
-
-	def status(self):
-		self.clean(self.right)
-		view = StatusDetail(self.right, self.viviendo['id'])
-		view.pack()
-
-	def viviendoForm(self):
-		if self.session.permission():
-			self.clean(self.right)
-			view = forms.viviendo.ViviendoForm(self.right, session=self.session,
-				viviendo=self.viviendo, viviendo_detail=self)
-			view.pack()
-
-
-# anchor support: must be n, ne, e, se, s, sw, w, nw, or center

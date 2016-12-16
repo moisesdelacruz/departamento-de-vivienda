@@ -12,12 +12,10 @@ from utils import validate
 from views.detail.viviendo import ViviendoDetail
 
 class SearchForm(tk.Frame, Methods):
-	def __init__(self, root, **kwargs):
+	def __init__(self, root, controller, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
-
-		if kwargs.get('session'):
-			self.session = kwargs.get('session')
+		self.controller = controller
 
 		# Data base
 		class DB(object): pass
@@ -25,12 +23,39 @@ class SearchForm(tk.Frame, Methods):
 		self.db.viviendo = ViviendoModel()
 		self.db.tracing = TracingModel()
 
+		# render view
+		self.render()
+
+	def searchdb(self):
+
+		if len(self.search.get()) >= 7:
+			self.result = self.db.viviendo.retrive(
+				int(self.search.get()), field='ci')
+
+			if self.result:
+				# set time
+				self.db.tracing.create({"viviendo_id": self.result[0][0]})
+				# clean content
+				self.clean(self.root)
+				# render view
+				self.detail = ViviendoDetail(self.root,
+					self.controller, viviendo=self.result)
+			else:
+				message = 'Viviendo '+self.search.get()+' no existe'
+				self.error(message)
+		else:
+			message = 'Debes introducir una Cedula de Identidad valida'
+			self.error(message)
+
+
+	def render(self):
 		# contents
 		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
 		div.pack(expand=True, fill=tk.X)
 		div.pack_propagate(0)
 
-		self._view = ttk.Frame(div, width=650, padding=50, style='White.TFrame')
+		self._view = ttk.Frame(div, width=650,
+			padding=50, style='White.TFrame')
 		self._view.pack(expand=True, fill=tk.Y)
 		self._view.pack_propagate(0)
 
@@ -39,25 +64,6 @@ class SearchForm(tk.Frame, Methods):
 
 		# Init view
 		self.form()
-
-	def searchdb(self):
-
-		if len(self.search.get()) >= 7:
-			self.result = self.db.viviendo.retrive(int(self.search.get()), field='ci')
-
-			if self.result:
-				# set time
-				self.db.tracing.create({"viviendo_id": self.result[0][0]})
-				# clean content
-				self.clean(self.root)
-				# render view
-				self.detail = ViviendoDetail(self.root, session=self.session, viviendo=self.result)
-			else:
-				message = 'Viviendo '+self.search.get()+' no existe'
-				self.error(message)
-		else:
-			message = 'Debes introducir una Cedula de Identidad valida'
-			self.error(message)
 
 	def form(self):
 		view=self._view
