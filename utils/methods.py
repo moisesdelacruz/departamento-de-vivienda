@@ -60,6 +60,23 @@ class Methods(object):
 			"password": data[7],
 		})
 
+	def _format_family(self, data):
+		return ({
+			"id": int(data[0]),
+			"viviendo_id": int(data[1]),
+			"ci": int(data[2]),
+			"first_name": data[3],
+			"last_name": data[4],
+			"full_name": ' '.join([data[3], data[4]]),
+			"birthday": data[5],
+			"work": bool(data[6]),
+			"birth_state": data[7],
+			"entry": float(data[8]),
+			"discapacity": bool(data[9]),
+			"discapacity_desc": str(data[10]),
+			"old_age": bool(data[11])
+		})
+
 	def style(self):
 		# Fonts
 		self.microsoft_10 = tkFont.Font(

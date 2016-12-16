@@ -7,6 +7,7 @@ import ttk
 import tkMessageBox
 from utils.methods import Methods
 from database.main import FamilyModel
+from views import forms
 
 class Grupo_familiarDetail(tk.Frame, Methods):
 	def __init__(self, root, controller, viviendo_id, **kwargs):
@@ -41,31 +42,43 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 
 	def list(self):
 		for model in self.models:
+			model = self._format_family(model)
 			self.item(model)
 
 
 	def item(self, model):
-		model_id = int(model[0])
+		model_id = int(model.get('id'))
 
 		root = ttk.Frame(self._form, height=50, style='Grey.TFrame')
 		root.pack(side=tk.TOP, padx=2, pady=1, fill=tk.X)
 		root.pack_propagate(0)
 
-		ttk.Label(root, text=model[2], style='Grey12.TLabel'
+		ttk.Label(root, text=model.get('ci'), style='Grey12.TLabel'
 			).pack(side=tk.LEFT, padx=4)
 
-		ttk.Label(root, text=' '.join([model[3], model[4]]),
+		ttk.Label(root, text=model.get('full_name'),
 			style='Grey12.TLabel').pack(side=tk.LEFT, padx=4)
 
 		ttk.Button(root, text="Eliminar", style='Grey12.TLabel',
 			command=lambda : self.delete(model_id)).pack(side=tk.RIGHT, padx=4)
 
+		ttk.Button(root, text="Editar", style='Grey12.TLabel',
+			command=lambda : self.edit(model)).pack(side=tk.RIGHT, padx=4)
 
-	def delete(self, model):
+
+	def delete(self, model_id):
 		if self.controller.permission():
 			if tkMessageBox.askyesno(title='Advertencia',
 				message='¿Seguro(a) que desea Eliminar?'):
-				self.db.delete(model)
+				self.db.delete(model_id)
 				self.parent.destroy()
-				self.__init__(self.root, self.controller, self.viviendo_id)
+				self.__init__(self, self.root, self.controller, self.viviendo_id)
 		else: self.controller.denegate()
+
+
+	def edit(self, model):
+		if self.controller.permission():
+			self.clean(self.root)
+			forms.grupo_familiar.Grupo_familiarForm(
+				self.root, self.controller, viviendo_id=self.viviendo_id,
+				action='edit', data=model)

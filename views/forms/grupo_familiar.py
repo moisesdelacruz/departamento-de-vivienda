@@ -16,10 +16,34 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		tk.Frame.__init__(self, root)
 		self.root = root
 		self.controller = controller
-
+		# id from viviendo
 		self.viviendo_id = viviendo_id
+		# instance database
+		self.db = FamilyModel()
+		# edit mode unavailable
+		self.edit = False
+
+		if kwargs.get('action'):
+			self.action = kwargs.get('action') 
+			self._actions(kwargs)
 
 		self.render()
+
+
+	def _actions(self, kwargs):
+		if self.action == 'edit':
+			if not kwargs.get('data'):
+				raise ValueError("This action requires a 'data' attribute")
+			# title of window
+			self.controller.parent.title('Editar Familiar')
+			self.data = kwargs.get('data')
+			# edit mode available
+			self.edit = True
+
+		# action unknown
+		else:
+			raise ValueError(' '.join([self.action,
+				'This action is not valid.']))
 
 
 	def save(self):
@@ -36,10 +60,22 @@ class Grupo_familiarForm(tk.Frame, Methods):
 			"discapacity_desc": str(self.discapacity_desc),
 			"old_age": bool(self.old_age.get())
 		})
-		db = FamilyModel()
-		db.create(data)
-		self.clean(self.root)
-		view = Grupo_familiarDetail(self.root, self.controller, self.viviendo_id)
+
+		if not self.edit:
+			self.db.create(data)
+			# clean
+			self.clean(self.root)
+			# clean render
+			view = Grupo_familiarDetail(self.root,
+				self.controller, self.viviendo_id)
+		elif self.edit:
+			data['id'] = self.data.get('id')
+			self.db.update(data)
+			# clean
+			self.clean(self.root)
+			# render view
+			view = Grupo_familiarDetail(self.root,
+				self.controller, self.viviendo_id)
 
 
 	def render(self):
@@ -58,7 +94,8 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		form=self._form
 
 		# Title of the Form
-		ttk.Label(form, text="Registrar Familiar",
+		ttk.Label(form,
+			text="Editar Familiar" if self.edit else "Registrar Familiar",
 			style='Black22.TLabel').pack(anchor=tk.NW)
 
 		ttk.Label(form, text="Sera redirigido automaticamente"+
@@ -69,9 +106,10 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		# Entry of the cedula
 		ttk.Label(form,text="CI",
 			style='Black.TLabel').place(x=0,y=135)
-		self.ci=validate.IntegerEntry(form, style='White.TEntry',
-			width=27, font="Helvetica 13",
-			justify="left")
+		self.ci=validate.IntegerEntry(form, value=self.data.get('ci')
+				if self.edit else 0,
+			style='White.TEntry', width=27,
+			font="Helvetica 13", justify="left")
 		self.ci.focus()
 		self.ci.pack(pady=8)
 
@@ -79,6 +117,7 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		ttk.Label(form,text="Nombre",
 			style='Black.TLabel').place(x=0,y=185)
 		self.first_name=validate.MaxLengthEntry(form,
+			value=self.data.get('first_name') if self.edit else '',
 			style='White.TEntry', maxlength=30,width=27,
 			font="Helvetica 13",justify="left")
 		self.first_name.pack(pady=8)
@@ -87,6 +126,7 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		ttk.Label(form,text="Apellido",
 			style='Black.TLabel').place(x=0,y=235)
 		self.last_name=validate.MaxLengthEntry(form,
+			value=self.data.get('last_name') if self.edit else '',
 			style='White.TEntry', maxlength=30, width=27,
 			font="Helvetica 13", justify="left")
 		self.last_name.pack(pady=8)
@@ -95,7 +135,9 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		ttk.Label(form, text="Fecha de Nacimiento",
 			style='Black.TLabel').place(x=0,y=280)
 
-		self.birthday=entrydate.DateEntry(form,
+		actually = self.data.get('birthday') if self.edit else None
+
+		self.birthday=entrydate.DateEntry(form, actually=actually,
 			style='White.TEntry', font="Helvetica 13")
 		self.birthday.pack(pady=8)
 
@@ -103,6 +145,7 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		ttk.Label(form,text="Estado de Nacimiento",
 			style='Black.TLabel').place(x=0,y=330)
 		self.birth_state=validate.MaxLengthEntry(form,
+			value=self.data.get('birth_state') if self.edit else '',
 			style='White.TEntry', maxlength=30, width=27,
 			font="Helvetica 13", justify="left")
 		self.birth_state.pack(pady=8)
@@ -113,21 +156,24 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		booleans.pack(pady=2)
 
 		# Entry of tercera edad
-		self.old_age=tk.BooleanVar(booleans, value=False)
+		self.old_age=tk.BooleanVar(booleans,
+			value=self.data.get('old_age') if self.edit else False)
 		ttk.Checkbutton(booleans, text='Tercera edad', variable=self.old_age,
 			onvalue=True, offvalue=False).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Entry of discapacity
-		self.discapacity_desc=''
-		self.discapacity=tk.BooleanVar(booleans, value=False)
+		self.discapacity_desc=self.data.get('discapacity_desc') if self.edit else ''
+		self.discapacity=tk.BooleanVar(booleans,
+			value=self.data.get('discapacity') if self.edit else False)
 		ttk.Checkbutton(booleans, text='Discapacidad', variable=self.discapacity,
 			onvalue=True, offvalue=False,
 			command=lambda : self.textDialog(self.discapacity_desc)
 			).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Boolean of work
-		self.value=0
-		self.work=tk.BooleanVar(booleans, value=False)
+		self.value=self.data.get('entry') if self.edit else 0
+		self.work=tk.BooleanVar(booleans,
+			value=self.data.get('work') if self.edit else False)
 		ttk.Checkbutton(booleans, text='Trabaja', variable=self.work,
 			onvalue=True, offvalue=False,
 			command=lambda : self.entry(self.value)
@@ -142,4 +188,5 @@ class Grupo_familiarForm(tk.Frame, Methods):
 
 		# Cancelar
 		ttk.Button(buttons, command=self.save,
-			text="Guardar").pack(side=tk.LEFT, padx=8)
+			text="Guardar Cambios" if self.edit else "Guardar"
+			).pack(side=tk.LEFT, padx=8)
