@@ -9,12 +9,13 @@ from utils import validate
 from views.detail.status import StatusDetail
 
 class SolicitudForm(tk.Frame, Methods):
-	def __init__(self, root, controller, viviendo_id, **kwargs):
+	def __init__(self, root, controller, viviendo, **kwargs):
 		tk.Frame.__init__(self, root)
 		self.root = root
 		self.controller = controller
 
-		self.viviendo_id = viviendo_id
+		self.viviendo = viviendo
+		self.viviendo_id = viviendo.get('id')
 		self.db = SolicitudModel()
 
 		# get data from database
@@ -42,7 +43,7 @@ class SolicitudForm(tk.Frame, Methods):
 		# clean content
 		self.clean(self.root)
 		# render view status
-		show = StatusDetail(self.root, self.controller, self.viviendo_id)
+		show = StatusDetail(self.root, self.controller, self.viviendo)
 
 
 	def render(self):

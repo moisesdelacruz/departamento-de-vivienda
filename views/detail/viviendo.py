@@ -80,7 +80,8 @@ class ViviendoDetail(tk.Frame, Methods):
 			"entry": viviendo[0][9],
 			"postulation": viviendo[0][10],
 			"discapacity": viviendo[0][11],
-			"discapacity_desc": viviendo[0][12]
+			"discapacity_desc": viviendo[0][12],
+			"created_at": viviendo[0][13]
 		})
 
 
@@ -102,13 +103,13 @@ class ViviendoDetail(tk.Frame, Methods):
 		if self.controller.permission():
 			self.clean(self.right)
 			view = SolicitudForm(self.right,
-				self.controller, self.viviendo['id'])
+				self.controller, self.viviendo)
 			view.pack()
 
 	def status(self):
 		self.clean(self.right)
 		view = StatusDetail(self.right,
-			self.controller, self.viviendo['id'])
+			self.controller, self.viviendo)
 		view.pack()
 
 	def viviendoForm(self):

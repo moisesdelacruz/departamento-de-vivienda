@@ -4,14 +4,13 @@
 import Tkinter as tk
 import  ttk
 from datetime import datetime
-from database.main import SolicitudModel
-from database.main import TracingModel
+from database.main import SolicitudModel, TracingModel, ViviendoModel
 from utils.methods import Methods
 from utils.verticalScrolled import VerticalScrolledFrame
 from utils.table import SimpleTable
 
 class StatusDetail(tk.Frame, Methods):
-	def __init__(self, root, controller, viviendo_id):
+	def __init__(self, root, controller, viviendo):
 		tk.Frame.__init__(self, root)
 		self.root = root
 		self.controller = controller
@@ -21,14 +20,17 @@ class StatusDetail(tk.Frame, Methods):
 		self.db = DB()
 		self.db.solicitud = SolicitudModel()
 		self.db.tracing = TracingModel()
+		self.db.viviendo = ViviendoModel()
 
 		# viviendo id
-		self.viviendo_id = viviendo_id
-		# query to data base
+		self.viviendo_id = viviendo.get('id')
+		# query to data base > solicitud
 		self.solicitud = self.db.solicitud.retrive(self.viviendo_id)
-		# Query to database
+		# Query to database > dates
 		self.dates = self.db.tracing.list(viviendo_id=self.viviendo_id)
-		
+		# query to database > date of create
+		self.created_at = viviendo.get('created_at')
+
 		# render view
 		self.render()
 		
@@ -52,7 +54,10 @@ class StatusDetail(tk.Frame, Methods):
 		self.bottom.pack(side=tk.BOTTOM, expand=True, fill=tk.BOTH)
 		self.bottom.pack_propagate(0)
 
-		if self.solicitud and self.dates:
+		# tracing view
+		self.tracing()
+		# status view
+		if self.solicitud:
 			self.data = {
 				"residence_constancia": self.solicitud[0][5],
 				"copy_ci": self.solicitud[0][6],
@@ -62,8 +67,8 @@ class StatusDetail(tk.Frame, Methods):
 				"health_case": self.solicitud[0][10],
 				"copy_register_mision_vivienda": self.solicitud[0][11]
 			}
-			self.tracing()
 			self.status()
+		else: self.without_solicitud()
 
 	def status(self):
 		# scroll
@@ -139,20 +144,24 @@ class StatusDetail(tk.Frame, Methods):
 
 
 	def tracing(self):
-		result = self.dates
+		# inverse list
+		result = [self.created_at]
+		for i in xrange(len(self.dates)-1+1):
+			result.insert(0, self.dates[i][2])
 		# ------------
 		top = ttk.Frame(self.top, width=700, height=80, style='White.TFrame')
 		top.pack(side=tk.TOP)
 		top.pack_propagate(0)
 		# last time
-		last_time = ttk.Frame(top, style='White.TFrame')
-		last_time.pack(side=tk.RIGHT, pady=10, padx=15)
-		ttk.Label(last_time, text="Ultima Vez",
+		last_time_content = ttk.Frame(top, style='White.TFrame')
+		last_time_content.pack(side=tk.RIGHT, pady=10, padx=15)
+		ttk.Label(last_time_content, text="Ultima Vez",
 			style='Black12.TLabel').pack(anchor=tk.SE, padx=5)
 		# ------
-		date=datetime.strptime(str(result[-1][2]),
-			'%Y-%m-%d %H:%M:%S.%f').strftime('%Y/%m/%d')
-		ttk.Label(last_time, text=date,
+		last_time = result[1] if len(result) > 1 else result[0]
+		date=datetime.strptime(str(last_time),
+			'%Y-%m-%d %H:%M:%S.%f').strftime('%Y/%m/%d %I:%M:%S %p')
+		ttk.Label(last_time_content, text=date,
 			style='Black22.TLabel').pack(side=tk.RIGHT)
 
 		# Numbers of times
@@ -161,30 +170,33 @@ class StatusDetail(tk.Frame, Methods):
 		ttk.Label(numbers_times, text="Veces",
 			style='Black12.TLabel').pack()
 		# ------
-		ttk.Label(numbers_times, text=len(result), style='Black22.TLabel').pack()
+		ttk.Label(numbers_times, text=' '.join([str(len(result)-1), '+ 1']),
+			style='Black22.TLabel').pack()
 		
 		# scroll
 		root = VerticalScrolledFrame(self.top, width=500)
 		root.pack(expand=True, fill=tk.BOTH)
 		root.pack_propagate(0)
 
-		# inverse list
-		list_inverse = []
-		for i in xrange(len(result)-1+1):
-			list_inverse.insert(0, result[i])
-
 		# table of dates
-		t = SimpleTable(root.interior, len(list_inverse)+1,4)
+		t = SimpleTable(root.interior, len(result)+1,4)
 		t.pack(side="top", fill="x")
+
 
 		t.set(0,0,"Día")
 		t.set(0,1,"Mes")
 		t.set(0,2,"Año")
 		t.set(0,3,"Hora")
-		for (i, item) in enumerate(list_inverse):
-			date = datetime.strptime(str(item[2]), '%Y-%m-%d %H:%M:%S.%f')
+		for (i, item) in enumerate(result):
+			date = datetime.strptime(str(item), '%Y-%m-%d %H:%M:%S.%f')
 			t.set(int(i)+1,0,date.strftime('%d'))
 			t.set(int(i)+1,1,date.strftime('%B'))
 			t.set(int(i)+1,2,date.strftime('%Y'))
-			t.set(int(i)+1,3,date.strftime('%H:%M:%S'))
+			t.set(int(i)+1,3,date.strftime('%I:%M:%S %p'))
 
+
+	def without_solicitud(self):
+		image = self.getImage("views/images/empty.png", 350, 250)
+		img=ttk.Label(self.bottom, image=image, style='Black22.TLabel')
+		img.image=image
+		img.pack()
