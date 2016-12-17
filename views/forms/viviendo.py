@@ -21,8 +21,6 @@ class ViviendoForm(tk.Frame, Methods):
 		self.db = ViviendoModel()
 
 		self.viviendo = {}
-		if kwargs.get('viviendo_detail'):
-			self.viviendoDetail = kwargs.get('viviendo_detail')
 		if kwargs.get('viviendo'):
 			self.viviendo = kwargs.get('viviendo')
 
@@ -52,8 +50,8 @@ class ViviendoForm(tk.Frame, Methods):
 			# Content main.
 			parent = self.root._nametowidget(self.root.winfo_parent())
 			self.clean(parent)
-			render = self.viviendoDetail.__init__(parent,
-				self.controller, viviendo_id=self.viviendo.get('id'))
+			ViviendoDetail(parent, self.controller,
+				viviendo_id=self.viviendo.get('id'))
 		else:
 			self.db.create(data)
 			# View Vivivendo Detail
@@ -218,7 +216,7 @@ class ViviendoForm(tk.Frame, Methods):
 		# Entrada de texto para discapacity BOOLEAN
 		self.discapacity=tk.BooleanVar(booleans, 
 			value=self.viviendo.get('discapacity') if self.viviendo else False)
-		self.discapacity_desc = self.viviendo.get('discapacity') if self.viviendo else ''
+		self.discapacity_desc = self.viviendo.get('discapacity_desc') if self.viviendo else ''
 		ttk.Checkbutton(booleans, text='Discapacidad', variable=self.discapacity,
 			onvalue=True, offvalue=False,
 			command=lambda : self.textDialog(self.discapacity_desc)

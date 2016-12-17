@@ -12,6 +12,7 @@ from views.forms.solicitud import SolicitudForm
 from views import forms
 from views.detail.status import StatusDetail
 from views.detail.grupo_familiar import Grupo_familiarDetail
+from views.detail import detail_viviendo
 
 class ViviendoDetail(tk.Frame, Methods):
 	def __init__(self, root, controller, **kwargs):
@@ -116,9 +117,14 @@ class ViviendoDetail(tk.Frame, Methods):
 		if self.controller.permission():
 			self.clean(self.right)
 			view = forms.viviendo.ViviendoForm(self.right,
-				self.controller, viviendo=self.viviendo,
-				viviendo_detail=self)
+				self.controller, viviendo=self.viviendo)
 			view.pack()
+
+	def viviendo_detail(self):
+		if self.controller.permission():
+			self.clean(self.right)
+			detail_viviendo.ViviendoDetailView(self.right,
+				self.controller, self.viviendo)
 
 	# ---- view ----
 	def render(self):
@@ -165,9 +171,12 @@ class ViviendoDetail(tk.Frame, Methods):
 		# Action
 		btn=tk.Button(viviendo, text="Actualizar", command=self.viviendoForm,
 			font="Helvetica 14 normal", fg="#2E2E2E", bd=0)
+		btn_detail=tk.Button(viviendo, text="Ver", command=self.viviendo_detail,
+			font="Helvetica 14 normal", fg="#2E2E2E", bd=0)
 
 		if self.controller.permission():
 			btn.pack(anchor=tk.NE)
+			btn_detail.pack(anchor=tk.E)
 
 		# CI
 		tk.Label(viviendo, text=self.viviendo['ci'],

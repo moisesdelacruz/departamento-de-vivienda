@@ -83,6 +83,8 @@ class Methods(object):
 			family="Microsoft New Tai Lue",size=10,weight="normal")
 		self.microsoft_12 = tkFont.Font(
 			family="Microsoft New Tai Lue",size=12,weight="normal")
+		self.microsoft_12_bold = tkFont.Font(
+			family="Microsoft New Tai Lue",size=12,weight="bold")
 		self.microsoft_14 = tkFont.Font(
 			family="Microsoft New Tai Lue",size=14,weight="normal")
 		self.microsoft_16 = tkFont.Font(
@@ -145,6 +147,9 @@ class Methods(object):
 
 		s.configure('Black12.TLabel', foreground='#000',
 			background="#FFF", font=self.microsoft_12, justify="left")
+
+		s.configure('Black12_bold.TLabel', foreground='#000',
+			background="#FFF", font=self.microsoft_12_bold, justify="left")
 
 		# background grey foreground black
 		s.configure('Grey12.TLabel', foreground='#000',
