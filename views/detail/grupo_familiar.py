@@ -8,6 +8,7 @@ import tkMessageBox
 from utils.methods import Methods
 from database.main import FamilyModel
 from views import forms
+from views.detail.detail_family import FamilyDetailView
 
 class Grupo_familiarDetail(tk.Frame, Methods):
 	def __init__(self, root, controller, viviendo_id, **kwargs):
@@ -56,8 +57,10 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 		ttk.Label(root, text=model.get('ci'), style='Grey12.TLabel'
 			).pack(side=tk.LEFT, padx=4)
 
-		ttk.Label(root, text=model.get('full_name'),
-			style='Grey12.TLabel').pack(side=tk.LEFT, padx=4)
+		name=ttk.Label(root, text=model.get('full_name'),
+			style='Grey12.TLabel')
+		name.pack(side=tk.LEFT, padx=4)
+		name.bind("<Button-1>",lambda e,model=model:self.see(model))
 
 		ttk.Button(root, text="Eliminar", style='Grey12.TLabel',
 			command=lambda : self.delete(model_id)).pack(side=tk.RIGHT, padx=4)
@@ -82,3 +85,9 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 			forms.grupo_familiar.Grupo_familiarForm(
 				self.root, self.controller, viviendo_id=self.viviendo_id,
 				action='edit', data=model)
+
+
+	def see(self, model):
+		self.clean(self.root)
+		FamilyDetailView(
+			self.root, self.controller, self.viviendo_id, family=model)

@@ -145,6 +145,9 @@ class Methods(object):
 		s.configure('Text.TLabel', foreground='#FFF',
 			background="#012D5A", font=self.microsoft_12, justify="left")
 
+		s.configure('Text_bold.TLabel', foreground='#FFF',
+			background="#012D5A", font=self.microsoft_12_bold, justify="left")
+
 		s.configure('Black12.TLabel', foreground='#000',
 			background="#FFF", font=self.microsoft_12, justify="left")
 

@@ -54,7 +54,7 @@ class ProfileView(tk.Frame, Methods):
 			"Nombre:", "Apellido:", "Permisos:", "Superusuario:"]
 
 		for item in info:
-			ttk.Label(left, text=item, style='Text.TLabel'
+			ttk.Label(left, text=item, style='Text_bold.TLabel'
 				).pack(anchor=tk.E, padx=2, pady=8)
 
 		# ---- data account ----

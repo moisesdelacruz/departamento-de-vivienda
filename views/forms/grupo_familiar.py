@@ -9,7 +9,7 @@ from datetime import datetime
 from utils.methods import Methods
 from utils import validate, entrydate
 from database.main import FamilyModel
-from views.detail.grupo_familiar import Grupo_familiarDetail 
+from views import detail
 
 class Grupo_familiarForm(tk.Frame, Methods):
 	def __init__(self, root, controller, viviendo_id, **kwargs):
@@ -66,7 +66,7 @@ class Grupo_familiarForm(tk.Frame, Methods):
 			# clean
 			self.clean(self.root)
 			# clean render
-			view = Grupo_familiarDetail(self.root,
+			view = detail.grupo_familiar.Grupo_familiarDetail(self.root,
 				self.controller, self.viviendo_id)
 		elif self.edit:
 			data['id'] = self.data.get('id')
@@ -74,7 +74,7 @@ class Grupo_familiarForm(tk.Frame, Methods):
 			# clean
 			self.clean(self.root)
 			# render view
-			view = Grupo_familiarDetail(self.root,
+			view = detail.grupo_familiar.Grupo_familiarDetail(self.root,
 				self.controller, self.viviendo_id)
 
 
