@@ -85,7 +85,8 @@ class ViviendoForm(tk.Frame, Methods):
 		form = self._form
 
 		# Title of the Form
-		ttk.Label(form, text="Registro de Viviendo",
+		ttk.Label(form, text="Editar Viviendo"
+				if self.viviendo else "Registro de Viviendo",
 			style='Black22.TLabel').pack(anchor=tk.NW)
 
 		ttk.Label(form, text="Sera redirigido automaticamente"+

@@ -14,6 +14,15 @@ class ViviendoDetailView(tk.Frame, Methods):
 		self.controller = controller
 		# viviendo
 		self.viviendo = viviendo
+
+		# Detect Sex for styles change of the view
+		if self.viviendo.get('sex') == "Hombre":
+			self.suffixSex = 'male'
+		elif self.viviendo.get('sex') == "Mujer":
+			self.suffixSex = 'female'
+		else:
+			self.suffixSex = 'male'
+			
 		# render
 		self.view()
 
@@ -24,6 +33,7 @@ class ViviendoDetailView(tk.Frame, Methods):
 		
 
 	def view(self):
+		# view
 		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
 		div.pack(expand=True, fill=tk.X)
 		div.pack_propagate(0)
@@ -33,7 +43,8 @@ class ViviendoDetailView(tk.Frame, Methods):
 		root.pack_propagate(0)
 		root.pack()
 
-		view = ttk.Frame(root.interior, width=650, height=650, style='White.TFrame')
+		view = ttk.Frame(root.interior, width=650,
+			height=650, style='White.TFrame')
 		view.pack(expand=True, fill=tk.Y)
 		view.pack_propagate(0)
 
@@ -45,12 +56,16 @@ class ViviendoDetailView(tk.Frame, Methods):
 		content_image = ttk.Frame(view, style='White.TFrame')
 		content_image.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 
-		img = self.getImage("views/images/viviendo-male.png", 200, 200)
-		image = tk.Label(content_image, image=img, background="#FFF")
-		image.image = img
-		image.pack(pady=10)
 
-		ttk.Button(content_image, text="Editar", command=self.edit).pack(pady=10)
+		img = self.getImage("views/images/viviendo-"+str(self.suffixSex)+
+			".png", 200, 200)
+		image_label = tk.Label(content_image,
+			image=img, background="#FFF")
+		image_label.image = img
+		image_label.pack(pady=10)
+
+		ttk.Button(content_image, text="Editar",
+			command=self.edit).pack(pady=10)
 
 		# ---- info ----
 		left = ttk.Frame(view, style='White.TFrame')
@@ -72,7 +87,7 @@ class ViviendoDetailView(tk.Frame, Methods):
 		data = [self.viviendo.get('ci'), self.viviendo.get('first_name'),
 			self.viviendo.get('last_name'), self.viviendo.get('birthday'),
 			self.viviendo.get('sex'), self.viviendo.get('estado_civil'),
-			self.viviendo.get('postulation'), self.viviendo.get('work'),
+			self.viviendo.get('postulation'), bool(int(self.viviendo.get('work'))),
 			self.viviendo.get('entry'), self.viviendo.get('discapacity'),
 			self.viviendo.get('discapacity_desc') ,self.viviendo.get('direction')]
 
