@@ -7,7 +7,7 @@ from utils import validate
 from utils.methods import Methods
 from views.forms.user import login
 from views.generic.successes import SuccessesView
-from views.detail import user 
+from views.detail import user
 from database.main import UserModel
 
 class RegisterForm(tk.Frame, Methods):
@@ -19,11 +19,14 @@ class RegisterForm(tk.Frame, Methods):
 		# instance database
 		self.db = UserModel()
 
+		# set default title
+		self.controller.parent.title('Nuevo Usuario')
+
 		self.data = {}
 		self.passwd = None
 
 		if self.kwargs.get('action'):
-			self.action = self.kwargs.get('action') 
+			self.action = self.kwargs.get('action')
 			self._actions()
 
 		self.render()
@@ -156,26 +159,30 @@ class RegisterForm(tk.Frame, Methods):
 			justify="left")
 		self.ci.pack(pady=8)
 
-		# Entrada de texto para permissions
-		ttk.Label(form, text="Permisos",
-			style="TLabel").place(x=0,y=345)
+		# permissions fields
 		self.permissions=tk.StringVar(form,
 			value=self.data.get('permission') if self.data else '')
-		fieldPermissions = ttk.Combobox(form, state='readonly',
-			textvariable=self.permissions, font="Helvetica 14",
-			style="TCombobox",
-			justify="left",background="#1E6FBA", width=21)
-		fieldPermissions['values'] = self.selectPermissions()
-		for (x, item) in enumerate(fieldPermissions['values']):
-			if item == self.permissions.get():
-				fieldPermissions.current(int(x))
-		fieldPermissions.pack(pady=8)
-
 		# is superuser
 		self.is_superuser = tk.BooleanVar(form,
 			value=self.data.get('is_superuser') if self.data else False)
-		ttk.Checkbutton(form, text='Superusuario', variable=self.is_superuser,
-			onvalue=True, offvalue=False).pack(pady=8)
+		# if is superuser pass
+		if self.controller.get_session().get('is_superuser'):
+			# Entrada de texto para permissions
+			ttk.Label(form, text="Permisos",
+				style="TLabel").place(x=0,y=345)
+			fieldPermissions = ttk.Combobox(form, state='readonly',
+				textvariable=self.permissions, font="Helvetica 14",
+				style="TCombobox",
+				justify="left",background="#1E6FBA", width=21)
+			fieldPermissions['values'] = self.selectPermissions()
+			for (x, item) in enumerate(fieldPermissions['values']):
+				if item == self.permissions.get():
+					fieldPermissions.current(int(x))
+			fieldPermissions.pack(pady=8)
+
+			# is superuser
+			ttk.Checkbutton(form, text='Superusuario', variable=self.is_superuser,
+				onvalue=True, offvalue=False).pack(pady=8)
 
 		# Buttons of actions
 		buttons = tk.Frame(form, background="#012D5A", relief=tk.RAISED)

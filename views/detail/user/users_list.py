@@ -29,6 +29,8 @@ class UsersListDetail(tk.Frame, Methods):
 		self.div.pack(expand=True, fill=tk.Y)
 		self.div.pack_propagate(0)
 
+		# set title of window
+		self.controller.parent.title('Lista de Usuarios')
 		# Title
 		ttk.Label(self.div, text="Lista de Usuarios",
 			style="Title.TLabel").pack(pady=15, anchor=tk.NW)
@@ -61,18 +63,22 @@ class UsersListDetail(tk.Frame, Methods):
 			text='superusuario' if model.get('is_superuser') else 'usuario',
 			style='Item.TLabel').pack(side=tk.LEFT, padx=4)
 
-		tk.Button(root, text="Eliminar", font="Helvetica 12 normal",
+		btn_delete=tk.Button(root, text="Eliminar", font="Helvetica 12 normal",
 			command=lambda : self.delete(model_id), fg="#FFF",
 			bg="#00162D", bd=0, activebackground="#00162D",
-			activeforeground="#BBB").pack(side=tk.RIGHT, padx=4)
+			activeforeground="#BBB")
 
-		tk.Button(root, text="Editar", font="Helvetica 12 normal",
+		btn_edit=tk.Button(root, text="Editar", font="Helvetica 12 normal",
 			command=lambda : self.edit(model), fg="#FFF",
 			bg="#00162D", bd=0, activebackground="#00162D",
-			activeforeground="#BBB").pack(side=tk.RIGHT, padx=4)
+			activeforeground="#BBB")
+		# if is superuser show buttons
+		if self.controller.is_superuser():
+			btn_delete.pack(side=tk.RIGHT, padx=4)
+			btn_edit.pack(side=tk.RIGHT, padx=4)
 
 	def delete(self, model_id):
-		if self.controller.permission():
+		if self.controller.is_superuser():
 			if tkMessageBox.askyesno(title='Advertencia',
 				message='¿Seguro(a) que desea Eliminar?'):
 				self.db.delete(model_id)
@@ -82,6 +88,6 @@ class UsersListDetail(tk.Frame, Methods):
 
 
 	def edit(self, model):
-		if self.controller.permission():
+		if self.controller.is_superuser():
 			self.clean(self.root)
 			RegisterForm(self.root, self.controller, action='edit_user', data=model)

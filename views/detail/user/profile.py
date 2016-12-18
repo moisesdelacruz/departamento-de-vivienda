@@ -13,12 +13,14 @@ class ProfileView(tk.Frame, Methods):
 		self.controller = controller
 		# account
 		self.account = self.controller.get_session()
+		# set title of window
+		self.controller.parent.title('Mi Perfil')
 		self.view()
 
 	def edit(self):
 		self.clean(self.root)
 		RegisterForm(self.root, self.controller, action='edit_me')
-		
+
 
 	def view(self):
 		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')

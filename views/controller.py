@@ -51,6 +51,11 @@ class Toolbar(tk.Frame, Methods):
             if per == 'Lectura y Escritura':
                 return True
 
+    def is_superuser(self):
+        if self.session():
+            if self.content_session.get('is_superuser'):
+                return True
+
     def no_session(self):
         tkMessageBox.showwarning(title='Permiso Denegado',
             message='Debes Iniciar Sesión para realizar esta acción')
@@ -84,12 +89,17 @@ class Toolbar(tk.Frame, Methods):
 
 
     def config(self, **kwargs):
-        self.clean(self.body)
         if kwargs.get('view'):
             option = kwargs.get('view')
-            self.parent.title(option)
-            ConfigView(self.body, self, view=option)
-        ConfigView(self.body, self)
+            # if not is superuser show denegate message.
+            if not self.is_superuser() and option == 'new_user':
+                self.denegate()
+            else:
+                self.clean(self.body)
+                ConfigView(self.body, self, view=option)
+        else:
+            self.clean(self.body)
+            ConfigView(self.body, self)
 
 
     def about(self):

@@ -9,14 +9,14 @@ from views.forms import user
 from database.main import UserModel
 
 class LoginForm(tk.Frame, Methods):
-	def __init__(self, root, control):
+	def __init__(self, root, controller):
 		tk.Frame.__init__(self, root)
 		self.root = root
-		self.control = control
+		self.controller = controller
 		self.db = UserModel()
 		self.session = []
 		# title of the window
-		self.control.parent.title('Iniciar Sesion')
+		self.controller.parent.title('Iniciar Sesion')
 		self.form()
 
 	def login(self):
@@ -37,7 +37,7 @@ class LoginForm(tk.Frame, Methods):
 						"password": query[0][7],
 						"last_login": query[0][8],
 					})
-					self.control.set_session(self.session)
+					self.controller.set_session(self.session)
 					self.db.update_last_login(self.session.get('user_id'))
 				else: self.alert('Alerta Contraseña',
 					'contraseña no coincide con el nombre de usuario')

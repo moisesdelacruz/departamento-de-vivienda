@@ -29,6 +29,9 @@ class ConfigView(tk.Frame, Methods):
 
 		self.methods = ['my_profile', 'edit_user',
 			'user_list', 'new_user', 'exit']
+		self.denegate = []
+		if not self.controller.is_superuser():
+			self.denegate.append('new_user')
 
 		# init view
 		self.menu()
@@ -51,14 +54,15 @@ class ConfigView(tk.Frame, Methods):
 		t.pack(anchor=tk.NW, padx=2, pady=1, fill=tk.BOTH)
 
 		# options------
-		for x in xrange(1,6):
-			locals()['icon'+str(x)]=self.getImage(
-				"views/images/config_btn_"+str(x)+".png", 320, 55)
-			locals()['btn'+str(x)]=tk.Button(self._menu,
-				image=locals()['icon'+str(x)], bd=0,
-				justify=tk.LEFT, command=eval('self.'+self.methods[x-1]))
-			locals()['btn'+str(x)].image=locals()['icon'+str(x)]
-			locals()['btn'+str(x)].pack(anchor=tk.NW, padx=2, pady=1, fill=tk.BOTH)
+		for (x, method) in enumerate(self.methods):
+			locals()['icon'+method]=self.getImage(
+				"views/images/config_btn_"+str(x+1)+".png", 320, 55)
+			locals()['btn'+method]=tk.Button(self._menu,
+				image=locals()['icon'+method], bd=0,
+				justify=tk.LEFT, command=eval('self.'+method))
+			locals()['btn'+method].image=locals()['icon'+method]
+			if not method in self.denegate:
+				locals()['btn'+method].pack(anchor=tk.NW, padx=2, pady=1, fill=tk.BOTH)
 
 
 
@@ -71,8 +75,9 @@ class ConfigView(tk.Frame, Methods):
 		UsersListDetail(self._body, self.controller)
 
 	def new_user(self):
-		self.clean(self._body)
-		RegisterForm(self._body, self.controller)
+		if self.controller.is_superuser():
+			self.clean(self._body)
+			RegisterForm(self._body, self.controller)
 
 	def edit_user(self):
 		self.clean(self._body)
