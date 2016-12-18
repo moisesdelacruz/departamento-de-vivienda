@@ -34,6 +34,7 @@ class Toolbar(tk.Frame, Methods):
         self.body.pack(side=tk.BOTTOM, expand=True, fill=tk.BOTH)
         # session
         self.content_session = {}
+        self.last_login = {}
         # Login
         self.home()
         # Close window
@@ -73,7 +74,7 @@ class Toolbar(tk.Frame, Methods):
         if not self.content_session:
             self.clean(self.body)
             self.login = LoginForm(self.body, self)
-            
+
 
     def home(self):
         if self.content_session:
@@ -98,6 +99,7 @@ class Toolbar(tk.Frame, Methods):
 
     def set_session(self, account):
         self.content_session = account
+        self.last_login = account.get('last_login')
         # TOP Toolbar
         self.menu()
         # self.toolbar()
@@ -164,7 +166,7 @@ class Toolbar(tk.Frame, Methods):
             addUserButton.image = iconAddUser
             addUserButton.pack(side=tk.LEFT, pady=2)
 
-        
+
         exitButton.image = iconExit
         exitButton.pack(side=tk.LEFT, pady=2)
 

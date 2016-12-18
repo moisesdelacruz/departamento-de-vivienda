@@ -82,7 +82,7 @@ class HomeView(tk.Frame, Methods):
 
 		# last inicio of session
 		if self.account.get('last_login'):
-			date = self.account.get('last_login').strftime('%Y-%m-%d %I:%M:%S %p')
+			date = self.controller.last_login.strftime('%Y-%m-%d %I:%M:%S %p')
 			box5 = tk.Frame(view)
 			box5.pack(side=tk.BOTTOM, anchor=tk.SE)
 			tk.Label(box5, text="Ultimo Inicio de Sesión:",
