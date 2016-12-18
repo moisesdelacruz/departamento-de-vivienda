@@ -35,15 +35,17 @@ class LoginForm(tk.Frame, Methods):
 						"is_superuser": query[0][5],
 						"permission": query[0][6],
 						"password": query[0][7],
+						"last_login": query[0][8],
 					})
 					self.control.set_session(self.session)
+					self.db.update_last_login(self.session.get('user_id'))
 				else: self.alert('Alerta Contraseña',
 					'contraseña no coincide con el nombre de usuario')
 			else: self.alert('Alerta Contraseña',
 				'debe ingresar una contraseña')
 		else: self.alert('Alerta Contraseña',
 			'nombre de usuario no existe')
-		
+
 
 	def form(self):
 		div = ttk.Frame(self.root, height=550, padding=50, style='Kim.TFrame')
@@ -86,7 +88,7 @@ class LoginForm(tk.Frame, Methods):
 		self.password.pack(side=tk.LEFT)
 		# Login
 		img_send = self.getImage("views/images/send.png")
-		ok=tk.Button(password, command=self.login, bd=0, 
+		ok=tk.Button(password, command=self.login, bd=0,
 			bg="#325678", image=img_send, activebackground="#012D5A")
 		ok.focus()
 		ok.image = img_send

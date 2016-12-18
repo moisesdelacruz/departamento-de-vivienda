@@ -58,6 +58,7 @@ class Methods(object):
 			"is_superuser": data[5],
 			"permission": data[6],
 			"password": data[7],
+			"last_login": data[8],
 		})
 
 	def _format_family(self, data):

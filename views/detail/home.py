@@ -81,9 +81,11 @@ class HomeView(tk.Frame, Methods):
 
 
 		# last inicio of session
-		box5 = tk.Frame(view)
-		box5.pack(side=tk.BOTTOM, anchor=tk.SE)
-		tk.Label(box5, text="Ultimo Inicio de Sesión:",
-			font="Helvetica 12 normal", fg="#6b6a6a").pack(pady=10, side=tk.LEFT)
-		tk.Label(box5, text="13/12/1989 08:27 a.m.",
-			font="Helvetica 12 normal", fg="blue").pack(pady=10, side=tk.LEFT)
+		if self.account.get('last_login'):
+			date = self.account.get('last_login').strftime('%Y-%m-%d %I:%M:%S %p')
+			box5 = tk.Frame(view)
+			box5.pack(side=tk.BOTTOM, anchor=tk.SE)
+			tk.Label(box5, text="Ultimo Inicio de Sesión:",
+				font="Helvetica 12 normal", fg="#6b6a6a").pack(pady=10, side=tk.LEFT)
+			tk.Label(box5, text=date,
+				font="Helvetica 12 normal", fg="blue").pack(pady=10, side=tk.LEFT)

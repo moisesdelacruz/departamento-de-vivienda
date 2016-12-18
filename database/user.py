@@ -1,3 +1,5 @@
+import datetime
+
 class User(object):
 
     conn = None
@@ -12,7 +14,9 @@ class User(object):
             cedula INTEGER NOT NULL UNIQUE,
             is_superuser BOOLEAN DEFAULT FALSE,
             permission VARCHAR(45) NOT NULL,
-            password VARCHAR(60) NOT NULL
+            password VARCHAR(60) NOT NULL,
+            last_login TIMESTAMP,
+			created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         )""")
 
         self.conn.commit()
@@ -48,6 +52,19 @@ class User(object):
             WHERE user_id=%(user_id)s""", request)
         self.conn.commit()
         return True
+
+    def update_last_login(self, user_id, **kwargs):
+        """
+        A signal receiver which updates the last_login date for
+        the user logging in.
+        """
+        self.cursor.execute("""UPDATE account SET
+            last_login='%s' WHERE user_id=%s
+            """ %(datetime.datetime.now(), user_id))
+        self.conn.commit()
+        return True
+        user.last_login = timezone.now()
+        user.save(update_fields=['last_login'])
 
     def delete(self, request, *args, **kwargs):
         self.cursor.execute("DELETE FROM account WHERE user_id=%s" %(request))
