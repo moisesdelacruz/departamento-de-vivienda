@@ -53,6 +53,7 @@ class LoginForm(tk.Frame, Methods):
 		div.pack_propagate(0)
 
 		form = ttk.Frame(div, width=650, style='Kim.TFrame')
+		form.bind_all("<Return>", (lambda event: self.login()))
 		form.pack(expand=True, fill=tk.Y)
 		form.pack_propagate(0)
 
@@ -72,7 +73,7 @@ class LoginForm(tk.Frame, Methods):
 		self.username=validate.MaxLengthEntry(form, maxlength=40,
 			value="moisesdelacruz", style="Kim.TEntry", font="Helvetica 14",
 			width=25, justify="left")
-		# self.username.focus()
+		self.username.focus()
 		self.username.pack(pady=8)
 
 		# Entry of the password
@@ -90,6 +91,5 @@ class LoginForm(tk.Frame, Methods):
 		img_send = self.getImage("views/images/send.png")
 		ok=tk.Button(password, command=self.login, bd=0,
 			bg="#325678", image=img_send, activebackground="#012D5A")
-		ok.focus()
 		ok.image = img_send
 		ok.pack(side=tk.LEFT)

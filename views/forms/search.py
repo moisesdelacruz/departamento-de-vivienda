@@ -29,7 +29,7 @@ class SearchForm(tk.Frame, Methods):
 		# render view
 		self.render()
 
-	def searchdb(self):
+	def searchdb(self, *args):
 
 		if len(self.search.get()) >= 7:
 			self.result = self.db.viviendo.retrive(
@@ -87,6 +87,7 @@ class SearchForm(tk.Frame, Methods):
 			style="White.TEntry", width=51, font="Helvetica 13",
 			justify="left")
 		self.search.focus()
+		self.search.bind("<Return>", (lambda event: self.searchdb()))
 		self.search.pack(side=tk.LEFT)
 		# btn -----------
 		img_send = self.getImage("views/images/send.png")
