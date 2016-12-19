@@ -107,6 +107,7 @@ class Methods(object):
 							   'Entry.textarea', {'sticky': 'nswe'})],
 					  'sticky': 'nswe'})], 'sticky': 'nswe'})],
 					  'border':'2', 'sticky': 'nswe'})])
+		# Entry
 		s.configure('Kim.TEntry', foreground='#6F767E',
 			fieldbackground="#00162D", padding=5)
 

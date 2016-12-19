@@ -30,8 +30,8 @@ class RegisterForm(tk.Frame, Methods):
 			self.action = self.kwargs.get('action')
 			self._actions()
 
-		self.render()
-
+		# show contents
+		self.show()
 
 	def _actions(self):
 		# edit user
@@ -85,15 +85,62 @@ class RegisterForm(tk.Frame, Methods):
 		else:
 			self.set_error('Contraseñas no coinciden')
 
-	def change_form(self, action):
-		self.clean(self.content_form)
-		if action == 'next':
-			self.form_actually += 1
-		elif action == 'back':
-			self.form_actually -= 1
-		elif action == 'render':
-			pass
 
+	def _format(self):
+		return ({
+			"username": self.username.get(),
+			"first_name": self.first_name.get(),
+			"last_name": self.last_name.get(),
+			"cedula": int(self.ci.get()),
+			"permission": self.permissions.get(),
+			"is_superuser": bool(self.is_superuser.get())
+		})
+
+
+	def data_state(self):
+		self.data = self._format()
+
+
+	def validate(self):
+		required_list = ['username', 'ci', 'permissions',
+			'password', 'password2']
+		for item in required_list:
+			if hasattr(self, item):
+				if not len(eval('self.%s.get()' %(item))) > 3:
+					self.set_error('%s es requerido para continuar' %(item))
+					return False
+					break
+			else: pass
+		return True
+
+	def change_form(self, action):
+		if action == 'next' and self.validate():
+			self.form_actually += 1
+			self.render()
+			self.data_state()
+		elif action == 'back' and self.validate():
+			self.form_actually -= 1
+			self.render()
+		elif action == 'render':
+			self.render()
+
+	def show(self):
+		# contents
+		div = ttk.Frame(self.root, height=550, padding=20,
+			style='Kim.TFrame')
+		div.pack(expand=True, fill=tk.X)
+		div.pack_propagate(0)
+
+		self.content_form = ttk.Frame(div, width=650,
+			style="Kim.TFrame")
+		self.content_form.pack(expand=True, fill=tk.Y)
+		self.content_form.pack_propagate(0)
+
+		# render form
+		self.change_form('render')
+
+	def render(self):
+		self.clean(self.content_form)
 		if hasattr(self, eval("'form%s'" %(str(self.form_actually)))):
 			# Title of the Form
 			ttk.Label(self.content_form, text="Editar Usuario",
@@ -122,20 +169,6 @@ class RegisterForm(tk.Frame, Methods):
 		ttk.Label(self.content_message,
 			text=err, style='Error.TLabel').pack()
 
-	def render(self):
-		# contents
-		div = ttk.Frame(self.root, height=550, padding=20,
-			style='Kim.TFrame')
-		div.pack(expand=True, fill=tk.X)
-		div.pack_propagate(0)
-
-		self.content_form = ttk.Frame(div, width=650,
-			style="Kim.TFrame")
-		self.content_form.pack(expand=True, fill=tk.Y)
-		self.content_form.pack_propagate(0)
-
-		# render form
-		self.change_form('render')
 
 	def form1(self):
 
