@@ -11,15 +11,24 @@ class ProfileView(tk.Frame, Methods):
 		tk.Frame.__init__(self, root)
 		self.root = root
 		self.controller = controller
-		# account
-		self.account = self.controller.get_session()
-		# set title of window
-		self.controller.parent.title('Mi Perfil')
+
+		if kwargs.get('user'):
+			self.action_edit = 'edit_user'
+			self.account = kwargs.get('user')
+		else:
+			self.action_edit = 'edit_me'
+			# account
+			self.account = self.controller.get_session()
+			# set title of window
+			self.controller.parent.title('Mi Perfil')
+
+		# render view
 		self.view()
 
 	def edit(self):
 		self.clean(self.root)
-		RegisterForm(self.root, self.controller, action='edit_me')
+		RegisterForm(self.root, self.controller,
+			action=self.action_edit, data=self.account)
 
 
 	def view(self):
@@ -37,15 +46,17 @@ class ProfileView(tk.Frame, Methods):
 		# ---- button edit ----
 
 		# Image
-		i = ttk.Frame(view, style='Kim.TFrame')
-		i.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
+		content_image = ttk.Frame(view, style='Kim.TFrame')
+		content_image.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 
 		img = self.getImage("views/images/user.png", 200, 200)
-		image = tk.Label(i, image=img, fg="blue", background="#012D5A")
+		image = tk.Label(content_image, image=img, fg="blue", background="#012D5A")
 		image.image = img
 		image.pack(pady=10)
 
-		ttk.Button(i, text="Editar", command=self.edit).pack(pady=10)
+		if self.controller.is_superuser() or self.action_edit == 'edit_me':
+			ttk.Button(content_image, text="Editar",
+				command=self.edit).pack(pady=10)
 
 		# ---- info ----
 		left = ttk.Frame(view, style='Kim.TFrame')

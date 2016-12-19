@@ -8,6 +8,7 @@ import tkMessageBox
 from utils.methods import Methods
 from database.main import UserModel
 from views.forms.user.register import RegisterForm
+from views.detail.user.profile import ProfileView
 
 class UsersListDetail(tk.Frame, Methods):
 	def __init__(self, root, controller, **kwargs):
@@ -53,8 +54,9 @@ class UsersListDetail(tk.Frame, Methods):
 		ttk.Label(root, text=model.get('cedula'), style='Item.TLabel'
 			).pack(side=tk.LEFT, padx=4)
 
-		ttk.Label(root, text=model.get('username'), style='Item.TLabel'
-			).pack(side=tk.LEFT, padx=4)
+		username=ttk.Label(root, text=model.get('username'), style='Item.TLabel')
+		username.pack(side=tk.LEFT, padx=4)
+		username.bind("<Button-1>",lambda e,model=model:self.see(model))
 
 		ttk.Label(root, text=model.get('permission'), style='Item.TLabel'
 			).pack(side=tk.LEFT, padx=4)
@@ -91,3 +93,8 @@ class UsersListDetail(tk.Frame, Methods):
 		if self.controller.is_superuser():
 			self.clean(self.root)
 			RegisterForm(self.root, self.controller, action='edit_user', data=model)
+
+
+	def see(self, model):
+		self.clean(self.root)
+		ProfileView(self.root, self.controller, user=model)
