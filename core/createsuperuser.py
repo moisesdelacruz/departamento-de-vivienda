@@ -23,6 +23,7 @@ class CreateSuperUser(Methods):
 				"password": str(password_encrypt)
 			})
 			self.db.create(data)
+		else: print "Passwords do not match."
 
 	def form(self):
 		self.username = raw_input("Nombre de Usuario: ")
