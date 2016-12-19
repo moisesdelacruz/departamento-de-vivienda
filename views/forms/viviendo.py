@@ -19,6 +19,8 @@ class ViviendoForm(tk.Frame, Methods):
 		self.controller = controller
 		# instance from database
 		self.db = ViviendoModel()
+		# state actual of the form
+		self.form_actually = 1
 
 		# default title of window
 		self.controller.parent.title('Nuevo Viviendo')
@@ -65,13 +67,36 @@ class ViviendoForm(tk.Frame, Methods):
 				ci=data.get('ci'))
 			view.pack()
 
-	def next(self):
-		self.clean(self._form)
-		self.form2()
+	def change_form(self, action):
+		self.clean(self.content_form)
+		if action == 'next':
+			self.form_actually += 1
+		elif action == 'back':
+			self.form_actually -= 1
+		elif action == 'render':
+			pass
 
-	def back(self):
-		self.clean(self._form)
-		self.form1()
+		if hasattr(self, eval("'form%s'" %(str(self.form_actually)))):
+			# Title of the Form
+			ttk.Label(self.content_form, text="Editar Viviendo"
+					if self.viviendo else "Registro de Viviendo",
+				style='Black22.TLabel').pack(anchor=tk.NW)
+
+			ttk.Label(self.content_form, text="Sera redirigido automaticamente"+
+				"a un panel de administracion personalizado,"+
+				"\nAl Presionar \"Guardar\".",
+				style="Black12.TLabel").pack(anchor=tk.NW, pady=15)
+			# render form
+			eval('self.form%s()' %(str(self.form_actually)))
+			# content message
+			self.content_message = ttk.Frame(self.content_form,
+				style='Kim.TFrame')
+			self.content_message.pack(pady=8)
+
+	def set_error(self, err):
+		self.clean(self.content_message)
+		ttk.Label(self.content_message,
+			text=err, style='Error.TLabel').pack()
 
 	def render(self):
 		# boxs------
@@ -79,25 +104,15 @@ class ViviendoForm(tk.Frame, Methods):
 		div.pack(expand=True, fill=tk.X)
 		div.pack_propagate(0)
 
-		self._form = ttk.Frame(div, width=650, padding=20, style='White.TFrame')
-		self._form.pack(expand=True, fill=tk.Y)
-		self._form.pack_propagate(0)
+		self.content_form = ttk.Frame(div, width=650, padding=20, style='White.TFrame')
+		self.content_form.pack(expand=True, fill=tk.Y)
+		self.content_form.pack_propagate(0)
 		# call form1
-		self.form1()
+		self.change_form('render')
 
 
 	def form1(self):
-		form = self._form
-
-		# Title of the Form
-		ttk.Label(form, text="Editar Viviendo"
-				if self.viviendo else "Registro de Viviendo",
-			style='Black22.TLabel').pack(anchor=tk.NW)
-
-		ttk.Label(form, text="Sera redirigido automaticamente"+
-			"a un panel de administracion personalizado,"+
-			"\nAl Presionar \"Guardar\".",
-			style="Black12.TLabel").pack(anchor=tk.NW, pady=15)
+		form = self.content_form
 
 		# Entry of the cedula
 		ttk.Label(form, text="CI:",
@@ -160,20 +175,11 @@ class ViviendoForm(tk.Frame, Methods):
 			text="Cancelar").pack(side=tk.LEFT, padx=8)
 
 		# Cancelar
-		ttk.Button(buttons, command=self.next,
+		ttk.Button(buttons, command=lambda : self.change_form('next'),
 			text="Siguiente").pack(side=tk.LEFT, padx=8)
 
 	def form2(self):
-		form = self._form
-
-		# Title of the Form
-		ttk.Label(form, text="Registro de Viviendo",
-			style='Black22.TLabel').pack(anchor=tk.NW)
-
-		ttk.Label(form, text="Sera redirigido automaticamente"+
-			"a un panel de administracion personalizado,"+
-			"\nAl Presionar \"Guardar\".",
-			style="Black12.TLabel").pack(anchor=tk.NW, pady=15)
+		form = self.content_form
 
 		# Entrada de texto para estado_civil
 		ttk.Label(form, text="Estado Civil:",
@@ -233,7 +239,7 @@ class ViviendoForm(tk.Frame, Methods):
 		buttons.pack(pady=8)
 		# buttons.pack_propagate(0)
 		# Guardar
-		ttk.Button(buttons, command=self.back,
+		ttk.Button(buttons, command=lambda : self.change_form('back'),
 			text="Atras").pack(side=tk.LEFT, padx=8)
 
 		# Cancelar
