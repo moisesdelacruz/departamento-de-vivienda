@@ -100,7 +100,8 @@ class SolicitudForm(tk.Frame, Methods):
 			style='Black.TLabel').place(x=0,y=255)
 		phone_number = tk.IntVar(form,
 			value=data[0][4]) if data else tk.IntVar()
-		self.phone_number=validate.IntegerEntry(form, value=phone_number.get(),
+		self.phone_number=validate.IntegerEntry(form,
+			value=phone_number.get(), maxlength=11,
 			width=27, font="Helvetica 13", style='White.TEntry',
 			justify="left")
 		self.phone_number.pack(pady=8)

@@ -103,7 +103,7 @@ class ViviendoForm(tk.Frame, Methods):
 		ttk.Label(form, text="CI:",
 			style='Black.TLabel').place(x=0,y=130)
 
-		self.ci=validate.IntegerEntry(form, style='White.TEntry',
+		self.ci=validate.IntegerEntry(form, style='White.TEntry', maxlength=9,
 			value=self.viviendo.get('ci') if self.viviendo else 0,
 			width=27,justify="left", font="Helvetica 13")
 		self.ci.focus()

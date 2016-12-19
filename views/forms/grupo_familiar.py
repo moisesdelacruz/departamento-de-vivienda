@@ -107,7 +107,7 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		ttk.Label(form,text="CI",
 			style='Black.TLabel').place(x=0,y=135)
 		self.ci=validate.IntegerEntry(form, value=self.data.get('ci')
-				if self.edit else 0,
+				if self.edit else 0, maxlength=9,
 			style='White.TEntry', width=27,
 			font="Helvetica 13", justify="left")
 		self.ci.focus()

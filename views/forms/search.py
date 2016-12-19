@@ -83,7 +83,7 @@ class SearchForm(tk.Frame, Methods):
 		form = ttk.Frame(view, style='Kim.TFrame')
 		form.pack()
 
-		self.search=validate.IntegerEntry(form,
+		self.search=validate.IntegerEntry(form, maxlength=9,
 			style="White.TEntry", width=51, font="Helvetica 13",
 			justify="left")
 		self.search.focus()

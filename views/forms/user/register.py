@@ -153,7 +153,7 @@ class RegisterForm(tk.Frame, Methods):
 		ttk.Label(form, text="Cedula de Identidad",
 			style="TLabel").place(x=0,y=295)
 
-		self.ci=validate.IntegerEntry(form,
+		self.ci=validate.IntegerEntry(form, maxlength=9,
 			value=self.data.get('cedula') if self.data else 0,
 			style="Kim.TEntry", width=22, font="Helvetica 14",
 			justify="left")

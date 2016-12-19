@@ -14,7 +14,7 @@ from ttk import *
 class ValidatingEntry(Entry):
 	# base class for validating entry widgets
 
-	def __init__(self, master, value="", **kw):
+	def __init__(self, master, value="", maxlength=None, **kw):
 		Entry.__init__(self, master, **kw)
 		self.__value = value
 		self.__variable = StringVar()
@@ -22,6 +22,7 @@ class ValidatingEntry(Entry):
 		self.__variable.trace("w", self.__callback)
 		self.config(textvariable=self.__variable)
 		self.results = StringVar()
+		self.maxlength = maxlength
 		if self.__value is None: self.results.set(None)
 		else:
 				self.results.set(self.__value)
@@ -62,7 +63,7 @@ The validate method simply tries to convert the value to an object of the right 
 class IntegerEntry(ValidatingEntry):
 	def validate(self, value):
 		try:
-			if len(value) <= 9:
+			if self.maxlength is None or len(value) <= self.maxlength:
 				if value:
 					v = int(value)
 					self.results.set(value)
