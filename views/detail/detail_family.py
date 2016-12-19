@@ -19,7 +19,7 @@ class FamilyDetailView(tk.Frame, Methods):
 		if not kwargs.get('family'):
 			raise ValueError("This view require a 'family' **argument")
 		self.family = kwargs.get('family')
-			
+
 		# render
 		self.view()
 
@@ -28,7 +28,7 @@ class FamilyDetailView(tk.Frame, Methods):
 		forms.grupo_familiar.Grupo_familiarForm(
 			self.root, self.controller, viviendo_id=self.viviendo_id,
 			action='edit', data=self.family)
-		
+
 
 	def view(self):
 		# view

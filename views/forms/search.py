@@ -23,6 +23,9 @@ class SearchForm(tk.Frame, Methods):
 		self.db.viviendo = ViviendoModel()
 		self.db.tracing = TracingModel()
 
+		# title of window
+		self.controller.parent.title('Buscar Viviendo')
+
 		# render view
 		self.render()
 
@@ -87,12 +90,12 @@ class SearchForm(tk.Frame, Methods):
 		self.search.pack(side=tk.LEFT)
 		# btn -----------
 		img_send = self.getImage("views/images/send.png")
-		ok=tk.Button(form, command=self.searchdb, bd=0, 
+		ok=tk.Button(form, command=self.searchdb, bd=0,
 			bg="#325678", width=50, image=img_send,
 			activebackground="#012D5A")
 		ok.image = img_send
 		ok.pack(side=tk.LEFT)
-		
+
 
 	def error(self, message):
 		self.clean(self.message)

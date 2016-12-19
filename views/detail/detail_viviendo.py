@@ -22,7 +22,7 @@ class ViviendoDetailView(tk.Frame, Methods):
 			self.suffixSex = 'female'
 		else:
 			self.suffixSex = 'male'
-			
+
 		# render
 		self.view()
 
@@ -30,7 +30,7 @@ class ViviendoDetailView(tk.Frame, Methods):
 		self.clean(self.root)
 		forms.viviendo.ViviendoForm(self.root,
 			self.controller, viviendo=self.viviendo)
-		
+
 
 	def view(self):
 		# view

@@ -20,9 +20,14 @@ class ViviendoForm(tk.Frame, Methods):
 		# instance from database
 		self.db = ViviendoModel()
 
+		# default title of window
+		self.controller.parent.title('Nuevo Viviendo')
+
 		self.viviendo = {}
 		if kwargs.get('viviendo'):
 			self.viviendo = kwargs.get('viviendo')
+			# change title of window
+			self.controller.parent.title(self.viviendo.get('full_name'))
 
 		# render view
 		self.render()
@@ -207,7 +212,7 @@ class ViviendoForm(tk.Frame, Methods):
 		booleans = ttk.Frame(form, style='White.TFrame')
 		booleans.pack(pady=2)
 		# Entrada de texto para work BOOLEAN
-		self.work=tk.BooleanVar(booleans, 
+		self.work=tk.BooleanVar(booleans,
 			value=self.viviendo.get('work') if self.viviendo else False)
 		self.value = self.viviendo.get('entry') if self.viviendo else 0
 		ttk.Checkbutton(booleans, text='Trabaja', variable=self.work,
@@ -215,7 +220,7 @@ class ViviendoForm(tk.Frame, Methods):
 			command=lambda : self.entry(self.value)).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Entrada de texto para discapacity BOOLEAN
-		self.discapacity=tk.BooleanVar(booleans, 
+		self.discapacity=tk.BooleanVar(booleans,
 			value=self.viviendo.get('discapacity') if self.viviendo else False)
 		self.discapacity_desc = self.viviendo.get('discapacity_desc') if self.viviendo else ''
 		ttk.Checkbutton(booleans, text='Discapacidad', variable=self.discapacity,

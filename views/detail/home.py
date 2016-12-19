@@ -16,6 +16,9 @@ class HomeView(tk.Frame, Methods):
 		self.controller = controller
 		self.account = self.controller.get_session()
 
+		# set title of window
+		self.controller.parent.title('Inicio')
+
 		# render view
 		self.view()
 
