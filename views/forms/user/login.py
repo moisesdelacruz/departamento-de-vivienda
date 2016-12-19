@@ -17,7 +17,8 @@ class LoginForm(tk.Frame, Methods):
 		self.session = []
 		# title of the window
 		self.controller.parent.title('Iniciar Sesion')
-		self.form()
+		# render
+		self.render()
 
 	def login(self):
 		query = self.db.retrive(str(self.username.get()), field='username')
@@ -39,48 +40,57 @@ class LoginForm(tk.Frame, Methods):
 					})
 					self.controller.set_session(self.session)
 					self.db.update_last_login(self.session.get('user_id'))
-				else: self.alert('Alerta Contraseña',
-					'contraseña no coincide con el nombre de usuario')
-			else: self.alert('Alerta Contraseña',
-				'debe ingresar una contraseña')
-		else: self.alert('Alerta Contraseña',
-			'nombre de usuario no existe')
+				else: self.set_error('contraseña no coincide con el nombre de usuario')
+			else: self.set_error('debe ingresar una contraseña')
+		else: self.set_error('nombre de usuario no existe')
+
+	def set_error(self, err):
+		self.clean(self.content_message)
+		ttk.Label(self.content_message, text=err, style='Error.TLabel').pack()
 
 
-	def form(self):
+	def render(self):
 		div = ttk.Frame(self.root, height=550, padding=50, style='Kim.TFrame')
 		div.pack(expand=True, fill=tk.X)
 		div.pack_propagate(0)
 
-		form = ttk.Frame(div, width=650, style='Kim.TFrame')
-		form.bind_all("<Return>", (lambda event: self.login()))
-		form.pack(expand=True, fill=tk.Y)
-		form.pack_propagate(0)
+		self.content_form = ttk.Frame(div, width=650, style='Kim.TFrame')
+		self.content_form.bind_all("<Return>", (lambda event: self.login()))
+		self.content_form.pack(expand=True, fill=tk.Y)
+		self.content_form.pack_propagate(0)
+
+		self.content_message = ttk.Frame(self.content_form, style='Kim.TFrame')
+		self.content_message.pack(pady=8, side=tk.BOTTOM)
+
+		# render form
+		self.form()
+
+	def form(self):
 
 		# Image
 		img = self.getImage("views/images/user.png", 200, 200)
-		image = tk.Label(form, image=img, fg="blue", background="#012D5A")
+		image = tk.Label(self.content_form, image=img, fg="blue", background="#012D5A")
 		image.image = img
 		image.pack(pady=10)
 		# Title of the Form
-		tk.Label(form, text="Iniciar Sesion", fg="white", bg="#012D5A",
+		tk.Label(self.content_form, text="Iniciar Sesion", fg="white", bg="#012D5A",
 			font="Candara 28").pack(pady=10)
 
 		# Entry of the username
-		ttk.Label(form, text="Usuario",
+		ttk.Label(self.content_form, text="Usuario",
 			style="TLabel").place(x=90,y=310)
 
-		self.username=validate.MaxLengthEntry(form, maxlength=40,
+		self.username=validate.MaxLengthEntry(self.content_form, maxlength=40,
 			value="moisesdelacruz", style="Kim.TEntry", font="Helvetica 14",
 			width=25, justify="left")
 		self.username.focus()
 		self.username.pack(pady=8)
 
 		# Entry of the password
-		ttk.Label(form, text="Contraseña",
+		ttk.Label(self.content_form, text="Contraseña",
 			style="TLabel").place(x=90,y=365)
 
-		password = tk.Frame(form, background="#325678", relief=tk.RAISED)
+		password = tk.Frame(self.content_form, background="#325678", relief=tk.RAISED)
 		password.pack(pady=8)
 		# password.pack_propagate(0)
 		self.password=validate.MaxLengthEntry(password, show="*", maxlength=40,

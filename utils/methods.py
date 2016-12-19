@@ -178,4 +178,4 @@ class Methods(object):
 
 		# messages of errors
 		s.configure('Error.TLabel', foreground='#FFF',
-			background="#FF0000", font=self.microsoft_18, justify="left")
+			background="#FF0000", font=self.microsoft_12, justify="left")
