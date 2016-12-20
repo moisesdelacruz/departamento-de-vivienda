@@ -13,6 +13,7 @@ from views import forms
 from views.detail.status import StatusDetail
 from views.detail.grupo_familiar import Grupo_familiarDetail
 from views.detail import detail_viviendo
+from views.reports.report import ReportsModule
 
 class ViviendoDetail(tk.Frame, Methods):
 	def __init__(self, root, controller, **kwargs):
@@ -58,9 +59,11 @@ class ViviendoDetail(tk.Frame, Methods):
 		# Title of window
 		self.controller.parent.title(self.viviendo.get('full_name'))
 
-		# query to database
+		# query to database > family group
 		self.group_family = self.db.family.list(
 			viviendo_id=self.viviendo.get('id'))
+
+
 		
 		# render
 		self.render()
@@ -84,6 +87,11 @@ class ViviendoDetail(tk.Frame, Methods):
 			"discapacity_desc": viviendo[0][12],
 			"created_at": viviendo[0][13]
 		})
+
+
+	def report_family(self):
+		report=ReportsModule()
+		report.family_group(self.viviendo)
 
 
 	# ---- view instance ----
@@ -173,10 +181,13 @@ class ViviendoDetail(tk.Frame, Methods):
 			font="Helvetica 14 normal", fg="#2E2E2E", bd=0)
 		btn_detail=tk.Button(viviendo, text="Ver", command=self.viviendo_detail,
 			font="Helvetica 14 normal", fg="#2E2E2E", bd=0)
+		btn_report=tk.Button(viviendo, text="Reporte",
+			font="Helvetica 14 normal", fg="#2E2E2E", bd=0)
 
 		if self.controller.permission():
 			btn.pack(anchor=tk.NE)
 			btn_detail.pack(anchor=tk.E)
+			btn_report.pack(anchor=tk.E)
 
 		# CI
 		tk.Label(viviendo, text=self.viviendo['ci'],
@@ -201,12 +212,15 @@ class ViviendoDetail(tk.Frame, Methods):
 		# Actions
 		btn=tk.Button(family, text="Agregar", command=self.family,
 			font="Helvetica 14 normal", fg="#2E2E2E", bd=0)
-		btn2=tk.Button(family, text="Lista", command=self.grupo_familiar,
+		btn_list=tk.Button(family, text="Lista", command=self.grupo_familiar,
+			font="Helvetica 14 normal", fg="#2E2E2E", bd=0)
+		btn_report=tk.Button(family, text="Reporte", command=self.report_family,
 			font="Helvetica 14 normal", fg="#2E2E2E", bd=0)
 
 		if self.controller.permission():
 			btn.pack(anchor=tk.NE)
-		btn2.pack(anchor=tk.E)
+		btn_list.pack(anchor=tk.E)
+		btn_report.pack(anchor=tk.E)
 
 		# length
 		tk.Label(family, text=self.length,
