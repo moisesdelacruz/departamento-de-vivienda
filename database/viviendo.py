@@ -14,7 +14,7 @@ class Viviendo(object):
 			sex VARCHAR(45),
 			estado_civil VARCHAR(45),
 			work BOOLEAN DEFAULT FALSE,
-			entry DECIMAL(10,4),
+			entry DECIMAL,
 			postulation VARCHAR(45),
 			discapacity BOOLEAN DEFAULT FALSE,
 			discapacity_desc TEXT,
