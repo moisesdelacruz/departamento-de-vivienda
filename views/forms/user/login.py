@@ -55,7 +55,7 @@ class LoginForm(tk.Frame, Methods):
 		div.pack_propagate(0)
 
 		self.content_form = ttk.Frame(div, width=650, style='Kim.TFrame')
-		self.content_form.bind_all("<Return>", (lambda event: self.login()))
+		# self.content_form.bind_class("<Return>", (lambda event: self.login()))
 		self.content_form.pack(expand=True, fill=tk.Y)
 		self.content_form.pack_propagate(0)
 

@@ -87,7 +87,7 @@ class SearchForm(tk.Frame, Methods):
 			style="White.TEntry", width=51, font="Helvetica 13",
 			justify="left")
 		self.search.focus()
-		self.search.bind_all("<Return>", (lambda event: self.searchdb()))
+		# self.search.bind_all("<Return>", (lambda event: self.searchdb()))
 		self.search.pack(side=tk.LEFT)
 		# btn -----------
 		img_send = self.getImage("views/images/send.png")
