@@ -94,8 +94,8 @@ class Methods(object):
 			family="Microsoft New Tai Lue",size=18,weight="normal")
 		self.microsoft_22 = tkFont.Font(
 			family="Microsoft New Tai Lue",size=22,weight="normal")
-		self.microsoft_62 = tkFont.Font(
-			family="Microsoft Yi Baiti",size=62)
+		self.hour_62 = tkFont.Font(
+			family="Raleway",size=62, weight="normal")
 
 		# styles forms
 		s = ttk.Style()
@@ -175,7 +175,7 @@ class Methods(object):
 
 		# hour
 		s.configure('Hour.TLabel', foreground='#000',
-			background="#FFF", font=self.microsoft_62, justify="left")
+			background="#FFF", font=self.hour_62, justify="left")
 
 		# messages of errors
 		s.configure('Error.TLabel', foreground='#FFF',
