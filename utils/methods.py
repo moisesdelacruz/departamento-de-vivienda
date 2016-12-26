@@ -95,7 +95,7 @@ class Methods(object):
 		self.microsoft_22 = tkFont.Font(
 			family="Microsoft New Tai Lue",size=22,weight="normal")
 		self.hour_62 = tkFont.Font(
-			family="Raleway",size=62, weight="normal")
+			family="Raleway Thin",size=62)
 
 		# styles forms
 		s = ttk.Style()
