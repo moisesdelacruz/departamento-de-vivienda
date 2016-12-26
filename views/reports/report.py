@@ -18,6 +18,28 @@ class ReportsModule(Methods):
 		# database instances
 		self.db = FamilyModel()
 
+	def viviendo(self, model):
+		header = ImageReader("views/images/header.jpg")
+		c = canvas.Canvas("viviendo.pdf", pagesize=A4)
+		# Header
+		c.drawImage(header, 10, 760)
+
+		# Viviendo
+		c.setFont('Helvetica-Bold', 15)
+		c.drawString(430, 650, 'Viviendo')
+		c.line(427, 647, 495, 647)
+		c.setFont('Helvetica', 13)
+		c.drawString(420, 635, model.get('full_name'))
+
+		# Title
+		c.setFont('Helvetica-Bold', 18)
+		c.drawString(240, 550, 'Viviendo')
+		c.line(238, 545, 355, 545)
+
+		# save
+		c.showPage()
+		c.save()
+
 	def family_group(self, model):
 		header = ImageReader("views/images/header.jpg")
 		c = canvas.Canvas("grupo_familiar.pdf", pagesize=A4)

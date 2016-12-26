@@ -63,8 +63,6 @@ class ViviendoDetail(tk.Frame, Methods):
 		self.group_family = self.db.family.list(
 			viviendo_id=self.viviendo.get('id'))
 
-
-		
 		# render
 		self.render()
 
@@ -87,6 +85,12 @@ class ViviendoDetail(tk.Frame, Methods):
 			"discapacity_desc": viviendo[0][12],
 			"created_at": viviendo[0][13]
 		})
+
+
+	# ---- reports methods ----
+	def report_viviendo(self):
+		report=ReportsModule()
+		report.viviendo(self.viviendo)
 
 
 	def report_family(self):
@@ -181,7 +185,7 @@ class ViviendoDetail(tk.Frame, Methods):
 			font="Helvetica 14 normal", fg="#2E2E2E", bd=0)
 		btn_detail=tk.Button(viviendo, text="Ver", command=self.viviendo_detail,
 			font="Helvetica 14 normal", fg="#2E2E2E", bd=0)
-		btn_report=tk.Button(viviendo, text="Reporte",
+		btn_report=tk.Button(viviendo, text="Reporte", command=self.report_viviendo,
 			font="Helvetica 14 normal", fg="#2E2E2E", bd=0)
 
 		if self.controller.permission():
