@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+import os
+
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4, cm
@@ -14,13 +16,20 @@ from utils.methods import Methods
 from database.main import FamilyModel
 
 class ReportsModule(Methods):
-	def __init__(self):
+	def __init__(self, viviendo):
 		# database instances
+		self.viviendo = viviendo
+		# instance from database
 		self.db = FamilyModel()
+		# path to route
+		self.path='reportes/'+str(self.viviendo.get('ci'))
+		if not os.path.exists(self.path):
+			os.makedirs(self.path)
 
-	def viviendo(self, model):
+	def _viviendo(self):
+		# view PDF
 		header = ImageReader("views/images/header.jpg")
-		c = canvas.Canvas("viviendo.pdf", pagesize=A4)
+		c = canvas.Canvas(self.path+"/viviendo.pdf", pagesize=A4)
 		# Header
 		c.drawImage(header, 10, 760)
 
@@ -29,7 +38,7 @@ class ReportsModule(Methods):
 		c.drawString(430, 650, 'Viviendo')
 		c.line(427, 647, 495, 647)
 		c.setFont('Helvetica', 13)
-		c.drawString(420, 635, model.get('full_name'))
+		c.drawString(420, 635, self.viviendo.get('full_name'))
 
 		# Title
 		c.setFont('Helvetica-Bold', 18)
@@ -39,10 +48,13 @@ class ReportsModule(Methods):
 		# save
 		c.showPage()
 		c.save()
+		# open folder
+		self.open_folder('reportes\\%s' %(self.viviendo.get('ci')))
 
-	def family_group(self, model):
+	def _family_group(self):
+		# view PDF
 		header = ImageReader("views/images/header.jpg")
-		c = canvas.Canvas("grupo_familiar.pdf", pagesize=A4)
+		c = canvas.Canvas(self.path+"/grupo_familiar.pdf", pagesize=A4)
 		# Header
 		c.drawImage(header, 10, 760)
 
@@ -51,7 +63,7 @@ class ReportsModule(Methods):
 		c.drawString(430, 650, 'Viviendo')
 		c.line(427, 647, 495, 647)
 		c.setFont('Helvetica', 13)
-		c.drawString(420, 635, model.get('full_name'))
+		c.drawString(420, 635, self.viviendo.get('full_name'))
 
 		# Title
 		c.setFont('Helvetica-Bold', 18)
@@ -83,7 +95,7 @@ class ReportsModule(Methods):
 		high = 520
 		# query to database
 		query = self.db.list(
-			viviendo_id=model.get('id'))
+			viviendo_id=self.viviendo.get('id'))
 		# iterator and format
 		for (i, item) in enumerate(query):
 			format_item = self._format_family(item)
@@ -107,3 +119,5 @@ class ReportsModule(Methods):
 		# save
 		c.showPage()
 		c.save()
+		# open folder
+		self.open_folder('reportes\\%s' %(self.viviendo.get('ci')))

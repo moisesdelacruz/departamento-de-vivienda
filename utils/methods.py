@@ -1,4 +1,7 @@
 import os
+import platform
+import subprocess
+
 import Tkinter as tk
 import ttk
 import tkFont
@@ -46,6 +49,14 @@ class Methods(object):
 
 	def alert(self, title='Alert', message=''):
 		tkMessageBox.showwarning(title=title, message=message)
+
+	def open_folder(self, path):
+	    if platform.system() == "Windows":
+	        subprocess.Popen(r'explorer "%s"' %(path))
+	    elif platform.system() == "Darwin":
+	        subprocess.Popen(["open", path])
+	    else:
+	        subprocess.Popen(["xdg-open", path])
 
 	def _format_user(self, data):
 		return ({
