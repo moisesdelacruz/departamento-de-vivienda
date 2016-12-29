@@ -62,8 +62,8 @@ class ReportsModule(Methods):
 		c.drawString(132, 560, '25000.00')
 
 		# Grupo Familiar
-		c.setFont('Helvetica-Bold', 14)
-		c.drawString(230, 500, 'Grupo Familiar')
+		c.setFont('Helvetica-Bold', 12)
+		c.drawString(240, 495, 'Grupo Familiar')
 
 		# box gray
 		black30transparent = colors.Color( 0, 0, 0, alpha=0.1)
