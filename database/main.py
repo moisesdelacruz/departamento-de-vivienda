@@ -5,8 +5,8 @@ from family import Family
 from user import User
 from tracing import Tracing
 
-connection = psycopg2.connect(database='viviendo_db',user='postgres',
-    password='demilovato', host='localhost')
+connection = psycopg2.connect(database='viviendo_db',user='moises',
+    password='christinagrimmie', host='localhost')
 
 models = ['Viviendo', 'Solicitud', 'Family', 'User', 'Tracing']
 

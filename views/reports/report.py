@@ -49,7 +49,7 @@ class ReportsModule(Methods):
 		c.showPage()
 		c.save()
 		# open folder
-		self.open_folder('reportes\\%s' %(self.viviendo.get('ci')))
+		self.open_folder(['reportes', str(self.viviendo.get('ci'))])
 
 	def _family_group(self):
 		# view PDF
@@ -82,7 +82,7 @@ class ReportsModule(Methods):
 		full_name = Paragraph('''Nomber Completo''',styleBH)
 		birthday = Paragraph('''Fecha de Nacimiento''',styleBH)
 		sex = Paragraph('''Sexo''',styleBH)
-		
+
 		# line list
 		data =[]
 		data.append([number, ci, full_name, birthday, sex])
@@ -120,4 +120,4 @@ class ReportsModule(Methods):
 		c.showPage()
 		c.save()
 		# open folder
-		self.open_folder('reportes\\%s' %(self.viviendo.get('ci')))
+		self.open_folder(['reportes', str(self.viviendo.get('ci'))])

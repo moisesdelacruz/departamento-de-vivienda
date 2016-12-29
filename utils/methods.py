@@ -50,13 +50,20 @@ class Methods(object):
 	def alert(self, title='Alert', message=''):
 		tkMessageBox.showwarning(title=title, message=message)
 
-	def open_folder(self, path):
-	    if platform.system() == "Windows":
-	        subprocess.Popen(r'explorer "%s"' %(path))
-	    elif platform.system() == "Darwin":
-	        subprocess.Popen(["open", path])
-	    else:
-	        subprocess.Popen(["xdg-open", path])
+	def open_folder(self, arr):
+		path = ''
+		for item in arr:
+			path+=item+'/'
+
+		if platform.system() == "Windows":
+			path = ''
+			for item in arr:
+				path+=item+'\\'
+			subprocess.Popen(r'explorer "%s"' %(path))
+		elif platform.system() == "Darwin":
+			subprocess.Popen(["open", path])
+		else:
+			subprocess.Popen(["xdg-open", path])
 
 	def _format_user(self, data):
 		return ({
