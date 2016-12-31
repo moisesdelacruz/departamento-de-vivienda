@@ -48,7 +48,7 @@ class RegisterForm(tk.Frame, Methods):
 			# title of the window
 			self.controller.parent.title('Editar Mi Perfil')
 			# instance of dates
-			self.data = self.controller.content_session
+			self.data = self.controller.get_session()
 			self.passwd = self.decrypt(self.data.get('password'))
 		# action unknown
 		else:
@@ -75,30 +75,32 @@ class RegisterForm(tk.Frame, Methods):
 			else:
 				data['user_id'] = self.data.get('user_id')
 				self.db.update(data)
+				self.clean(self.root)
 				if self.action == 'edit_me':
 					# if action is edit my profile, then update the session
 					self.controller.update_session()
 					self.data = self.controller.get_session()
-				self.clean(self.root)
-				user.profile.ProfileView(self.root, self.controller, user=self.data)
+					user.profile.ProfileView(self.root, self.controller)
+				else:
+					user.users_list.UsersListDetail(self.root, self.controller)
 
 		else:
 			self.set_error('Contraseñas no coinciden')
 
 
-	def _format(self):
-		return ({
-			"username": self.username.get(),
-			"first_name": self.first_name.get(),
-			"last_name": self.last_name.get(),
-			"cedula": int(self.ci.get()),
-			"permission": self.permissions.get(),
-			"is_superuser": bool(self.is_superuser.get())
-		})
+	# def _format(self):
+	# 	return ({
+	# 		"username": self.username.get(),
+	# 		"first_name": self.first_name.get(),
+	# 		"last_name": self.last_name.get(),
+	# 		"cedula": int(self.ci.get()),
+	# 		"permission": self.permissions.get(),
+	# 		"is_superuser": bool(self.is_superuser.get())
+	# 	})
 
 
-	def data_state(self):
-		self.data = self._format()
+	# def data_state(self):
+	# 	self.data = self._format()
 
 
 	def validate(self):
@@ -117,7 +119,6 @@ class RegisterForm(tk.Frame, Methods):
 		if action == 'next' and self.validate():
 			self.form_actually += 1
 			self.render()
-			self.data_state()
 		elif action == 'back' and self.validate():
 			self.form_actually -= 1
 			self.render()
