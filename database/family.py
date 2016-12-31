@@ -11,9 +11,14 @@ class Family(object):
 			first_name VARCHAR(45),
 			last_name VARCHAR(45),
 			birthday DATE,
+			sex VARCHAR(45),
+			estado_civil VARCHAR(45),
+			instructional_level VARCHAR(45),
 			work BOOLEAN DEFAULT FALSE,
-			birth_state VARCHAR(45),
+			occupation VARCHAR(45),
+			institution VARCHAR(45),
 			entry DECIMAL,
+			birth_state VARCHAR(45),
 			discapacity BOOLEAN DEFAULT FALSE,
 			discapacity_desc TEXT,
 			old_age BOOLEAN DEFAULT FALSE,
@@ -24,11 +29,13 @@ class Family(object):
 
 	def create(self, request, *args, **kwargs):
 		self.cursor.execute("""INSERT INTO family (viviendo_id, ci, first_name,
-			last_name, birthday, work, birth_state, entry, discapacity,
+			last_name, birthday, sex, estado_civil, instructional_level, work,
+			occupation, institution, entry, birth_state, discapacity,
 			discapacity_desc, old_age)
 			VALUES (%(viviendo_id)s, %(ci)s, %(first_name)s, %(last_name)s,
-			%(birthday)s, %(work)s, %(birth_state)s, %(entry)s, %(discapacity)s,
-			%(discapacity_desc)s, %(old_age)s)""", request)
+			%(birthday)s, %(sex)s, %(estado_civil)s, %(instructional_level)s,
+			%(work)s, %(occupation)s, %(institution)s, %(entry)s, %(birth_state)s,
+			%(discapacity)s, %(discapacity_desc)s, %(old_age)s)""", request)
 		self.conn.commit()
 		return True
 
@@ -48,9 +55,14 @@ class Family(object):
 			first_name=%(first_name)s,
 			last_name=%(last_name)s,
 			birthday=%(birthday)s,
+			sex=%(sex)s,
+			estado_civil=%(estado_civil)s,
+			instructional_level=%(instructional_level)s,
 			work=%(work)s,
-			birth_state=%(birth_state)s,
+			occupation=%(occupation)s,
+			institution=%(institution)s,
 			entry=%(entry)s,
+			birth_state=%(birth_state)s,
 			discapacity=%(discapacity)s,
 			discapacity_desc=%(discapacity_desc)s,
 			old_age=%(old_age)s

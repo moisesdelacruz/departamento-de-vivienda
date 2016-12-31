@@ -38,6 +38,10 @@ class Methods(object):
 	def select_sex(self):
 		return ('Hombre', 'Mujer')
 
+	def select_instruccion_level(self):
+		return ('Basica','Bachiller','Tecnico Medio','Tecnico Superior',
+			'Universitario(a)','Post Grado')
+
 	def selectPermissions(self):
 		return ('Lectura', 'Lectura y Escritura')
 
@@ -88,12 +92,40 @@ class Methods(object):
 			"last_name": data[4],
 			"full_name": ' '.join([data[3], data[4]]),
 			"birthday": data[5],
-			"work": bool(data[6]),
-			"birth_state": data[7],
-			"entry": float(data[8]),
-			"discapacity": bool(data[9]),
-			"discapacity_desc": str(data[10]),
-			"old_age": bool(data[11])
+			"sex": data[6],
+			"estado_civil": data[7],
+			"instructional_level": data[8],
+			"work": bool(data[9]),
+			"occupation": data[10],
+			"institution": data[11],
+			"entry": float(data[12]),
+			"birth_state": data[13],
+			"discapacity": bool(data[14]),
+			"discapacity_desc": str(data[15]),
+			"old_age": bool(data[16]),
+			"created_at": data[17]
+		})
+
+	def _format_viviendo(self, data):
+		return ({
+			"id": data[0],
+			"ci": data[1],
+			"full_name": ' '.join([data[2], data[3]]),
+			"first_name": data[2],
+			"last_name": data[3],
+			"birthday": data[4],
+			"sex": data[5],
+			"estado_civil": data[6],
+			"instructional_level": data[7],
+			"work": data[8],
+			"occupation": data[9],
+			"institution": data[10],
+			"entry": data[11],
+			"direction": data[12],
+			"postulation": data[13],
+			"discapacity": data[14],
+			"discapacity_desc": data[15],
+			"created_at": data[16]
 		})
 
 	def style(self):

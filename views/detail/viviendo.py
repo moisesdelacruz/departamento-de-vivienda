@@ -46,7 +46,7 @@ class ViviendoDetail(tk.Frame, Methods):
 				'"viviendo_id" or "ci" attribute or viviendo object.')
 
 		# format data
-		self.viviendo = self.format_data(viviendo)
+		self.viviendo = self._format_viviendo(viviendo[0])
 
 		# Detect Sex for styles change of the view
 		if self.viviendo.get('sex') == "Hombre":
@@ -65,27 +65,6 @@ class ViviendoDetail(tk.Frame, Methods):
 
 		# render
 		self.render()
-
-
-	def format_data(self, viviendo):
-		return ({
-			"id": viviendo[0][0],
-			"ci": viviendo[0][1],
-			"full_name": ' '.join([viviendo[0][2], viviendo[0][3]]),
-			"first_name": viviendo[0][2],
-			"last_name": viviendo[0][3],
-			"direction": viviendo[0][4],
-			"birthday": viviendo[0][5],
-			"sex": viviendo[0][6],
-			"estado_civil": viviendo[0][7],
-			"work": viviendo[0][8],
-			"entry": viviendo[0][9],
-			"postulation": viviendo[0][10],
-			"discapacity": viviendo[0][11],
-			"discapacity_desc": viviendo[0][12],
-			"created_at": viviendo[0][13]
-		})
-
 
 	# ---- reports methods ----
 	def report_viviendo(self):

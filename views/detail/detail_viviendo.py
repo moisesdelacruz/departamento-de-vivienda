@@ -70,27 +70,35 @@ class ViviendoDetailView(tk.Frame, Methods):
 		# ---- info ----
 		left = ttk.Frame(view, style='White.TFrame')
 		left.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
-
-
-		info = ["Cedula de Identidad:", "Nombre:", "Apellido:",
-		"Fecha de Nacimiento:", "Sexo:", "Estado Civil:", "Postulacion:",
-		"Trabaja:", "Dinero:", "Discapacidad:", "Descripcion:", "Dirección:"]
-
-		for item in info:
-			ttk.Label(left, text=item, style='Black12_bold.TLabel'
-				).pack(anchor=tk.E, padx=2, pady=8)
-
 		# ---- data viviendo ----
 		right = ttk.Frame(view, style='White.TFrame')
 		right.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 
-		data = [self.viviendo.get('ci'), self.viviendo.get('first_name'),
-			self.viviendo.get('last_name'), self.viviendo.get('birthday'),
-			self.viviendo.get('sex'), self.viviendo.get('estado_civil'),
-			self.viviendo.get('postulation'), bool(int(self.viviendo.get('work'))),
-			self.viviendo.get('entry'), self.viviendo.get('discapacity'),
-			self.viviendo.get('discapacity_desc') ,self.viviendo.get('direction')]
+		labels = ['Cedula de Identidad:','Nombre:','Apellido:',
+			'Fecha de Nacimiento:','Sexo:','Estado Civil:',
+			'Niv. Instruccional:','Trabaja:','Occupacion:',
+			'Institucion:','Ingresos:','Direccion:','Postulacion:',
+			'Discapacidad:','Desc. Discapacidad:']
 
-		for item in data:
+		data = [self.viviendo.get('ci'),
+			self.viviendo.get('first_name'),
+			self.viviendo.get('last_name'),
+			self.viviendo.get('birthday'),
+			self.viviendo.get('sex'),
+			self.viviendo.get('estado_civil'),
+			self.viviendo.get('instructional_level'),
+			str(self.viviendo.get('work')),
+			self.viviendo.get('occupation'),
+			self.viviendo.get('institution'),
+			self.viviendo.get('entry'),
+			self.viviendo.get('direction'),
+			self.viviendo.get('postulation'),
+			str(self.viviendo.get('discapacity')),
+			self.viviendo.get('discapacity_desc')]
+
+		for (x, item) in enumerate(data):
+			ttk.Label(left, text=labels[x], style='Black12_bold.TLabel'
+				).pack(anchor=tk.E, padx=2, pady=8)
+
 			ttk.Label(right, text=item, style='Black12.TLabel'
 				).pack(anchor=tk.W, padx=2, pady=8)

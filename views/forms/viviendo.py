@@ -40,12 +40,15 @@ class ViviendoForm(tk.Frame, Methods):
 			"ci": int(self.ci.get()),
 			"first_name": self.first_name.get(),
 			"last_name": self.last_name.get(),
-			"direction": str(self.direction.get('0.0',tk.END)),
 			"birthday": self.birthday.get(),
 			"sex": self.sex.get(),
 			"estado_civil": self.estado_civil.get(),
+			"instructional_level": self.instructional_level.get(),
 			"work": bool(self.work.get()),
+			"occupation": self.occupation.get(),
+			"institution": self.institution.get(),
 			"entry": float(self.value),
+			"direction": str(self.new_direction),
 			"postulation": self.postulation.get(),
 			"discapacity": bool(self.discapacity.get()),
 			"discapacity_desc": str(self.discapacity_desc)
@@ -214,6 +217,8 @@ class ViviendoForm(tk.Frame, Methods):
 			self.viviendo.get('direction') if self.viviendo else '')
 		self.direction.pack(pady=8)
 
+		self.new_direction = self.direction.get('0.0', tk.INSERT)
+
 		# Content BOOLEANS
 		booleans = ttk.Frame(form, style='White.TFrame')
 		booleans.pack(pady=2)
@@ -233,6 +238,52 @@ class ViviendoForm(tk.Frame, Methods):
 			onvalue=True, offvalue=False,
 			command=lambda : self.textDialog(self.discapacity_desc)
 			).pack(side=tk.LEFT, padx=5, pady=8)
+
+		# Buttons of actions
+		buttons = ttk.Frame(form, style='White.TFrame')
+		buttons.pack(pady=8)
+		# buttons.pack_propagate(0)
+		# Guardar
+		ttk.Button(buttons, command=lambda : self.change_form('back'),
+			text="Atras").pack(side=tk.LEFT, padx=8)
+
+		# Cancelar
+		ttk.Button(buttons, command=lambda : self.change_form('next'),
+			text="Siguiente").pack(side=tk.LEFT, padx=8)
+
+
+	def form3(self):
+		form = self.content_form
+
+		# instructional_level
+		ttk.Label(form, text="Niv. Instruccional:",
+			style='Black.TLabel').place(x=0,y=130)
+		self.instructional_level = tk.StringVar(form,
+			value=self.viviendo.get('instructional_level') if self.viviendo else '')
+		fieldNiv_Inst = ttk.Combobox(form, state='readonly',
+		textvariable=self.instructional_level,
+			font="Helvetica 13", justify="left",background="#1E6FBA", width=25)
+		fieldNiv_Inst['values'] = self.select_instruccion_level()
+		for (x, item) in enumerate(fieldNiv_Inst['values']):
+			if item == self.instructional_level.get():
+				fieldNiv_Inst.current(int(x))
+		fieldNiv_Inst.pack(pady=8)
+
+		# Entry Text For occupation
+		ttk.Label(form, text="Occupacion:",
+			style='Black.TLabel').place(x=0,y=185)
+		self.occupation=validate.MaxLengthEntry(form, style='White.TEntry',
+			value=self.viviendo.get('occupation') if self.viviendo else '',
+			maxlength=40, width=27, font="Helvetica 13",justify="left")
+		self.occupation.pack(pady=8)
+
+		# Entry Text For institution
+		ttk.Label(form, text="Institucion:",
+			style='Black.TLabel').place(x=0,y=235)
+		self.institution=validate.MaxLengthEntry(form, style='White.TEntry',
+			value=self.viviendo.get('institution') if self.viviendo else '',
+			maxlength=40, width=27, font="Helvetica 13",justify="left")
+		self.institution.pack(pady=8)
 
 		# Buttons of actions
 		buttons = ttk.Frame(form, style='White.TFrame')

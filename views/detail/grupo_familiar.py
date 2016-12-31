@@ -26,11 +26,11 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 	def render(self):
 		# content list
 		# boxs------
-		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
-		div.pack(expand=True, fill=tk.X)
-		div.pack_propagate(0)
+		self.div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
+		self.div.pack(expand=True, fill=tk.X)
+		self.div.pack_propagate(0)
 
-		self._form = ttk.Frame(div, width=650, padding=20, style='White.TFrame')
+		self._form = ttk.Frame(self.div, width=650, padding=20, style='White.TFrame')
 		self._form.pack(expand=True, fill=tk.Y)
 		self._form.pack_propagate(0)
 
@@ -74,8 +74,8 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 			if tkMessageBox.askyesno(title='Advertencia',
 				message='¿Seguro(a) que desea Eliminar?'):
 				self.db.delete(model_id)
-				self.parent.destroy()
-				self.__init__(self, self.root, self.controller, self.viviendo_id)
+				self.div.destroy()
+				self.__init__(self.root, self.controller, self.viviendo_id)
 		else: self.controller.denegate()
 
 

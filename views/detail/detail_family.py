@@ -64,31 +64,41 @@ class FamilyDetailView(tk.Frame, Methods):
 		ttk.Button(content_image, text="Editar",
 			command=self.edit).pack(pady=10)
 
-		# ---- info ----
+		# ---- Labels ----
 		left = ttk.Frame(view, style='White.TFrame')
 		left.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
-
-
-		info = ["Cedula de Identidad:", "Nombre:", "Apellido:",
-		"Fecha de Nacimiento:", "Estado de Nacimiento:",
-		"Tercera Edad:", "Trabaja:", "Dinero:",
-		"Discapacidad:", "Descripcion:"]
-
-		for item in info:
-			ttk.Label(left, text=item, style='Black12_bold.TLabel'
-				).pack(anchor=tk.E, padx=2, pady=8)
-
-		# ---- data family ----
+		# ---- data ----
 		right = ttk.Frame(view, style='White.TFrame')
 		right.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 
-		data = [self.family.get('ci'), self.family.get('first_name'),
-			self.family.get('last_name'), self.family.get('birthday'),
-			self.family.get('birth_state'), self.family.get('old_age'),
-			bool(int(self.family.get('work'))), self.family.get('entry'),
-			self.family.get('discapacity'),
-			self.family.get('discapacity_desc')]
+		labels = ['Cedula de Identidad:','Nombre:','Apellido:',
+			'Fecha de Nacimiento:','Sexo:','Estado Civil:','Niv. Instruccional:',
+			'Trabaja:','Occupacion:','Institucion:','Ingresos:',
+			'Estado de Nacimiento:','Discapacidad:',
+			'Desc. Descapacidad:','Tercera Edad:']
 
-		for item in data:
+
+		data = [self.family.get('ci'),
+			self.family.get('first_name'),
+			self.family.get('last_name'),
+			self.family.get('birthday'),
+			self.family.get('sex'),
+			self.family.get('estado_civil'),
+			self.family.get('instructional_level'),
+			str(self.family.get('work')),
+			self.family.get('occupation'),
+			self.family.get('institution'),
+			self.family.get('entry'),
+			self.family.get('birth_state'),
+			str(self.family.get('discapacity')),
+			self.family.get('discapacity_desc'),
+			str(self.family.get('old_age'))]
+
+
+		for (x, item) in enumerate(data):
+			# labels
+			ttk.Label(left, text=labels[x], style='Black12_bold.TLabel'
+				).pack(anchor=tk.E, padx=2, pady=8)
+			# data
 			ttk.Label(right, text=item, style='Black12.TLabel'
 				).pack(anchor=tk.W, padx=2, pady=8)
