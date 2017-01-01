@@ -41,7 +41,9 @@ class ProfileView(tk.Frame, Methods):
 		view.pack_propagate(0)
 
 		ttk.Label(view, text=' '.join(['Bienvenido',
-			self.account.get('full_name')]),
+			self.account.get('full_name')
+				if self.account.get('full_name') != ' '
+				else self.account.get('username')]),
 			style="Title.TLabel").pack(pady=20)
 		# ---- button edit ----
 
@@ -61,23 +63,21 @@ class ProfileView(tk.Frame, Methods):
 		# ---- info ----
 		left = ttk.Frame(view, style='Kim.TFrame')
 		left.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
-
-
-		info = ["Nombre de Usuario:", "Cedula de Identidad:",
-			"Nombre:", "Apellido:", "Permisos:", "Superusuario:"]
-
-		for item in info:
-			ttk.Label(left, text=item, style='Text_bold.TLabel'
-				).pack(anchor=tk.E, padx=2, pady=8)
-
 		# ---- data account ----
 		right = ttk.Frame(view, style='Kim.TFrame')
 		right.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 
+
+		fields = ["Nombre de Usuario:", "Cedula de Identidad:",
+			"Nombre:", "Apellido:", "Permisos:", "Superusuario:"]
+
 		data = [self.account.get('username'), self.account.get('cedula'),
 			self.account.get('first_name'), self.account.get('last_name'),
-			self.account.get('permission'), bool(self.account.get('is_superuser'))]
+			self.account.get('permission'), str(self.account.get('is_superuser'))]
 
-		for item in data:
+		for (x, item) in enumerate(data):
+			ttk.Label(left, text=fields[x], style='Text_bold.TLabel'
+				).pack(anchor=tk.E, padx=2, pady=8)
+
 			ttk.Label(right, text=item, style='Text.TLabel'
 				).pack(anchor=tk.W, padx=2, pady=8)
