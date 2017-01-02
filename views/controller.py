@@ -202,7 +202,8 @@ class Toolbar(tk.Frame, Methods):
         self.filemenu.add_command(label='Buscar Viviendo',
             command=self.formSearch, accelerator="Ctrl+B")
         self.filemenu.add_separator()
-        self.filemenu.add_command(label='Salir', command=self.exit)
+        self.filemenu.add_command(label='Salir',
+            command=self.exit, accelerator="Alt+F4")
 
         # Edit
         self.editmenu = tk.Menu(self.menubar, tearoff=0)
