@@ -9,6 +9,7 @@ from utils.methods import Methods
 from database.main import FamilyModel
 from views import forms
 from views.detail.detail_family import FamilyDetailView
+from views.reports.report import ReportsModule
 
 class Grupo_familiarDetail(tk.Frame, Methods):
 	def __init__(self, root, controller, viviendo_id, **kwargs):
@@ -68,6 +69,9 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 		ttk.Button(root, text="Editar", style='Grey12.TLabel',
 			command=lambda : self.edit(model)).pack(side=tk.RIGHT, padx=4)
 
+		ttk.Button(root, text="Reporte", style='Grey12.TLabel',
+			command=lambda : self.report(model)).pack(side=tk.RIGHT, padx=4)
+
 
 	def delete(self, model_id):
 		if self.controller.permission():
@@ -85,6 +89,11 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 			forms.grupo_familiar.Grupo_familiarForm(
 				self.root, self.controller, viviendo_id=self.viviendo_id,
 				action='edit', data=model)
+
+
+	def report(self, model):
+		report=ReportsModule(viviendo_id=self.viviendo_id)
+		report._family(model)
 
 
 	def see(self, model):

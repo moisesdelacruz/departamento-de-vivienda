@@ -28,6 +28,7 @@ class ViviendoForm(tk.Frame, Methods):
 		self.viviendo = {}
 		if kwargs.get('viviendo'):
 			self.viviendo = kwargs.get('viviendo')
+			self.viviendo_id = self.viviendo.get('id')
 			# change title of window
 			self.controller.parent.title(self.viviendo.get('full_name'))
 
@@ -36,32 +37,16 @@ class ViviendoForm(tk.Frame, Methods):
 
 
 	def save(self):
-		data = ({
-			"ci": int(self.ci.get()),
-			"first_name": self.first_name.get(),
-			"last_name": self.last_name.get(),
-			"birthday": self.birthday.get(),
-			"sex": self.sex.get(),
-			"estado_civil": self.estado_civil.get(),
-			"instructional_level": self.instructional_level.get(),
-			"work": bool(self.work.get()),
-			"occupation": self.occupation.get(),
-			"institution": self.institution.get(),
-			"entry": float(self.value),
-			"direction": str(self.new_direction),
-			"postulation": self.postulation.get(),
-			"discapacity": bool(self.discapacity.get()),
-			"discapacity_desc": str(self.discapacity_desc)
-		})
+		data = self._format()
 
 		if self.viviendo:
-			data['id'] = self.viviendo.get('id')
+			data['id'] = self.viviendo_id
 			self.db.update(data)
 			# Content main.
 			parent = self.root._nametowidget(self.root.winfo_parent())
 			self.clean(parent)
 			ViviendoDetail(parent, self.controller,
-				viviendo_id=self.viviendo.get('id'))
+				viviendo_id=self.viviendo_id)
 		else:
 			self.db.create(data)
 			# View Vivivendo Detail
@@ -70,14 +55,44 @@ class ViviendoForm(tk.Frame, Methods):
 				ci=data.get('ci'))
 			view.pack()
 
+
+	def _format(self):
+		fields = ['ci', 'first_name', 'last_name', 'birthday', 'sex',
+			'estado_civil', 'instructional_level', 'work', 'occupation',
+			'institution', 'entry', 'direction', 'postulation', 'discapacity',
+			'discapacity_desc']
+
+		data = ({})
+		for field in fields:
+			if field != 'entry' and field != 'discapacity_desc':
+				data[field] = eval(
+					'self.'+field+'.get()') if hasattr(
+					self, field) else self.viviendo.get(field)
+			elif field == 'discapacity_desc':
+				data[field] = eval(
+					'self.discapacity_desc') if hasattr(
+					self, field) else self.viviendo.get(field)
+			else:
+				data[field] = eval(
+					'float(self.value)') if hasattr(
+					self, 'value') else self.viviendo.get(field)
+		return data
+
+
+	def state_data(self):
+		self.viviendo = self._format()
+
+
 	def change_form(self, action):
-		self.clean(self.content_form)
 		if action == 'next':
+			self.state_data()
 			self.form_actually += 1
 		elif action == 'back':
+			self.state_data()
 			self.form_actually -= 1
 		elif action == 'render':
 			pass
+		self.clean(self.content_form)
 
 		if hasattr(self, eval("'form%s'" %(str(self.form_actually)))):
 			# Title of the Form
@@ -100,6 +115,12 @@ class ViviendoForm(tk.Frame, Methods):
 		self.clean(self.content_message)
 		ttk.Label(self.content_message,
 			text=err, style='Error.TLabel').pack()
+
+	def save_direction(self, *args):
+		"""
+			Method created for save Direccion before delete form.
+		"""
+		self.direction = self.dir.get('0.0', tk.END)
 
 	def render(self):
 		# boxs------
@@ -209,15 +230,14 @@ class ViviendoForm(tk.Frame, Methods):
 		# Entrada de texto para Direccion
 		ttk.Label(form, text="Dirección:",
 			style='Black.TLabel').place(x=0,y=235)
-		self.direction=tk.Text(form, width=28, height=3, bd=0,
+		self.dir=tk.Text(form, width=28, height=3, bd=0,
 			font="Helvetica 12 normal",bg="white",fg="#6b6a6a",
 			highlightbackground="grey",highlightcolor="#4FC2EB",
 			highlightthickness=1)
-		self.direction.insert(tk.INSERT,
+		self.dir.insert(tk.INSERT,
 			self.viviendo.get('direction') if self.viviendo else '')
-		self.direction.pack(pady=8)
-
-		self.new_direction = self.direction.get('0.0', tk.INSERT)
+		self.dir.pack(pady=8)
+		self.dir.bind('<KeyRelease>', self.save_direction)
 
 		# Content BOOLEANS
 		booleans = ttk.Frame(form, style='White.TFrame')

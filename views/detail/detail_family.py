@@ -6,6 +6,7 @@ import ttk
 from utils.verticalScrolled import VerticalScrolledFrame
 from utils.methods import Methods
 from views import forms
+from views.reports.report import ReportsModule
 
 class FamilyDetailView(tk.Frame, Methods):
 	def __init__(self, root, controller, viviendo_id, **kwargs):
@@ -29,6 +30,10 @@ class FamilyDetailView(tk.Frame, Methods):
 			self.root, self.controller, viviendo_id=self.viviendo_id,
 			action='edit', data=self.family)
 
+	def report(self):
+		report=ReportsModule(viviendo_id=self.viviendo_id)
+		report._family(self.family)
+
 
 	def view(self):
 		# view
@@ -42,7 +47,7 @@ class FamilyDetailView(tk.Frame, Methods):
 		root.pack()
 
 		view = ttk.Frame(root.interior, width=650,
-			height=650, style='White.TFrame')
+			height=700, style='White.TFrame')
 		view.pack(expand=True, fill=tk.Y)
 		view.pack_propagate(0)
 
@@ -60,9 +65,12 @@ class FamilyDetailView(tk.Frame, Methods):
 			image=img, background="#FFF")
 		image_label.image = img
 		image_label.pack(pady=10)
-
+		# ----- Buttons -----
 		ttk.Button(content_image, text="Editar",
 			command=self.edit).pack(pady=10)
+
+		ttk.Button(content_image, text="Reporte",
+			command=self.report).pack(pady=10)
 
 		# ---- Labels ----
 		left = ttk.Frame(view, style='White.TFrame')

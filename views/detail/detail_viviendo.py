@@ -44,7 +44,7 @@ class ViviendoDetailView(tk.Frame, Methods):
 		root.pack()
 
 		view = ttk.Frame(root.interior, width=650,
-			height=650, style='White.TFrame')
+			height=750, style='White.TFrame')
 		view.pack(expand=True, fill=tk.Y)
 		view.pack_propagate(0)
 

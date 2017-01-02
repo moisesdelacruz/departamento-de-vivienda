@@ -68,12 +68,12 @@ class ViviendoDetail(tk.Frame, Methods):
 
 	# ---- reports methods ----
 	def report_viviendo(self):
-		report=ReportsModule(self.viviendo)
+		report=ReportsModule(viviendo=self.viviendo)
 		report._viviendo()
 
 
 	def report_family(self):
-		report=ReportsModule(self.viviendo)
+		report=ReportsModule(viviendo=self.viviendo)
 		report._family_group()
 
 
