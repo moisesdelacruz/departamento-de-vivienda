@@ -112,10 +112,9 @@ class ViviendoDetail(tk.Frame, Methods):
 			view.pack()
 
 	def viviendo_detail(self):
-		if self.controller.permission():
-			self.clean(self.right)
-			detail_viviendo.ViviendoDetailView(self.right,
-				self.controller, self.viviendo)
+		self.clean(self.right)
+		detail_viviendo.ViviendoDetailView(self.right,
+			self.controller, self.viviendo)
 
 	# ---- view ----
 	def render(self):
@@ -169,8 +168,8 @@ class ViviendoDetail(tk.Frame, Methods):
 
 		if self.controller.permission():
 			btn.pack(anchor=tk.NE)
-			btn_detail.pack(anchor=tk.E)
-			btn_report.pack(anchor=tk.E)
+		btn_detail.pack(anchor=tk.E)
+		btn_report.pack(anchor=tk.E)
 
 		# CI
 		tk.Label(viviendo, text=self.viviendo['ci'],

@@ -25,10 +25,11 @@ class FamilyDetailView(tk.Frame, Methods):
 		self.view()
 
 	def edit(self):
-		self.clean(self.root)
-		forms.grupo_familiar.Grupo_familiarForm(
-			self.root, self.controller, viviendo_id=self.viviendo_id,
-			action='edit', data=self.family)
+		if self.controller.permission():
+			self.clean(self.root)
+			forms.grupo_familiar.Grupo_familiarForm(
+				self.root, self.controller, viviendo_id=self.viviendo_id,
+				action='edit', data=self.family)
 
 	def report(self):
 		report=ReportsModule(viviendo_id=self.viviendo_id)
@@ -66,11 +67,15 @@ class FamilyDetailView(tk.Frame, Methods):
 		image_label.image = img
 		image_label.pack(pady=10)
 		# ----- Buttons -----
-		ttk.Button(content_image, text="Editar",
-			command=self.edit).pack(pady=10)
+		btn_edit=ttk.Button(content_image, text="Editar",
+			command=self.edit)
 
-		ttk.Button(content_image, text="Reporte",
-			command=self.report).pack(pady=10)
+		btn_report=ttk.Button(content_image, text="Reporte",
+			command=self.report)
+
+		if self.controller.permission():
+			btn_edit.pack(pady=10)
+		btn_report.pack(pady=10)
 
 		# ---- Labels ----
 		left = ttk.Frame(view, style='White.TFrame')

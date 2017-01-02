@@ -89,6 +89,7 @@ class Grupo_familiarDetail(tk.Frame, Methods):
 			forms.grupo_familiar.Grupo_familiarForm(
 				self.root, self.controller, viviendo_id=self.viviendo_id,
 				action='edit', data=model)
+		else: self.controller.denegate()
 
 
 	def report(self, model):

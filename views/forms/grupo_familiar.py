@@ -272,12 +272,12 @@ class Grupo_familiarForm(tk.Frame, Methods):
 			).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Boolean of work
-		self.value=self.data.get('entry') if self.edit else 0
+		self.entry=self.data.get('entry') if self.edit else 0
 		self.work=tk.BooleanVar(booleans,
 			value=self.data.get('work') if self.edit else False)
 		ttk.Checkbutton(booleans, text='Trabaja', variable=self.work,
 			onvalue=True, offvalue=False,
-			command=lambda : self.entry(self.value)
+			command=lambda : self.floatDialog(self.entry)
 			).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Buttons of actions

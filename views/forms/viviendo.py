@@ -57,25 +57,25 @@ class ViviendoForm(tk.Frame, Methods):
 
 
 	def _format(self):
-		fields = ['ci', 'first_name', 'last_name', 'birthday', 'sex',
-			'estado_civil', 'instructional_level', 'work', 'occupation',
-			'institution', 'entry', 'direction', 'postulation', 'discapacity',
-			'discapacity_desc']
+		fields = [{'int':'ci'}, {'str':'first_name'}, {'str':'last_name'},
+			{'str':'birthday'}, {'str':'sex'}, {'str':'estado_civil'},
+			{'str':'instructional_level'}, {'bool':'work'}, {'str':'occupation'},
+			{'str':'institution'}, {'float':'entry'}, {'str':'direction'},
+			{'str':'postulation'}, {'bool':'discapacity'},
+			{'str':'discapacity_desc'}]
 
 		data = ({})
 		for field in fields:
-			if field != 'entry' and field != 'discapacity_desc':
-				data[field] = eval(
-					'self.'+field+'.get()') if hasattr(
-					self, field) else self.viviendo.get(field)
-			elif field == 'discapacity_desc':
-				data[field] = eval(
-					'self.discapacity_desc') if hasattr(
-					self, field) else self.viviendo.get(field)
-			else:
-				data[field] = eval(
-					'float(self.value)') if hasattr(
-					self, 'value') else self.viviendo.get(field)
+			for key, value in field.items():
+				if (value != 'entry' and value != 'discapacity_desc'
+					and value != 'direction'):
+					data[value] = eval(
+						key+'(self.'+value+'.get())') if hasattr(
+						self, value) else self.viviendo.get(value)
+				else:
+					data[value] = eval(
+						key+'(self.'+value+')') if hasattr(
+						self, value) else self.viviendo.get(value)
 		return data
 
 
@@ -245,10 +245,10 @@ class ViviendoForm(tk.Frame, Methods):
 		# Entrada de texto para work BOOLEAN
 		self.work=tk.BooleanVar(booleans,
 			value=self.viviendo.get('work') if self.viviendo else False)
-		self.value = self.viviendo.get('entry') if self.viviendo else 0
+		self.entry = self.viviendo.get('entry') if self.viviendo else 0
 		ttk.Checkbutton(booleans, text='Trabaja', variable=self.work,
 			onvalue=True, offvalue=False,
-			command=lambda : self.entry(self.value)).pack(side=tk.LEFT, padx=5, pady=8)
+			command=lambda : self.floatDialog(self.entry)).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Entrada de texto para discapacity BOOLEAN
 		self.discapacity=tk.BooleanVar(booleans,

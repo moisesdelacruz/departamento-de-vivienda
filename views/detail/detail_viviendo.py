@@ -27,9 +27,10 @@ class ViviendoDetailView(tk.Frame, Methods):
 		self.view()
 
 	def edit(self):
-		self.clean(self.root)
-		forms.viviendo.ViviendoForm(self.root,
-			self.controller, viviendo=self.viviendo)
+		if self.controller.permission():
+			self.clean(self.root)
+			forms.viviendo.ViviendoForm(self.root,
+				self.controller, viviendo=self.viviendo)
 
 
 	def view(self):
@@ -64,8 +65,11 @@ class ViviendoDetailView(tk.Frame, Methods):
 		image_label.image = img
 		image_label.pack(pady=10)
 
-		ttk.Button(content_image, text="Editar",
-			command=self.edit).pack(pady=10)
+		btn_edit=tk.Button(content_image, text="Editar",
+			command=self.edit)
+
+		if self.controller.permission():
+			btn_edit.pack(pady=10)
 
 		# ---- info ----
 		left = ttk.Frame(view, style='White.TFrame')

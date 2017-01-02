@@ -24,7 +24,7 @@ class Methods(object):
 		for child in div.winfo_children():
 			child.destroy()
 
-	def entry(self, value):
+	def floatDialog(self, value):
 		var = FloatDialog(self.root, 'Ingresos', 'Ingresos Mensuales', value)
 		self.value = var.result if var.result != None else value
 
