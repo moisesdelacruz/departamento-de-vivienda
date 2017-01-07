@@ -48,7 +48,7 @@ class FamilyDetailView(tk.Frame, Methods):
 		root.pack()
 
 		view = ttk.Frame(root.interior, width=650,
-			height=700, style='White.TFrame')
+			height=900, style='White.TFrame')
 		view.pack(expand=True, fill=tk.Y)
 		view.pack_propagate(0)
 

@@ -61,7 +61,7 @@ class Grupo_familiarForm(tk.Frame, Methods):
 			"work": bool(self.work.get()),
 			"occupation": self.occupation.get(),
 			"institution": self.institution.get(),
-			"entry": float(self.value),
+			"entry": float(self.entry),
 			"birth_state": self.birth_state.get(),
 			"discapacity": bool(self.discapacity.get()),
 			"discapacity_desc": str(self.discapacity_desc),
@@ -284,8 +284,8 @@ class Grupo_familiarForm(tk.Frame, Methods):
 		buttons = ttk.Frame(form, style='White.TFrame')
 		buttons.pack(pady=8)
 		# Guardar
-		ttk.Button(buttons,
-			text="Cancelar").pack(side=tk.LEFT, padx=8)
+		ttk.Button(buttons, command=lambda : self.change_form('back'),
+			text="Atras").pack(side=tk.LEFT, padx=8)
 
 		# Cancelar
 		ttk.Button(buttons, command=self.save,

@@ -137,10 +137,10 @@ class ViviendoDetail(tk.Frame, Methods):
 		color = eval('color_'+self.suffixSex)
 
 		# render menu
+		self.status()
 		self.viviendoFrame()
 		self.familyFrame()
 		self.solicitudFrame()
-		self.status()
 
 
 	def viviendoFrame(self):
@@ -215,7 +215,7 @@ class ViviendoDetail(tk.Frame, Methods):
 		solicitud.pack(anchor=tk.NW, expand=True, fill=tk.Y)
 		solicitud.pack_propagate(0)
 		# images
-		iconViviendo = self.getImage("views/images/home.ico", 100, 100)
+		iconViviendo = self.getImage("views/images/icon_home.png", 100, 100)
 
 		# icon
 		icon=tk.Label(solicitud, image=iconViviendo)

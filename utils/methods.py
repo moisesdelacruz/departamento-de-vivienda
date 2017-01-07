@@ -26,7 +26,7 @@ class Methods(object):
 
 	def floatDialog(self, value):
 		var = FloatDialog(self.root, 'Ingresos', 'Ingresos Mensuales', value)
-		self.value = var.result if var.result != None else value
+		self.entry = var.result if var.result != None else value
 
 	def textDialog(self, value):
 		dialog = TextDialog(self.root, 'Descapacidad', 'Describa descapacidad', value)
@@ -168,7 +168,7 @@ class Methods(object):
 		s.configure('TCombobox', padding=6)
 
 		# Checkbutton
-		s.configure('TCheckbutton', background="#012D5A", foreground='white')
+		s.configure('TCheckbutton', background="#FFF", foreground='black')
 
 		# Button
 		s.configure('Kim.TButton', foreground='#6F767E',

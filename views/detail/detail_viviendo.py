@@ -45,7 +45,7 @@ class ViviendoDetailView(tk.Frame, Methods):
 		root.pack()
 
 		view = ttk.Frame(root.interior, width=650,
-			height=750, style='White.TFrame')
+			height=800, style='White.TFrame')
 		view.pack(expand=True, fill=tk.Y)
 		view.pack_propagate(0)
 
@@ -65,7 +65,7 @@ class ViviendoDetailView(tk.Frame, Methods):
 		image_label.image = img
 		image_label.pack(pady=10)
 
-		btn_edit=tk.Button(content_image, text="Editar",
+		btn_edit=ttk.Button(content_image, text="Editar",
 			command=self.edit)
 
 		if self.controller.permission():

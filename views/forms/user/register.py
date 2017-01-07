@@ -144,7 +144,7 @@ class RegisterForm(tk.Frame, Methods):
 		self.clean(self.content_form)
 		if hasattr(self, eval("'form%s'" %(str(self.form_actually)))):
 			# Title of the Form
-			ttk.Label(self.content_form, text="Editar Usuario",
+			ttk.Label(self.content_form, text="Editar Usuario" if self.data else "Nuevo Usuario",
 				style="Title.TLabel").pack(anchor=tk.NW)
 			# message about password
 			ttk.Label(self.content_form,

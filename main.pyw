@@ -10,11 +10,12 @@ class Main(object):
         self.root = root
         self.root.title('Home')
         self.root.minsize(950,620)
+        self.root.iconbitmap("views/images/home.ico")
         # self.root.maxsize(850,800)
         self.root.geometry("1000x720+300+300")
         tool = Toolbar(self.root)
 
-if __name__ == "__main__":
-    root = Tk()
-    Main(root)
-    root.mainloop()
+
+root = Tk()
+Main(root)
+root.mainloop()
