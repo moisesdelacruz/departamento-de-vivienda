@@ -3,6 +3,7 @@
 
 from Tkinter import *
 from views.controller import Toolbar
+import platform
 
 class Main(object):
 
@@ -10,7 +11,8 @@ class Main(object):
         self.root = root
         self.root.title('Home')
         self.root.minsize(950,620)
-        self.root.iconbitmap("views/images/home.ico")
+        if platform.system() == "Windows":
+            self.root.iconbitmap("views/images/home.ico")
         # self.root.maxsize(850,800)
         self.root.geometry("1000x720+300+300")
         tool = Toolbar(self.root)

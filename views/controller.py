@@ -68,6 +68,7 @@ class Toolbar(tk.Frame, Methods):
         if self.permission():
             self.clean(self.body)
             self.formViviendo = ViviendoForm(self.body, self)
+        else: self.denegate()
 
     def formSearch(self, *args):
         if self.session():

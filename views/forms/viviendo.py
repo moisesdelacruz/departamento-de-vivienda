@@ -21,6 +21,7 @@ class ViviendoForm(tk.Frame, Methods):
 		self.db = ViviendoModel()
 		# state actual of the form
 		self.form_actually = 1
+		self.edit = False
 
 		# default title of window
 		self.controller.parent.title('Nuevo Viviendo')
@@ -29,6 +30,7 @@ class ViviendoForm(tk.Frame, Methods):
 		if kwargs.get('viviendo'):
 			self.viviendo = kwargs.get('viviendo')
 			self.viviendo_id = self.viviendo.get('id')
+			self.edit = True
 			# change title of window
 			self.controller.parent.title(self.viviendo.get('full_name'))
 
@@ -143,7 +145,7 @@ class ViviendoForm(tk.Frame, Methods):
 			style='Black.TLabel').place(x=0,y=130)
 
 		self.ci=validate.IntegerEntry(form, style='White.TEntry', maxlength=9,
-			value=self.viviendo.get('ci') if self.viviendo else 0,
+			value=self.viviendo.get('ci') if self.edit else 0,
 			width=27,justify="left", font="Helvetica 13")
 		self.ci.focus()
 		self.ci.pack(pady=8)
@@ -152,7 +154,7 @@ class ViviendoForm(tk.Frame, Methods):
 		ttk.Label(form, text="Nombre:",
 			style='Black.TLabel').place(x=0,y=185)
 		self.first_name=validate.MaxLengthEntry(form, style='White.TEntry',
-			value=self.viviendo.get('first_name') if self.viviendo else '',
+			value=self.viviendo.get('first_name') if self.edit else '',
 			maxlength=40, width=27, font="Helvetica 13",justify="left")
 		self.first_name.pack(pady=8)
 
@@ -160,7 +162,7 @@ class ViviendoForm(tk.Frame, Methods):
 		ttk.Label(form, text="Apellido:",
 			style='Black.TLabel').place(x=0,y=235)
 		self.last_name=validate.MaxLengthEntry(form, style='White.TEntry',
-			value=self.viviendo.get('last_name') if self.viviendo else '',
+			value=self.viviendo.get('last_name') if self.edit else '',
 			maxlength=40, width=27, font="Helvetica 13",justify="left")
 		self.last_name.pack(pady=8)
 
@@ -170,7 +172,7 @@ class ViviendoForm(tk.Frame, Methods):
 		date = tk.Frame(form, background="grey", relief=tk.RAISED)
 		date.pack(pady=8)
 
-		actually = self.viviendo.get('birthday') if self.viviendo else None
+		actually = self.viviendo.get('birthday') if self.edit else None
 
 		self.birthday=entrydate.DateEntry(date, actually=actually,
 			style='White.TEntry', font="Helvetica 13")
@@ -180,7 +182,7 @@ class ViviendoForm(tk.Frame, Methods):
 		ttk.Label(form, text="Sexo:",
 			style='Black.TLabel').place(x=0,y=330)
 		self.sex = tk.StringVar(form,
-			value=self.viviendo.get('sex') if self.viviendo else '')
+			value=self.viviendo.get('sex') if self.edit else '')
 		fieldSex = ttk.Combobox(form, state='readonly', textvariable=self.sex,
 			font="Helvetica 13", justify="left",background="#1E6FBA", width=25)
 		fieldSex['values'] = self.select_sex()
@@ -209,7 +211,7 @@ class ViviendoForm(tk.Frame, Methods):
 		ttk.Label(form, text="Estado Civil:",
 			style='Black.TLabel').place(x=0,y=130)
 		self.estado_civil=tk.StringVar(form,
-			value=self.viviendo.get('estado_civil') if self.viviendo else '')
+			value=self.viviendo.get('estado_civil') if self.edit else '')
 		fieldState_civil = ttk.Combobox(form, state='readonly',
 			textvariable=self.estado_civil, font="Helvetica 13",
 			justify="left",background="#1E6FBA", width=25)
@@ -223,7 +225,7 @@ class ViviendoForm(tk.Frame, Methods):
 		ttk.Label(form, text="Postulacion:",
 			style='Black.TLabel').place(x=0,y=185)
 		self.postulation=validate.MaxLengthEntry(form, style='White.TEntry',
-			value=self.viviendo.get('postulation') if self.viviendo else '',
+			value=self.viviendo.get('postulation') if self.edit else '',
 			maxlength=40, width=27, font="Helvetica 13",justify="left")
 		self.postulation.pack(pady=8)
 
@@ -235,7 +237,7 @@ class ViviendoForm(tk.Frame, Methods):
 			highlightbackground="grey",highlightcolor="#4FC2EB",
 			highlightthickness=1)
 		self.dir.insert(tk.INSERT,
-			self.viviendo.get('direction') if self.viviendo else '')
+			self.viviendo.get('direction') if self.edit else '')
 		self.dir.pack(pady=8)
 		self.dir.bind('<KeyRelease>', self.save_direction)
 
@@ -244,16 +246,16 @@ class ViviendoForm(tk.Frame, Methods):
 		booleans.pack(pady=2)
 		# Entrada de texto para work BOOLEAN
 		self.work=tk.BooleanVar(booleans,
-			value=self.viviendo.get('work') if self.viviendo else False)
-		self.entry = self.viviendo.get('entry') if self.viviendo else 0
+			value=self.viviendo.get('work') if self.edit else False)
+		self.value = self.viviendo.get('entry') if self.edit else 0
 		ttk.Checkbutton(booleans, text='Trabaja', variable=self.work,
 			onvalue=True, offvalue=False,
-			command=lambda : self.floatDialog(self.entry)).pack(side=tk.LEFT, padx=5, pady=8)
+			command=lambda : self.entry(self.value)).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Entrada de texto para discapacity BOOLEAN
 		self.discapacity=tk.BooleanVar(booleans,
-			value=self.viviendo.get('discapacity') if self.viviendo else False)
-		self.discapacity_desc = self.viviendo.get('discapacity_desc') if self.viviendo else ''
+			value=self.viviendo.get('discapacity') if self.edit else False)
+		self.discapacity_desc = self.viviendo.get('discapacity_desc') if self.edit else ''
 		ttk.Checkbutton(booleans, text='Discapacidad', variable=self.discapacity,
 			onvalue=True, offvalue=False,
 			command=lambda : self.textDialog(self.discapacity_desc)
@@ -279,7 +281,7 @@ class ViviendoForm(tk.Frame, Methods):
 		ttk.Label(form, text="Niv. Instruccional:",
 			style='Black.TLabel').place(x=0,y=130)
 		self.instructional_level = tk.StringVar(form,
-			value=self.viviendo.get('instructional_level') if self.viviendo else '')
+			value=self.viviendo.get('instructional_level') if self.edit else '')
 		fieldNiv_Inst = ttk.Combobox(form, state='readonly',
 		textvariable=self.instructional_level,
 			font="Helvetica 13", justify="left",background="#1E6FBA", width=25)
@@ -293,7 +295,7 @@ class ViviendoForm(tk.Frame, Methods):
 		ttk.Label(form, text="Occupacion:",
 			style='Black.TLabel').place(x=0,y=185)
 		self.occupation=validate.MaxLengthEntry(form, style='White.TEntry',
-			value=self.viviendo.get('occupation') if self.viviendo else '',
+			value=self.viviendo.get('occupation') if self.edit else '',
 			maxlength=40, width=27, font="Helvetica 13",justify="left")
 		self.occupation.pack(pady=8)
 
@@ -301,7 +303,7 @@ class ViviendoForm(tk.Frame, Methods):
 		ttk.Label(form, text="Institucion:",
 			style='Black.TLabel').place(x=0,y=235)
 		self.institution=validate.MaxLengthEntry(form, style='White.TEntry',
-			value=self.viviendo.get('institution') if self.viviendo else '',
+			value=self.viviendo.get('institution') if self.edit else '',
 			maxlength=40, width=27, font="Helvetica 13",justify="left")
 		self.institution.pack(pady=8)
 
