@@ -224,10 +224,16 @@ class ViviendoForm(tk.Frame, Methods):
 		# Entrada de texto para postulation
 		ttk.Label(form, text="Postulacion:",
 			style='Black.TLabel').place(x=0,y=185)
-		self.postulation=validate.MaxLengthEntry(form, style='White.TEntry',
-			value=self.viviendo.get('postulation') if self.edit else '',
-			maxlength=40, width=27, font="Helvetica 13",justify="left")
-		self.postulation.pack(pady=8)
+		self.postulation=tk.StringVar(form,
+			value=self.viviendo.get('postulation') if self.edit else '')
+		fieldPostulation = ttk.Combobox(form, state='readonly',
+			textvariable=self.postulation, font='Helvetica 13',
+			justify='left', background='#1E6FBA', width=25)
+		fieldPostulation['values'] = self.select_postulations()
+		for (x, item) in enumerate(fieldPostulation['values']):
+			if item == self.postulation.get():
+				fieldPostulation.current(int(x))
+		fieldPostulation.pack(pady=8)
 
 		# Entrada de texto para Direccion
 		ttk.Label(form, text="Dirección:",

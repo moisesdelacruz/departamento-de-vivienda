@@ -45,6 +45,9 @@ class Methods(object):
 	def selectPermissions(self):
 		return ('Lectura', 'Lectura y Escritura')
 
+	def select_postulations(self):
+		return ('Institucional', 'Salud', 'Riesgo')
+
 	def encrypt(self, password):
 		return base64.b64encode(password)
 
