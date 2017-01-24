@@ -81,7 +81,7 @@ class LoginForm(tk.Frame, Methods):
 			style="TLabel").place(x=90,y=310)
 
 		self.username=validate.MaxLengthEntry(self.content_form, maxlength=40,
-			value="moisesdelacruz", style="Kim.TEntry", font="Helvetica 14",
+			value="", style="Kim.TEntry", font="Helvetica 14",
 			width=25, justify="left")
 		self.username.focus()
 		self.username.pack(pady=8)
@@ -94,7 +94,7 @@ class LoginForm(tk.Frame, Methods):
 		password.pack(pady=8)
 		# password.pack_propagate(0)
 		self.password=validate.MaxLengthEntry(password, show="*", maxlength=40,
-			value="demilovato", style="Kim.TEntry",
+			value="", style="Kim.TEntry",
 			width=22, font="Helvetica 14",justify="left")
 		self.password.pack(side=tk.LEFT)
 		# Login
