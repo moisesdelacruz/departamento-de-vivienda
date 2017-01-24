@@ -78,13 +78,15 @@ class ViviendoDetailView(tk.Frame, Methods):
 		right = ttk.Frame(view, style='White.TFrame')
 		right.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 
-		labels = ['Cedula de Identidad:','Nombre:','Apellido:',
+		labels = ['Nacionalidad:', 'Cedula de Identidad:','Nombre:','Apellido:',
 			'Fecha de Nacimiento:','Sexo:','Estado Civil:',
 			'Niv. Instruccional:','Trabaja:','Occupacion:',
 			'Institucion:','Ingresos:','Direccion:','Postulacion:',
 			'Discapacidad:','Desc. Discapacidad:']
 
-		data = [self.viviendo.get('ci'),
+		data = [
+			self.viviendo.get('nationality'),
+			self.viviendo.get('ci'),
 			self.viviendo.get('first_name'),
 			self.viviendo.get('last_name'),
 			self.viviendo.get('birthday'),

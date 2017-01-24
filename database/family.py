@@ -7,6 +7,7 @@ class Family(object):
 		self.cursor.execute("""CREATE TABLE IF NOT EXISTS family (
 			family_id BIGSERIAL PRIMARY KEY,
 			viviendo_id BIGINT NOT NULL REFERENCES viviendo(viviendo_id),
+			nationality VARCHAR(5),
 			ci INTEGER UNIQUE,
 			first_name VARCHAR(45),
 			last_name VARCHAR(45),
@@ -28,11 +29,11 @@ class Family(object):
 		self.conn.commit()
 
 	def create(self, request, *args, **kwargs):
-		self.cursor.execute("""INSERT INTO family (viviendo_id, ci, first_name,
+		self.cursor.execute("""INSERT INTO family (viviendo_id, nationality, ci, first_name,
 			last_name, birthday, sex, estado_civil, instructional_level, work,
 			occupation, institution, entry, birth_state, discapacity,
 			discapacity_desc, old_age)
-			VALUES (%(viviendo_id)s, %(ci)s, %(first_name)s, %(last_name)s,
+			VALUES (%(viviendo_id)s, %(nationality)s, %(ci)s, %(first_name)s, %(last_name)s,
 			%(birthday)s, %(sex)s, %(estado_civil)s, %(instructional_level)s,
 			%(work)s, %(occupation)s, %(institution)s, %(entry)s, %(birth_state)s,
 			%(discapacity)s, %(discapacity_desc)s, %(old_age)s)""", request)
@@ -51,7 +52,8 @@ class Family(object):
 		return self.cursor.fetchall()
 
 	def update(self, request, *args, **kwargs):
-		self.cursor.execute("""UPDATE family SET ci=%(ci)s,
+		self.cursor.execute("""UPDATE family SET nationality=%(nationality)s,
+			ci=%(ci)s,
 			first_name=%(first_name)s,
 			last_name=%(last_name)s,
 			birthday=%(birthday)s,

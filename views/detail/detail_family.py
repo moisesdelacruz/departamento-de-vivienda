@@ -84,14 +84,16 @@ class FamilyDetailView(tk.Frame, Methods):
 		right = ttk.Frame(view, style='White.TFrame')
 		right.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 
-		labels = ['Cedula de Identidad:','Nombre:','Apellido:',
+		labels = ['Nacionalidad:', 'Cedula de Identidad:','Nombre:','Apellido:',
 			'Fecha de Nacimiento:','Sexo:','Estado Civil:','Niv. Instruccional:',
 			'Trabaja:','Occupacion:','Institucion:','Ingresos:',
 			'Estado de Nacimiento:','Discapacidad:',
 			'Desc. Descapacidad:','Tercera Edad:']
 
 
-		data = [self.family.get('ci'),
+		data = [
+			self.family.get('nationality'),
+			self.family.get('ci'),
 			self.family.get('first_name'),
 			self.family.get('last_name'),
 			self.family.get('birthday'),

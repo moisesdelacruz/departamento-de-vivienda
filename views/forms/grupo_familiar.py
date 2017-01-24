@@ -51,6 +51,7 @@ class Grupo_familiarForm(tk.Frame, Methods):
 	def save(self):
 		data = ({
 			"viviendo_id": int(self.viviendo_id),
+			"nationality": self.nationality.get(),
 			"ci": int(self.ci.get()),
 			"first_name": self.first_name.get(),
 			"last_name": self.last_name.get(),
@@ -133,9 +134,23 @@ class Grupo_familiarForm(tk.Frame, Methods):
 	def form1(self):
 		form=self._form
 
+		# Nacionalidad
+		ttk.Label(form, text='Nacionalidad',
+			style='Black.TLabel').place(x=0, y=130)
+		self.nationality = tk.StringVar(form,
+			value=self.data.get('nationality') if self.edit else '')
+		fieldNationality = ttk.Combobox(form, state='readonly',
+			textvariable=self.nationality, font="Helvetica 13", justify="left",
+			background="#1E6FBA", width=25)
+		fieldNationality['values'] = self.select_nationality()
+		for (x, item) in enumerate(fieldNationality['values']):
+			if item == self.nationality.get():
+				fieldNationality.current(int(x))
+		fieldNationality.pack(pady=8)
+
 		# Entry of the cedula
 		ttk.Label(form,text="CI",
-			style='Black.TLabel').place(x=0,y=135)
+			style='Black.TLabel').place(x=0,y=180)
 		self.ci=validate.IntegerEntry(form, value=self.data.get('ci')
 				if self.edit else 0, maxlength=9,
 			style='White.TEntry', width=27,
@@ -145,7 +160,7 @@ class Grupo_familiarForm(tk.Frame, Methods):
 
 		# Entry of first_name
 		ttk.Label(form,text="Nombre",
-			style='Black.TLabel').place(x=0,y=185)
+			style='Black.TLabel').place(x=0,y=230)
 		self.first_name=validate.MaxLengthEntry(form,
 			value=self.data.get('first_name') if self.edit else '',
 			style='White.TEntry', maxlength=30,width=27,
@@ -154,7 +169,7 @@ class Grupo_familiarForm(tk.Frame, Methods):
 
 		# Entry of last_name
 		ttk.Label(form,text="Apellido",
-			style='Black.TLabel').place(x=0,y=235)
+			style='Black.TLabel').place(x=0,y=275)
 		self.last_name=validate.MaxLengthEntry(form,
 			value=self.data.get('last_name') if self.edit else '',
 			style='White.TEntry', maxlength=30, width=27,
@@ -163,7 +178,7 @@ class Grupo_familiarForm(tk.Frame, Methods):
 
 		# Entry birthday
 		ttk.Label(form, text="Fecha de Nacimiento",
-			style='Black.TLabel').place(x=0,y=280)
+			style='Black.TLabel').place(x=0,y=330)
 
 		actually = self.data.get('birthday') if self.edit else None
 
@@ -173,7 +188,7 @@ class Grupo_familiarForm(tk.Frame, Methods):
 
 		# Sex
 		ttk.Label(form, text="Sexo:",
-			style='Black.TLabel').place(x=0,y=330)
+			style='Black.TLabel').place(x=0,y=380)
 		self.sex = tk.StringVar(form,
 			value=self.data.get('sex') if self.edit else '')
 		fieldSex = ttk.Combobox(form, state='readonly', textvariable=self.sex,
