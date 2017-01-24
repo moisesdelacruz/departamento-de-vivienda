@@ -35,7 +35,7 @@ class ViviendoForm(tk.Frame, Methods):
 			self.controller.parent.title(self.viviendo.get('full_name'))
 
 		# render view
-		self.render()
+		self.show()
 
 
 	def save(self):
@@ -85,16 +85,48 @@ class ViviendoForm(tk.Frame, Methods):
 	def state_data(self):
 		self.viviendo = self._format()
 
+	def validate(self):
+		required_list = ['nationality', 'ci', 'first_name', 'last_name', 'sex',
+			'occupation', 'postulation']
+		for item in required_list:
+			if hasattr(self, item):
+				if not bool(eval('self.%s.get()' %(item))):
+					self.set_error('%s es requerido para continuar' %(item))
+					return False
+					break
+				if item == 'ci' and len(self.ci.get()) < 7:
+					self.set_error('%s debe tener al menos ocho digitos para continuar' %(item))
+					return False
+					break
+			else: pass
+		return True
 
 	def change_form(self, action):
-		if action == 'next':
+		if action == 'next' and self.validate():
 			self.state_data()
 			self.form_actually += 1
-		elif action == 'back':
+			self.render()
+		elif action == 'back' and self.validate():
 			self.state_data()
 			self.form_actually -= 1
+			self.render()
 		elif action == 'render':
-			pass
+			self.state_data()
+			self.render()
+
+
+	def set_error(self, err):
+		self.clean(self.content_message)
+		ttk.Label(self.content_message,
+			text=err, style='Error.TLabel').pack()
+
+	def save_direction(self, *args):
+		"""
+			Method created for save Direccion before delete form.
+		"""
+		self.direction = self.dir.get('0.0', tk.END)
+
+	def render(self):
 		self.clean(self.content_form)
 
 		if hasattr(self, eval("'form%s'" %(str(self.form_actually)))):
@@ -114,18 +146,7 @@ class ViviendoForm(tk.Frame, Methods):
 				style='Kim.TFrame')
 			self.content_message.pack(pady=8)
 
-	def set_error(self, err):
-		self.clean(self.content_message)
-		ttk.Label(self.content_message,
-			text=err, style='Error.TLabel').pack()
-
-	def save_direction(self, *args):
-		"""
-			Method created for save Direccion before delete form.
-		"""
-		self.direction = self.dir.get('0.0', tk.END)
-
-	def render(self):
+	def show(self):
 		# boxs------
 		div = ttk.Frame(self.root, height=550, style='Kim.TFrame')
 		div.pack(expand=True, fill=tk.X)
@@ -145,7 +166,8 @@ class ViviendoForm(tk.Frame, Methods):
 		ttk.Label(form, text='Nacionalidad:',
 			style='Black.TLabel').place(x=0, y=130)
 		self.nationality = tk.StringVar(form,
-			value=self.viviendo.get('nationality') if self.edit else '')
+			value=self.viviendo.get('nationality')
+				if self.viviendo.get('nationality') else '')
 		fieldNationality = ttk.Combobox(form, state='readonly',
 			textvariable=self.nationality, font="Helvetica 13", justify="left",
 			background="#1E6FBA", width=25)
@@ -153,6 +175,7 @@ class ViviendoForm(tk.Frame, Methods):
 		for (x, item) in enumerate(fieldNationality['values']):
 			if item == self.nationality.get():
 				fieldNationality.current(int(x))
+		fieldNationality.focus()
 		fieldNationality.pack(pady=8)
 
 		# Entry of the cedula
@@ -160,16 +183,16 @@ class ViviendoForm(tk.Frame, Methods):
 			style='Black.TLabel').place(x=0,y=185)
 
 		self.ci=validate.IntegerEntry(form, style='White.TEntry', maxlength=9,
-			value=self.viviendo.get('ci') if self.edit else 0,
+			value=self.viviendo.get('ci') if self.viviendo.get('ci') else 0,
 			width=27,justify="left", font="Helvetica 13")
-		self.ci.focus()
 		self.ci.pack(pady=8)
 
 		# Entrada de texto para Nombre
 		ttk.Label(form, text="Nombre:",
 			style='Black.TLabel').place(x=0,y=235)
 		self.first_name=validate.MaxLengthEntry(form, style='White.TEntry',
-			value=self.viviendo.get('first_name') if self.edit else '',
+			value=self.viviendo.get('first_name')
+				if self.viviendo.get('first_name') else '',
 			maxlength=40, width=27, font="Helvetica 13",justify="left")
 		self.first_name.pack(pady=8)
 
@@ -177,7 +200,8 @@ class ViviendoForm(tk.Frame, Methods):
 		ttk.Label(form, text="Apellido:",
 			style='Black.TLabel').place(x=0,y=285)
 		self.last_name=validate.MaxLengthEntry(form, style='White.TEntry',
-			value=self.viviendo.get('last_name') if self.edit else '',
+			value=self.viviendo.get('last_name')
+				if self.viviendo.get('last_name') else '',
 			maxlength=40, width=27, font="Helvetica 13",justify="left")
 		self.last_name.pack(pady=8)
 
@@ -187,7 +211,8 @@ class ViviendoForm(tk.Frame, Methods):
 		date = tk.Frame(form, background="grey", relief=tk.RAISED)
 		date.pack(pady=8)
 
-		actually = self.viviendo.get('birthday') if self.edit else None
+		actually = (self.viviendo.get('birthday')
+				if self.viviendo.get('birthday') else None)
 
 		self.birthday=entrydate.DateEntry(date, actually=actually,
 			style='White.TEntry', font="Helvetica 13")
@@ -197,7 +222,7 @@ class ViviendoForm(tk.Frame, Methods):
 		ttk.Label(form, text="Sexo:",
 			style='Black.TLabel').place(x=0,y=395)
 		self.sex = tk.StringVar(form,
-			value=self.viviendo.get('sex') if self.edit else '')
+			value=self.viviendo.get('sex') if self.viviendo.get('sex') else '')
 		fieldSex = ttk.Combobox(form, state='readonly', textvariable=self.sex,
 			font="Helvetica 13", justify="left",background="#1E6FBA", width=25)
 		fieldSex['values'] = self.select_sex()
@@ -212,7 +237,7 @@ class ViviendoForm(tk.Frame, Methods):
 		buttons.pack(pady=8)
 		# buttons.pack_propagate(0)
 		# Guardar
-		ttk.Button(buttons, command=self.save,
+		ttk.Button(buttons,
 			text="Cancelar").pack(side=tk.LEFT, padx=8)
 
 		# Cancelar
@@ -226,7 +251,8 @@ class ViviendoForm(tk.Frame, Methods):
 		ttk.Label(form, text="Estado Civil:",
 			style='Black.TLabel').place(x=0,y=130)
 		self.estado_civil=tk.StringVar(form,
-			value=self.viviendo.get('estado_civil') if self.edit else '')
+			value=self.viviendo.get('estado_civil')
+				if self.viviendo.get('estado_civil') else '')
 		fieldState_civil = ttk.Combobox(form, state='readonly',
 			textvariable=self.estado_civil, font="Helvetica 13",
 			justify="left",background="#1E6FBA", width=25)
@@ -240,7 +266,8 @@ class ViviendoForm(tk.Frame, Methods):
 		ttk.Label(form, text="Postulacion:",
 			style='Black.TLabel').place(x=0,y=185)
 		self.postulation=tk.StringVar(form,
-			value=self.viviendo.get('postulation') if self.edit else '')
+			value=self.viviendo.get('postulation')
+				if self.viviendo.get('postulation') else '')
 		fieldPostulation = ttk.Combobox(form, state='readonly',
 			textvariable=self.postulation, font='Helvetica 13',
 			justify='left', background='#1E6FBA', width=25)
@@ -257,9 +284,10 @@ class ViviendoForm(tk.Frame, Methods):
 			font="Helvetica 12 normal",bg="white",fg="#6b6a6a",
 			highlightbackground="grey",highlightcolor="#4FC2EB",
 			highlightthickness=1)
-		
+
 		self.dir.insert(tk.INSERT,
-			self.viviendo.get('direction') if self.edit else '')
+			self.viviendo.get('direction')
+				if self.viviendo.get('direction') else '')
 		self.dir.pack(pady=8)
 		self.dir.bind('<KeyRelease>', self.save_direction)
 
@@ -268,16 +296,21 @@ class ViviendoForm(tk.Frame, Methods):
 		booleans.pack(pady=2)
 		# Entrada de texto para work BOOLEAN
 		self.work=tk.BooleanVar(booleans,
-			value=self.viviendo.get('work') if self.edit else False)
-		self.entry = self.viviendo.get('entry') if self.edit else 0
+			value=self.viviendo.get('work')
+				if self.viviendo.get('work') else False)
+		self.entry = (self.viviendo.get('entry')
+			if self.viviendo.get('entry') else 0)
 		ttk.Checkbutton(booleans, text='Trabaja', variable=self.work,
 			onvalue=True, offvalue=False,
-			command=lambda : self.floatDialog(self.entry)).pack(side=tk.LEFT, padx=5, pady=8)
+			command=lambda : self.floatDialog(self.entry)).pack(
+				side=tk.LEFT, padx=5, pady=8)
 
 		# Entrada de texto para discapacity BOOLEAN
 		self.discapacity=tk.BooleanVar(booleans,
-			value=self.viviendo.get('discapacity') if self.edit else False)
-		self.discapacity_desc = self.viviendo.get('discapacity_desc') if self.edit else ''
+			value=self.viviendo.get('discapacity')
+				if self.viviendo.get('discapacity') else False)
+		self.discapacity_desc = (self.viviendo.get('discapacity_desc')
+			if self.viviendo.get('discapacity_desc') else '')
 		ttk.Checkbutton(booleans, text='Discapacidad', variable=self.discapacity,
 			onvalue=True, offvalue=False,
 			command=lambda : self.textDialog(self.discapacity_desc)
@@ -303,7 +336,8 @@ class ViviendoForm(tk.Frame, Methods):
 		ttk.Label(form, text="Niv. Instruccional:",
 			style='Black.TLabel').place(x=0,y=130)
 		self.instructional_level = tk.StringVar(form,
-			value=self.viviendo.get('instructional_level') if self.edit else '')
+			value=self.viviendo.get('instructional_level')
+				if self.viviendo.get('instructional_level') else '')
 		fieldNiv_Inst = ttk.Combobox(form, state='readonly',
 		textvariable=self.instructional_level,
 			font="Helvetica 13", justify="left",background="#1E6FBA", width=25)
@@ -317,7 +351,8 @@ class ViviendoForm(tk.Frame, Methods):
 		ttk.Label(form, text="Occupacion:",
 			style='Black.TLabel').place(x=0,y=185)
 		self.occupation=validate.MaxLengthEntry(form, style='White.TEntry',
-			value=self.viviendo.get('occupation') if self.edit else '',
+			value=self.viviendo.get('occupation')
+				if self.viviendo.get('occupation') else '',
 			maxlength=40, width=27, font="Helvetica 13",justify="left")
 		self.occupation.pack(pady=8)
 
@@ -325,7 +360,8 @@ class ViviendoForm(tk.Frame, Methods):
 		ttk.Label(form, text="Institucion:",
 			style='Black.TLabel').place(x=0,y=235)
 		self.institution=validate.MaxLengthEntry(form, style='White.TEntry',
-			value=self.viviendo.get('institution') if self.edit else '',
+			value=self.viviendo.get('institution')
+				if self.viviendo.get('institution') else '',
 			maxlength=40, width=27, font="Helvetica 13",justify="left")
 		self.institution.pack(pady=8)
 
