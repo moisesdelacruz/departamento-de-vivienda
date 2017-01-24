@@ -6,6 +6,7 @@ class Viviendo(object):
 		self.cursor = self.conn.cursor()
 		self.cursor.execute("""CREATE TABLE IF NOT EXISTS viviendo (
 			viviendo_id BIGSERIAL PRIMARY KEY,
+			nationality VARCHAR(5),
 			ci INTEGER UNIQUE,
 			first_name VARCHAR(45),
 			last_name VARCHAR(45),
@@ -27,10 +28,10 @@ class Viviendo(object):
 		self.conn.commit()
 
 	def create(self, request, *args, **kwargs):
-		self.cursor.execute("""INSERT INTO viviendo (ci, first_name, last_name,
+		self.cursor.execute("""INSERT INTO viviendo (nationality, ci, first_name, last_name,
 			birthday, sex, estado_civil, instructional_level, work, occupation,
 			institution, entry, direction, postulation,
-			discapacity, discapacity_desc) VALUES (%(ci)s, %(first_name)s,
+			discapacity, discapacity_desc) VALUES (%(nationality)s, %(ci)s, %(first_name)s,
 			%(last_name)s, %(birthday)s, %(sex)s, %(estado_civil)s,
 			%(instructional_level)s, %(work)s, %(occupation)s, %(institution)s,
 			%(entry)s, %(direction)s, %(postulation)s, %(discapacity)s,
@@ -50,7 +51,8 @@ class Viviendo(object):
 		return self.cursor.fetchall()
 
 	def update(self, request, *args, **kwargs):
-		self.cursor.execute("""UPDATE viviendo SET ci=%(ci)s,
+		self.cursor.execute("""UPDATE viviendo SET nationality=%(nationality)s,
+			ci=%(ci)s,
 			first_name=%(first_name)s,
 			last_name=%(last_name)s,
 			birthday=%(birthday)s,

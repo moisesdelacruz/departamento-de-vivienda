@@ -48,6 +48,9 @@ class Methods(object):
 	def select_postulations(self):
 		return ('Institucional', 'Salud', 'Riesgo')
 
+	def select_nationality(self):
+		return ('V', 'E')
+
 	def encrypt(self, password):
 		return base64.b64encode(password)
 
@@ -112,23 +115,24 @@ class Methods(object):
 	def _format_viviendo(self, data):
 		return ({
 			"id": data[0],
-			"ci": data[1],
-			"full_name": ' '.join([data[2], data[3]]),
-			"first_name": data[2],
-			"last_name": data[3],
-			"birthday": data[4],
-			"sex": data[5],
-			"estado_civil": data[6],
-			"instructional_level": data[7],
-			"work": data[8],
-			"occupation": data[9],
-			"institution": data[10],
-			"entry": data[11],
-			"direction": data[12],
-			"postulation": data[13],
-			"discapacity": data[14],
-			"discapacity_desc": data[15],
-			"created_at": data[16]
+			"nationality": data[1],
+			"ci": data[2],
+			"full_name": ' '.join([data[3], data[4]]),
+			"first_name": data[3],
+			"last_name": data[4],
+			"birthday": data[5],
+			"sex": data[6],
+			"estado_civil": data[7],
+			"instructional_level": data[8],
+			"work": data[9],
+			"occupation": data[10],
+			"institution": data[11],
+			"entry": data[12],
+			"direction": data[13],
+			"postulation": data[14],
+			"discapacity": data[15],
+			"discapacity_desc": data[16],
+			"created_at": data[17]
 		})
 
 	def style(self):

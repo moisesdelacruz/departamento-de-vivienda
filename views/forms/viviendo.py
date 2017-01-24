@@ -59,9 +59,10 @@ class ViviendoForm(tk.Frame, Methods):
 
 
 	def _format(self):
-		fields = [{'int':'ci'}, {'str':'first_name'}, {'str':'last_name'},
-			{'str':'birthday'}, {'str':'sex'}, {'str':'estado_civil'},
-			{'str':'instructional_level'}, {'bool':'work'}, {'str':'occupation'},
+		fields = [{'str':'nationality'}, {'int':'ci'}, {'str':'first_name'},
+			{'str':'last_name'}, {'str':'birthday'}, {'str':'sex'},
+			{'str':'estado_civil'}, {'str':'instructional_level'},
+			{'bool':'work'}, {'str':'occupation'},
 			{'str':'institution'}, {'float':'entry'}, {'str':'direction'},
 			{'str':'postulation'}, {'bool':'discapacity'},
 			{'str':'discapacity_desc'}]
@@ -140,9 +141,23 @@ class ViviendoForm(tk.Frame, Methods):
 	def form1(self):
 		form = self.content_form
 
+		# Nacionalidad
+		ttk.Label(form, text='Nacionalidad:',
+			style='Black.TLabel').place(x=0, y=130)
+		self.nationality = tk.StringVar(form,
+			value=self.viviendo.get('nationality') if self.edit else '')
+		fieldNationality = ttk.Combobox(form, state='readonly',
+			textvariable=self.nationality, font="Helvetica 13", justify="left",
+			background="#1E6FBA", width=25)
+		fieldNationality['values'] = self.select_nationality()
+		for (x, item) in enumerate(fieldNationality['values']):
+			if item == self.nationality.get():
+				fieldNationality.current(int(x))
+		fieldNationality.pack(pady=8)
+
 		# Entry of the cedula
 		ttk.Label(form, text="CI:",
-			style='Black.TLabel').place(x=0,y=130)
+			style='Black.TLabel').place(x=0,y=185)
 
 		self.ci=validate.IntegerEntry(form, style='White.TEntry', maxlength=9,
 			value=self.viviendo.get('ci') if self.edit else 0,
@@ -152,7 +167,7 @@ class ViviendoForm(tk.Frame, Methods):
 
 		# Entrada de texto para Nombre
 		ttk.Label(form, text="Nombre:",
-			style='Black.TLabel').place(x=0,y=185)
+			style='Black.TLabel').place(x=0,y=235)
 		self.first_name=validate.MaxLengthEntry(form, style='White.TEntry',
 			value=self.viviendo.get('first_name') if self.edit else '',
 			maxlength=40, width=27, font="Helvetica 13",justify="left")
@@ -160,7 +175,7 @@ class ViviendoForm(tk.Frame, Methods):
 
 		# Entrada de texto para Apellido
 		ttk.Label(form, text="Apellido:",
-			style='Black.TLabel').place(x=0,y=235)
+			style='Black.TLabel').place(x=0,y=285)
 		self.last_name=validate.MaxLengthEntry(form, style='White.TEntry',
 			value=self.viviendo.get('last_name') if self.edit else '',
 			maxlength=40, width=27, font="Helvetica 13",justify="left")
@@ -168,7 +183,7 @@ class ViviendoForm(tk.Frame, Methods):
 
 		# Entry birthday
 		ttk.Label(form, text="Fecha de Nacimiento:",
-			style='Black.TLabel').place(x=0,y=285)
+			style='Black.TLabel').place(x=0,y=330)
 		date = tk.Frame(form, background="grey", relief=tk.RAISED)
 		date.pack(pady=8)
 
@@ -180,7 +195,7 @@ class ViviendoForm(tk.Frame, Methods):
 
 		# Sex
 		ttk.Label(form, text="Sexo:",
-			style='Black.TLabel').place(x=0,y=330)
+			style='Black.TLabel').place(x=0,y=395)
 		self.sex = tk.StringVar(form,
 			value=self.viviendo.get('sex') if self.edit else '')
 		fieldSex = ttk.Combobox(form, state='readonly', textvariable=self.sex,
@@ -242,6 +257,7 @@ class ViviendoForm(tk.Frame, Methods):
 			font="Helvetica 12 normal",bg="white",fg="#6b6a6a",
 			highlightbackground="grey",highlightcolor="#4FC2EB",
 			highlightthickness=1)
+		
 		self.dir.insert(tk.INSERT,
 			self.viviendo.get('direction') if self.edit else '')
 		self.dir.pack(pady=8)
