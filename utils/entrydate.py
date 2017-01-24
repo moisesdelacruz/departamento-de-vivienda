@@ -81,6 +81,6 @@ class DateEntry(tk.Frame):
 				self._backspace(self.entry_3)
 
 	def get(self):
-		date = '%s-%s-%s' %(self.entry_3.get(), self.entry_2.get(), self.entry_1.get())
-		self.result = date if date != '--' else self.result
-		return self.result
+		date = '%s-%s-%s' %(self.entry_3.get(),
+			self.entry_2.get(), self.entry_1.get())
+		return date if date != '--' else self.result.strftime('%Y-%m-%d')
