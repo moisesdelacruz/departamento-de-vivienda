@@ -41,7 +41,7 @@ class ViviendoForm(tk.Frame, Methods):
 	def save(self):
 		data = self._format()
 
-		if self.viviendo:
+		if self.edit:
 			data['id'] = self.viviendo_id
 			self.db.update(data)
 			# Content main.
@@ -247,10 +247,10 @@ class ViviendoForm(tk.Frame, Methods):
 		# Entrada de texto para work BOOLEAN
 		self.work=tk.BooleanVar(booleans,
 			value=self.viviendo.get('work') if self.edit else False)
-		self.value = self.viviendo.get('entry') if self.edit else 0
+		self.entry = self.viviendo.get('entry') if self.edit else 0
 		ttk.Checkbutton(booleans, text='Trabaja', variable=self.work,
 			onvalue=True, offvalue=False,
-			command=lambda : self.entry(self.value)).pack(side=tk.LEFT, padx=5, pady=8)
+			command=lambda : self.floatDialog(self.entry)).pack(side=tk.LEFT, padx=5, pady=8)
 
 		# Entrada de texto para discapacity BOOLEAN
 		self.discapacity=tk.BooleanVar(booleans,
