@@ -86,19 +86,21 @@ class ViviendoForm(tk.Frame, Methods):
 		self.viviendo = self._format()
 
 	def validate(self):
-		required_list = ['nationality', 'ci', 'first_name', 'last_name', 'sex',
-			'occupation', 'postulation']
-		for item in required_list:
-			if hasattr(self, item):
-				if not bool(eval('self.%s.get()' %(item))):
-					self.set_error('%s es requerido para continuar' %(item))
-					return False
-					break
-				if item == 'ci' and len(self.ci.get()) < 7:
-					self.set_error('%s debe tener al menos ocho digitos para continuar' %(item))
-					return False
-					break
-			else: pass
+		required_list = [{'Nacionalidad': 'nationality'}, {'Cedula': 'ci'},
+			{'Nombre': 'first_name'}, {'Apellido': 'last_name'}, {'Sexo': 'sex'},
+			{'Ocupacion': 'occupation'}, {'Postulacion': 'postulation'}]
+		for field in required_list:
+			for message, name in field.items():
+				if hasattr(self, name):
+					if not bool(eval('self.%s.get()' %(name))):
+						self.set_error('%s es requerido para continuar' %(message))
+						return False
+						break
+					if name == 'ci' and len(self.ci.get()) < 7:
+						self.set_error('%s debe tener al menos siete digitos para continuar' %(message))
+						return False
+						break
+				else: pass
 		return True
 
 	def change_form(self, action):
