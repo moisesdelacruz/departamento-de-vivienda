@@ -3,26 +3,47 @@
 ## Desarollada en python 2.7
 
 ### Descargar como zip:
-click aquí: https://gitlab.com/moisesdelacruz/departamento_de_vivienda/repository/archive.zip?ref=master
+click aquí: https://github.com/moisesdelacruz/departamento-de-vivienda/archive/master.zip
 
-### Instalacion > dependencias del sistema
+### Install on Linux
+
 ```sh
-  sudo apt-get install python-pip
-
-  sudo apt-get update
-  
-  sudo apt-get install libpq-dev python-dev
-```
-
-### Instalacion
-```sh
-  git clone https://gitlab.com/moisesdelacruz/departamento_de_vivienda.git
+  git clone https://github.com/moisesdelacruz/departamento-de-vivienda.git
 
   cd departamento_de_vivienda/
 
-  pip install -r requirements.txt
+  # build project
+  python manage.py build
 
 ```
+
+### Install on Windows
+
+* Download or Clone
+
+* Install dependencies of python
+  - python-pip
+  - libpq-dev
+  - python-dev
+
+* Install postgresql
+  - Create database
+  - Create user with password
+  - Alter role from database to user
+
+* Install dependencies of project
+  ```sh
+    # positioned in the root directory of the project.
+    pip install -r requirements.txt
+  ```
+
+* Set environment variables
+  ```txt
+    DB_NAME=<db_name>
+    DB_USER=<db_user>
+    DB_PASS=<db_password>
+    DB_HOST=<db_host>
+  ```
 
 ### Crear Superusuario
 ```sh
@@ -30,11 +51,6 @@ click aquí: https://gitlab.com/moisesdelacruz/departamento_de_vivienda/reposito
 ```
 
 ### Ejecucion
-````sh
+```sh
   python manage.py run
 ```
-
-### Configurar base de datos > postgresql
-- Instalar Postgresql: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04
-- crear base de datos: viviendo_db
-- ir a database/main.py y configurar el usuario de postgresql

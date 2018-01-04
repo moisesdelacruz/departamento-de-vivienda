@@ -1,8 +1,7 @@
 cx-Freeze==5.0
 html5lib==1.0b8
 Pillow==3.4.2
-psycopg2==2.6.2
-py2exe==0.6.9
+psycopg2==2.7.3
 PyPDF2==1.26.0
 pystache==0.5.4
 reportlab==3.3.0
