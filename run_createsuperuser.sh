@@ -9,4 +9,4 @@ virtualenv .vivienda
 source .vivienda/bin/activate
 
 # run command
-python manage.py createsuperuser
+python manage.py __createsuperuser
